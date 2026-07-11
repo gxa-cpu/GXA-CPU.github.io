@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>AI赚钱工具箱</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #FFF8E7;
+    color: #333;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    overflow-x: hidden;
+}
+.header {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    padding: 32px 20px 28px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(249,115,22,0.3);
+}
+.header h1 {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 800;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.header p {
+    color: rgba(255,255,255,0.9);
+    font-size: 16px;
+    margin-top: 8px;
+}
+.tools-section {
+    padding: 20px 16px;
+}
+.tools-section h2 {
+    font-size: 18px;
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 14px;
+    padding-left: 4px;
+}
+.tool-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 22px 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: pointer;
+}
+.tool-card:active {
+    transform: scale(0.97);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+}
+.tool-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+.tool-icon.title { background: linear-gradient(135deg, #fff3e0, #ffe0b2); }
+.tool-icon.xianyu { background: linear-gradient(135deg, #e3f2fd, #bbdefb); }
+.tool-icon.script { background: linear-gradient(135deg, #f3e5f5, #e1bee7); }
+.tool-info h3 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 4px;
+}
+.tool-info p {
+    font-size: 14px;
+    color: #999;
+    line-height: 1.4;
+}
+.tool-arrow {
+    margin-left: auto;
+    color: #ccc;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+.ad-section {
+    padding: 0 16px 30px;
+}
+.ad-card {
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+    border: 2px solid #fed7aa;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.15s;
+    text-decoration: none;
+    display: block;
+}
+.ad-card:active { transform: scale(0.97); }
+.ad-card .ad-emoji { font-size: 36px; margin-bottom: 8px; }
+.ad-card h3 { font-size: 18px; color: #ea580c; font-weight: 700; margin-bottom: 4px; }
+.ad-card p { font-size: 14px; color: #9a6b3f; }
+.footer {
+    text-align: center;
+    padding: 16px;
+    color: #ccc;
+    font-size: 13px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🔥 AI赚钱工具箱</h1>
+    <p>用AI帮你写出爆款内容，轻松赚钱</p>
+</div>
+
+<div class="tools-section">
+    <h2>📦 效率工具</h2>
+
+    <a href="titles.html" class="tool-card">
+        <div class="tool-icon title">🏷️</div>
+        <div class="tool-info">
+            <h3>AI爆款标题生成器</h3>
+            <p>一键生成10个吸引眼球的爆款标题</p>
+        </div>
+        <div class="tool-arrow">›</div>
+    </a>
+
+    <a href="xianyu.html" class="tool-card">
+        <div class="tool-icon xianyu">🐟</div>
+        <div class="tool-info">
+            <h3>闲鱼文案生成器</h3>
+            <p>AI帮你写出高转化的闲鱼卖货文案</p>
+        </div>
+        <div class="tool-arrow">›</div>
+    </a>
+
+    <a href="script.html" class="tool-card">
+        <div class="tool-icon script">🎬</div>
+        <div class="tool-info">
+            <h3>短视频口播稿生成器</h3>
+            <p>自动生成短视频口播文案，直接念</p>
+        </div>
+        <div class="tool-arrow">›</div>
+    </a>
+</div>
+
+<div class="tools-section">
+    <h2>&#128295; 免费工具箱（不限次数）</h2>
+
+    <a href="voice2text.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)">&#127908;</div>
+        <div class="tool-info">
+            <h3>语音转文字</h3>
+            <p>对着手机说话，自动识别成文字</p>
+        </div>
+        <div class="tool-arrow">›</div>
+    </a>
+
+    <a href="image-compress.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb)">&#128247;</div>
+        <div class="tool-info">
+            <h3>图片压缩</h3>
+            <p>手机照片一键压缩，省空间传得快</p>
+        </div>
+        <div class="tool-arrow">›</div>
+    </a>
+
+    <a href="watermark.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2)">&#128444;</div>
+        <div class="tool-info">
+            <h3>去水印 加水印</h3>
+            <p>裁掉截图水印，或加上自己的水印</p>
+        </div>
+        <div class="tool-arrow">›</div>
+    </a>
+
+    <a href="text-counter.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#f3e5f5,#e1bee7)">&#128196;</div>
+        <div class="tool-info">
+            <h3>文字计数器</h3>
+            <p>粘贴文字自动统计字数、行数</p>
+        </div>
+        <div class="tool-arrow">›</div>
+    </a>
+</div>
+
+<div class="ad-section">
+    <a href="index.html" class="ad-card">
+        <div class="ad-emoji">💰</div>
+        <h3>更多赚钱工具</h3>
+        <p>持续更新中，敬请期待...</p>
+    </a>
+
+    <a href="index.html" class="ad-card">
+        <div class="ad-emoji">📚</div>
+        <h3>副业资料包</h3>
+        <p>免费领取副业赚钱攻略和教程</p>
+    </a>
+</div>
+
+<div class="footer">AI赚钱工具箱 © 2026</div>
+
+</body>
+</html>

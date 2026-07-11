@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>语音转文字</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #f3f4f6;
+    color: #333;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0;
+    overflow-x: hidden;
+}
+.header {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    padding: 20px 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(249,115,22,0.3);
+}
+.header h1 { color: #fff; font-size: 22px; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.header .subtitle { color: rgba(255,255,255,0.9); font-size: 14px; margin-top: 4px; }
+.back-btn {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: #fff; font-size: 28px; text-decoration: none;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: rgba(255,255,255,0.2);
+}
+.container { padding: 16px; }
+.card {
+    background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.record-area { text-align: center; padding: 20px 0; }
+.record-btn {
+    width: 120px; height: 120px; border-radius: 50%; border: none; cursor: pointer;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    box-shadow: 0 6px 20px rgba(249,115,22,0.4);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px; transition: all 0.2s;
+    font-size: 48px; color: #fff;
+}
+.record-btn:active { transform: scale(0.95); }
+.record-btn.recording {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 6px 20px rgba(239,68,68,0.5);
+    animation: pulse-record 1.5s infinite;
+}
+@keyframes pulse-record {
+    0%, 100% { box-shadow: 0 6px 20px rgba(239,68,68,0.5); }
+    50% { box-shadow: 0 6px 35px rgba(239,68,68,0.8); }
+}
+.record-hint { font-size: 16px; color: #999; margin-top: 8px; }
+.record-status { font-size: 18px; font-weight: 700; color: #ef4444; margin-top: 8px; display: none; }
+.result-box {
+    background: #FFFBF0; border: 2px solid #fed7aa; border-radius: 12px;
+    padding: 16px; margin-top: 16px; min-height: 120px;
+    font-size: 17px; line-height: 1.8; color: #333; white-space: pre-wrap; word-break: break-word;
+    display: none;
+}
+.result-box.show { display: block; }
+.action-row { display: flex; gap: 10px; margin-top: 12px; }
+.action-btn {
+    flex: 1; padding: 14px; font-size: 16px; font-weight: 600;
+    border-radius: 12px; cursor: pointer; text-align: center; border: none;
+}
+.action-btn.copy { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
+.action-btn.clear { background: #fff; color: #f97316; border: 2px solid #f97316; }
+.action-btn:active { opacity: 0.8; }
+.tip-box {
+    background: #fff7ed; border: 1px solid #fed7aa; border-radius: 12px;
+    padding: 14px 16px; margin-bottom: 16px; font-size: 14px; color: #92400e; line-height: 1.6;
+}
+.tip-box b { color: #f97316; }
+.more-tools {
+    display: block; text-align: center; padding: 16px;
+    background: linear-gradient(135deg, #f97316, #fb923c); color: #fff;
+    border-radius: 14px; font-size: 17px; font-weight: 700;
+    text-decoration: none; margin-top: 16px;
+    box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+}
+.copy-hint {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.8); color: #fff; padding: 16px 32px;
+    border-radius: 12px; font-size: 18px; font-weight: 600; z-index: 9999;
+    display: none; animation: fadeInOut 1.5s ease;
+}
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+}
+.unsupported-box {
+    background: #fef2f2; border: 2px solid #fecaca; border-radius: 12px;
+    padding: 20px; text-align: center; display: none;
+}
+.unsupported-box h3 { color: #ef4444; font-size: 18px; margin-bottom: 8px; }
+.unsupported-box p { color: #666; font-size: 15px; line-height: 1.6; }
+.feedback-bar {
+    margin: 16px 0; background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    border-radius: 12px; padding: 10px 16px; display: flex; align-items: center;
+    justify-content: center; gap: 8px; box-shadow: 0 2px 12px rgba(59,130,246,0.3);
+}
+.feedback-bar span { color: #fff; font-size: 13px; font-weight: bold; }
+.feedback-bar button {
+    background: #fff; color: #3b82f6; border: none; padding: 6px 16px;
+    border-radius: 16px; font-size: 13px; font-weight: bold; cursor: pointer;
+}
+.footer-space { height: 30px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html" class="back-btn">&#8249;</a>
+    <h1>语音转文字</h1>
+    <div class="subtitle">按住说话，自动识别成文字</div>
+</div>
+
+<div class="container">
+    <div class="tip-box">
+        <b>使用方法：</b>点击麦克风按钮开始说话，说完再点一下停止。识别结果可以一键复制。<br>
+        <b>注意：</b>需要用浏览器自带语音识别，建议使用<b>手机自带浏览器</b>或<b>Chrome</b>。
+    </div>
+
+    <div class="unsupported-box" id="unsupportedBox">
+        <h3>浏览器不支持</h3>
+        <p>当前浏览器不支持语音识别功能<br>请使用手机自带浏览器或Chrome浏览器打开</p>
+    </div>
+
+    <div class="card" id="mainCard">
+        <div class="record-area">
+            <button class="record-btn" id="recordBtn" onclick="toggleRecord()">&#127908;</button>
+            <div class="record-hint" id="recordHint">点击开始录音</div>
+            <div class="record-status" id="recordStatus">正在录音...</div>
+        </div>
+
+        <div class="result-box" id="resultBox"></div>
+
+        <div class="action-row" id="actionRow" style="display:none;">
+            <button class="action-btn copy" onclick="copyResult()">复制文字</button>
+            <button class="action-btn clear" onclick="clearResult()">清空</button>
+        </div>
+    </div>
+
+    <div class="feedback-bar">
+        <span>遇到问题？</span>
+        <button onclick="showFeedback()">点击反馈</button>
+    </div>
+
+    <a href="https://fuye-shop-v2.surge.sh" class="more-tools">更多免费工具</a>
+    <div class="footer-space"></div>
+</div>
+
+<div id="copyHint" class="copy-hint">已复制到剪贴板</div>
+
+<div id="feedbackModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:24px;width:90%;max-width:360px;margin:auto;position:relative;top:50%;transform:translateY(-50%);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="margin:0;font-size:18px;color:#333;">反馈问题</h3>
+      <span onclick="closeFeedback()" style="font-size:24px;cursor:pointer;color:#999;">&#10005;</span>
+    </div>
+    <textarea id="feedbackText" placeholder="说说你遇到了什么问题..." style="width:100%;height:100px;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:15px;resize:none;box-sizing:border-box;"></textarea>
+    <input id="feedbackContact" type="text" placeholder="QQ/微信/邮箱（选填）" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:14px;box-sizing:border-box;outline:none;margin-top:8px;">
+    <button onclick="submitFeedback()" style="width:100%;margin-top:12px;padding:14px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;">提交反馈</button>
+  </div>
+</div>
+
+<script>
+var recognition = null;
+var isRecording = false;
+var fullText = '';
+
+function initSpeech() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+        document.getElementById('unsupportedBox').style.display = 'block';
+        document.getElementById('mainCard').style.display = 'none';
+        return;
+    }
+    recognition = new SR();
+    recognition.lang = 'zh-CN';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+
+    recognition.onresult = function(event) {
+        var interim = '';
+        var final = '';
+        for (var i = event.resultIndex; i < event.results.length; i++) {
+            var t = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+                final += t;
+            } else {
+                interim += t;
+            }
+        }
+        if (final) { fullText += final; }
+        var box = document.getElementById('resultBox');
+        box.textContent = fullText + interim;
+        box.classList.add('show');
+        document.getElementById('actionRow').style.display = 'flex';
+    };
+
+    recognition.onerror = function(event) {
+        console.log('Speech error:', event.error);
+        if (event.error === 'not-allowed') {
+            alert('请允许麦克风权限后再试');
+        }
+        stopRecording();
+    };
+
+    recognition.onend = function() {
+        if (isRecording) {
+            try { recognition.start(); } catch(e) {}
+        }
+    };
+}
+
+function toggleRecord() {
+    if (isRecording) {
+        stopRecording();
+    } else {
+        startRecording();
+    }
+}
+
+function startRecording() {
+    if (!recognition) return;
+    try {
+        recognition.start();
+        isRecording = true;
+        document.getElementById('recordBtn').classList.add('recording');
+        document.getElementById('recordBtn').innerHTML = '&#9724;';
+        document.getElementById('recordHint').style.display = 'none';
+        document.getElementById('recordStatus').style.display = 'block';
+    } catch(e) {
+        console.log('Already started');
+    }
+}
+
+function stopRecording() {
+    if (!recognition) return;
+    isRecording = false;
+    try { recognition.stop(); } catch(e) {}
+    document.getElementById('recordBtn').classList.remove('recording');
+    document.getElementById('recordBtn').innerHTML = '&#127908;';
+    document.getElementById('recordHint').style.display = 'block';
+    document.getElementById('recordHint').textContent = '点击继续录音';
+    document.getElementById('recordStatus').style.display = 'none';
+}
+
+function copyResult() {
+    var text = document.getElementById('resultBox').textContent;
+    if (!text) { alert('没有内容可复制'); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() { showCopyHint(); }).catch(function() { fallbackCopy(text); });
+    } else { fallbackCopy(text); }
+}
+
+function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); showCopyHint();
+}
+
+function showCopyHint() {
+    var h = document.getElementById('copyHint');
+    h.style.display = 'block'; h.style.animation = 'none'; h.offsetHeight;
+    h.style.animation = 'fadeInOut 1.5s ease';
+    setTimeout(function() { h.style.display = 'none'; }, 1500);
+}
+
+function clearResult() {
+    fullText = '';
+    document.getElementById('resultBox').textContent = '';
+    document.getElementById('resultBox').classList.remove('show');
+    document.getElementById('actionRow').style.display = 'none';
+}
+
+function showFeedback() { document.getElementById('feedbackModal').style.display = 'flex'; }
+function closeFeedback() { document.getElementById('feedbackModal').style.display = 'none'; }
+function submitFeedback() {
+    var text = document.getElementById('feedbackText').value.trim();
+    var contact = document.getElementById('feedbackContact').value.trim();
+    if (!text) { alert('请描述一下问题'); return; }
+    var content = contact ? (text + '\n\n联系方式: ' + contact) : text;
+    var formData = new FormData();
+    formData.append('_subject', '语音转文字工具反馈');
+    formData.append('_captcha', 'false');
+    formData.append('问题描述', content);
+    formData.append('来源页面', location.href);
+    fetch('https://formsubmit.co/ajax/1643202119@qq.com', { method: 'POST', body: formData })
+    .then(function(r) { return r.json(); })
+    .then(function() { alert('反馈成功，谢谢！'); closeFeedback(); })
+    .catch(function() { alert('提交失败，请稍后重试'); });
+}
+
+initSpeech();
+</script>
+</body>
+</html>

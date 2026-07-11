@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>闲鱼新手避坑指南：15000字实操干货</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#FFF8E7;color:#333;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:70px}
+.header{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;padding:30px 20px;text-align:center;position:relative}
+.header h1{font-size:24px;font-weight:bold;margin-bottom:10px;line-height:1.4}
+.header .subtitle{font-size:14px;opacity:0.9;line-height:1.6}
+.header .back-btn{position:absolute;top:15px;left:15px;font-size:28px;cursor:pointer;color:#fff;text-decoration:none}
+.author-box{background:#fff;margin:15px;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.author-box .avatar{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;cursor:pointer;border:3px solid #f97316;box-shadow:0 4px 12px rgba(249,115,22,0.3)}
+.author-box .name{text-align:center;font-size:18px;font-weight:bold;color:#f97316;margin-bottom:6px}
+.author-box .desc{text-align:center;font-size:13px;color:#666;line-height:1.6}
+.content-section{background:#fff;margin:15px;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.content-section h2{font-size:22px;font-weight:bold;color:#f97316;margin-bottom:15px;padding-bottom:10px;border-bottom:3px solid #f97316}
+.content-section h3{font-size:18px;font-weight:bold;color:#333;margin:20px 0 12px;padding-left:10px;border-left:4px solid #f97316}
+.content-section p{font-size:15px;line-height:1.8;margin-bottom:12px;color:#333}
+.content-section ul,.content-section ol{margin:12px 0;padding-left:20px}
+.content-section li{font-size:15px;line-height:1.8;margin-bottom:8px}
+.content-section strong{color:#f97316;font-weight:bold}
+.content-section .highlight-box{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:2px solid #f97316;border-radius:12px;padding:15px;margin:15px 0}
+.content-section .highlight-box p{margin:0;color:#9a3412;font-weight:bold;font-size:15px}
+.content-section .error-box{background:#fef2f2;border:2px solid #ef4444;border-radius:12px;padding:15px;margin:15px 0}
+.content-section .error-box p{margin:0;color:#991b1b;font-size:14px}
+.content-section .success-box{background:#f0fdf4;border:2px solid #22c55e;border-radius:12px;padding:15px;margin:15px 0}
+.content-section .success-box p{margin:0;color:#166534;font-size:14px}
+.content-section table{width:100%;border-collapse:collapse;margin:15px 0;font-size:14px}
+.content-section th{background:#f97316;color:#fff;padding:10px;text-align:left;font-weight:bold}
+.content-section td{border:1px solid #e5e7eb;padding:10px}
+.content-section tr:nth-child(even){background:#f9fafb}
+.cta-section{background:linear-gradient(135deg,#f97316,#ea580c);margin:15px;border-radius:16px;padding:25px 20px;text-align:center;color:#fff}
+.cta-section h2{font-size:22px;font-weight:bold;margin-bottom:12px;color:#fff;border:none}
+.cta-section p{font-size:15px;line-height:1.6;margin-bottom:15px;opacity:0.95}
+.cta-section .price{font-size:36px;font-weight:bold;margin:15px 0}
+.cta-section .price span{font-size:20px}
+.cta-section .cta-btn{background:#fff;color:#f97316;font-size:18px;font-weight:bold;padding:14px 40px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.toc{background:#fff;margin:15px;border-radius:16px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.toc h3{font-size:18px;font-weight:bold;color:#f97316;margin-bottom:12px}
+.toc ul{list-style:none;padding:0}
+.toc li{padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:14px}
+.toc li:last-child{border-bottom:none}
+.toc a{color:#333;text-decoration:none;display:block}
+.toc a:hover{color:#f97316}
+
+/* Image zoom modal */
+.img-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;justify-content:center;align-items:center;cursor:pointer}
+.img-overlay.active{display:flex}
+.img-overlay img{max-width:90%;max-height:85vh;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+.img-overlay .close-btn{position:absolute;top:20px;right:20px;font-size:36px;color:#fff;cursor:pointer;z-index:10000}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html" class="back-btn">←</a>
+  <h1>闲鱼新手避坑指南<br>15000字实操干货</h1>
+  <div class="subtitle">52岁零经验大叔的实战总结<br>读完这篇，少走3个月弯路</div>
+</div>
+
+<div class="author-box">
+  <div class="avatar" style="padding:0;overflow:hidden" onclick="showPhoto()"><img src="avatar.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+  <div class="name">郭郭</div>
+  <div class="desc">52岁，零电商经验起步<br>不是老师，只是一个靠自己摸索走通闲鱼全流程的普通人</div>
+  <div style="margin-top:15px;border-radius:12px;overflow:hidden;cursor:pointer" onclick="showPhoto()">
+    <img src="avatar.jpg" style="width:100%;height:auto;max-height:200px;object-fit:cover" onclick="showPhoto()">
+  </div>
+</div>
+
+<!-- Image zoom modal -->
+<div class="img-overlay" id="imgOverlay" onclick="hidePhoto()">
+  <span class="close-btn">&times;</span>
+  <img src="avatar.jpg" id="zoomImg">
+</div>
+
+<div class="toc">
+  <h3>📖 本文目录</h3>
+  <ul>
+    <li><a href="#part1">第一部分：新手最容易踩的5大坑</a></li>
+    <li><a href="#part2">第二部分：7天养号完整流程</a></li>
+    <li><a href="#part3">第三部分：选品四层思路</a></li>
+    <li><a href="#part4">第四部分：流量运营技巧</a></li>
+    <li><a href="#part5">第五部分：客户接待技巧</a></li>
+    <li><a href="#part6">第六部分：站外引流六平台打法</a></li>
+  </ul>
+</div>
+
+<div class="content-section">
+  <p><strong>写在前面：</strong></p>
+  <p>我52岁才开始做闲鱼。没经验、没技术、没资源，连图片怎么处理都不会。家里人不支持，媳妇冷嘲热讽，儿子劝我踏实上班。但我没别的选择——52岁出去找工作没人要，下力气比不上年轻人，技术活又不会，互联网是唯一的出路。</p>
+  <p>这篇指南，是我从零开始摸索闲鱼的全部经验。不是网上那些"月入过万"的鸡汤，是实打实踩坑后的总结。</p>
+  <div class="highlight-box">
+    <p><strong>如果你是以下情况，这篇指南就是为你写的：</strong></p>
+  </div>
+  <ul>
+    <li>想在网上赚钱，但不知道从哪下手</li>
+    <li>试过闲鱼但没出单，不知道问题出在哪</li>
+    <li>被各种"教程"割过韭菜，想找点真东西</li>
+    <li>年龄不小了，怕学不会新东西</li>
+  </ul>
+  <p>我先说结论：<strong>闲鱼是目前门槛最低的电商赛道，零经验也能做，但90%的人死在前3天。</strong></p>
+  <p>为什么？因为他们不知道有坑，踩了坑就放弃。</p>
+  <p>今天我把这些坑全给你标出来，你绕着走，能活过前3天，就能活过前30天。</p>
+</div>
+
+<div class="content-section" id="part1">
+  <h2>第一部分：新手最容易踩的5大坑</h2>
+  
+  <h3>坑1：一上来就卖货，号还没养好</h3>
+  <p><strong>这是新手死亡率最高的坑。</strong></p>
+  <p>闲鱼不是淘宝，不是你上架就有人买。闲鱼有"账号权重"这个概念——新注册的号，平台不信任你，不会给你曝光。</p>
+  <div class="error-box">
+    <p><strong>我踩过的坑：</strong>注册当天就上架了12个商品，想着"勤能补拙"。结果呢？3天过去了，一个曝光都没有。我还以为是商品有问题，又改标题又改图片，折腾了5天，还是零。</p>
+  </div>
+  <p>后来查了大量资料，加上自己踩坑验证，才知道——<strong>新号需要先养7天，才能上架商品。</strong></p>
+  <p><strong>什么是养号？</strong></p>
+  <ul>
+    <li>每天像正常用户一样浏览闲鱼（30分钟以上）</li>
+    <li>点赞、收藏、关注几个同行</li>
+    <li>加入几个鱼塘，参与讨论</li>
+    <li>完善个人资料（头像、简介、芝麻信用）</li>
+    <li>不要上架任何商品，不要发任何广告</li>
+  </ul>
+  <p><strong>7天养号具体怎么做？</strong></p>
+  <table>
+    <tr><th>天数</th><th>任务</th><th>时长</th></tr>
+    <tr><td>第1天</td><td>完善资料、绑定支付宝、实名认证</td><td>10分钟</td></tr>
+    <tr><td>第2天</td><td>浏览首页、点赞收藏10个商品</td><td>20分钟</td></tr>
+    <tr><td>第3天</td><td>关注5个同行、加入3个鱼塘</td><td>20分钟</td></tr>
+    <tr><td>第4天</td><td>在鱼塘发1条日常动态（非广告）</td><td>15分钟</td></tr>
+    <tr><td>第5天</td><td>和2个卖家聊几句（问问题，别买）</td><td>15分钟</td></tr>
+    <tr><td>第6天</td><td>收藏10个商品、浏览鱼塘热帖</td><td>20分钟</td></tr>
+    <tr><td>第7天</td><td>准备上架资料（标题、图片、描述）</td><td>30分钟</td></tr>
+  </table>
+  <div class="highlight-box">
+    <p><strong>第8天，才能上架第一个商品。</strong></p>
+  </div>
+  <p>我知道你急。但磨刀不误砍柴工——养号7天，比你上架后0曝光干着急30天强。</p>
+  
+  <h3>坑2：标题写得像日记，没人搜得到</h3>
+  <p><strong>闲鱼的流量逻辑：用户搜索 → 看到你的商品 → 点击 → 购买。</strong></p>
+  <p>如果用户搜不到你，后面全白搭。</p>
+  <p><strong>新手最容易犯的错：</strong></p>
+  <ul>
+    <li>标题写"便宜卖，快来买"（用户搜什么？）</li>
+    <li>标题写"副业赚钱，月入过万"（太虚，没人信）</li>
+    <li>标题写"资料包，超值"（搜不到）</li>
+  </ul>
+  <p><strong>正确的标题写法：包含用户会搜的关键词。</strong></p>
+  <div class="error-box">
+    <p><strong>❌ 错误标题：</strong><br>"超值资料包，快来买"<br>"副业教程，赚钱秘籍"</p>
+  </div>
+  <div class="success-box">
+    <p><strong>✅ 正确标题：</strong><br>"闲鱼新手卖什么最赚钱？3000G资料包即买即用"<br>"副业赚钱实操手册 零成本起步 电子文档即买即用"</p>
+  </div>
+  <p><strong>关键词从哪来？</strong></p>
+  <ol>
+    <li>闲鱼搜索框下拉联想（用户最常搜的词）</li>
+    <li>同行商品的标题（看他们怎么写）</li>
+    <li>查同行爆款标题，看人家怎么写关键词</li>
+  </ol>
+  <p><strong>标题公式：</strong><code>核心关键词 + 产品价值 + 信任背书</code></p>
+  <p><strong>记住：标题不是给你看的，是给搜索引擎看的。</strong>用户搜什么词，你标题里就得有什么词。</p>
+  
+  <h3>坑3：主图太丑，点击率不到1%</h3>
+  <p><strong>闲鱼是视觉平台，主图决定点击率。</strong></p>
+  <p>我见过太多新手，商品标题写得不错，但主图是一张模糊的截图，或者随便找个网图——用户看到直接划走。</p>
+  <p><strong>虚拟资料包的主图怎么做？</strong></p>
+  <p>核心原则：<strong>让用户一眼看出"这东西值"。</strong></p>
+  <p>我试过的几种主图风格：</p>
+  <ol>
+    <li><strong>资料数量展示型</strong> - 截图显示文件夹列表，配上大字"3000G资料 覆盖100+行业" - 效果：⭐⭐⭐⭐</li>
+    <li><strong>价格对比型</strong> - 左边"市场价¥299"，右边"今天¥3.9" - 效果：⭐⭐⭐</li>
+    <li><strong>内容预览型</strong> - 展示资料包的部分内容截图 - 效果：⭐⭐⭐⭐⭐</li>
+  </ol>
+  <div class="highlight-box">
+    <p><strong>我的建议：用"内容预览型"——让用户看到资料的一角，产生好奇心。</strong></p>
+  </div>
+  
+  <h3>坑4：描述写得像广告，用户直接划走</h3>
+  <p><strong>闲鱼商品描述的正确写法：像朋友聊天，不像广告推销。</strong></p>
+  <div class="error-box">
+    <p><strong>❌ 错误描述：</strong><br>"超值资料包，3000G海量资源，覆盖100+行业，月入过万不是梦！赶紧下单，手慢无！"</p>
+    <p>用户看到这种描述，第一反应："又是割韭菜的。"</p>
+  </div>
+  <div class="success-box">
+    <p><strong>✅ 正确描述：</strong><br>"我自己整理的一份资料包，涵盖了100多个行业的实操内容。当初为了做闲鱼，我花了2个月时间收集、整理、分类，最后打包成这个..."</p>
+  </div>
+  <p><strong>描述公式：</strong><code>个人背景 + 产品内容 + 适合人群 + 信任背书 + 行动号召</code></p>
+  <p><strong>记住：用户不是被广告打动的，是被真实感打动的。</strong></p>
+  
+  <h3>坑5：定价太高，新手卖不动</h3>
+  <p><strong>新手最容易犯的定价错误：一上来就定高价。</strong></p>
+  <p>我见过有人第一单就定价¥99，理由是"我的资料值这个价"。结果？0成交。</p>
+  <p><strong>定价的核心逻辑：先走量，再谈利润。</strong></p>
+  <table>
+    <tr><th>阶段</th><th>目标</th><th>定价</th></tr>
+    <tr><td>第1-7天</td><td>出第一单</td><td>¥1.9-3.9</td></tr>
+    <tr><td>第8-30天</td><td>积累10个好评</td><td>¥3.9-9.9</td></tr>
+    <tr><td>第31天起</td><td>开始赚钱</td><td>¥9.9-39.9</td></tr>
+  </table>
+  <div class="highlight-box">
+    <p><strong>记住：前30天不要想赚钱，想的是出单、积累好评、跑通流程。</strong></p>
+  </div>
+</div>
+
+<div class="content-section" id="part2">
+  <h2>第二部分：7天养号完整流程</h2>
+  <p>前面说了坑1，这里展开讲7天养号的具体操作。</p>
+  
+  <h3>第1天：完善资料</h3>
+  <p><strong>必须完成的5件事：</strong></p>
+  <ol>
+    <li>头像：用真人照片（信任度高）或清晰的Logo</li>
+    <li>昵称：简洁好记（别用"用户xxxx"这种默认名）</li>
+    <li>简介：一句话说清楚你是干嘛的（"分享副业实操经验，帮新手少走弯路"）</li>
+    <li>绑定支付宝（必须，否则无法交易）</li>
+    <li>实名认证（必须，否则无法上架）</li>
+  </ol>
+  
+  <h3>第2天：浏览首页</h3>
+  <p><strong>任务：</strong></p>
+  <ul>
+    <li>打开闲鱼首页，像正常用户一样浏览</li>
+    <li>点赞、收藏10个商品</li>
+    <li>不要只浏览一个类目（会被判定为营销号）</li>
+    <li>浏览时长：20-30分钟</li>
+  </ul>
+  
+  <h3>第3天：关注同行</h3>
+  <p><strong>任务：</strong></p>
+  <ul>
+    <li>搜索你的目标类目（如"虚拟资料""副业教程"）</li>
+    <li>找到5个同行卖家，关注他们</li>
+    <li>浏览他们的商品，点赞收藏</li>
+  </ul>
+  <p><strong>目的：</strong>学习同行的标题、图片、描述怎么写</p>
+  
+  <h3>第4天：加入鱼塘</h3>
+  <p><strong>任务：</strong></p>
+  <ul>
+    <li>搜索并加入3个相关鱼塘</li>
+    <li>在鱼塘里发1条日常动态（非广告）</li>
+    <li>例如："今天整理资料到半夜，眼睛都花了，但看到整理好的文件夹，值了！"</li>
+  </ul>
+  
+  <h3>第5天：模拟咨询</h3>
+  <p><strong>任务：</strong></p>
+  <ul>
+    <li>找2个卖家，和他们聊天</li>
+    <li>问一些问题（"这个资料包含哪些内容？""怎么发货？"）</li>
+    <li>不要买，只是咨询</li>
+  </ul>
+  <p><strong>目的：</strong>熟悉闲鱼的聊天功能，学习优秀卖家怎么回复客户</p>
+  
+  <h3>第6天：深度浏览</h3>
+  <ul>
+    <li>继续浏览首页，收藏10个商品</li>
+    <li>浏览鱼塘热帖，点赞评论</li>
+    <li>浏览时长：30分钟</li>
+  </ul>
+  
+  <h3>第7天：准备上架</h3>
+  <ul>
+    <li>准备3-5个商品的标题、图片、描述</li>
+    <li>检查是否有违禁词（"月入过万""轻松赚钱"等）</li>
+    <li>提前设置好价格、分类</li>
+  </ul>
+  <div class="highlight-box">
+    <p><strong>第8天，上架第一个商品！</strong></p>
+  </div>
+</div>
+
+<div class="content-section" id="part3">
+  <h2>第三部分：选品四层思路</h2>
+  <p>选品是闲鱼的核心——选错品，再努力也白搭。</p>
+  
+  <h3>第一层：你能做什么？</h3>
+  <p><strong>先问自己：我有什么优势？</strong></p>
+  <ul>
+    <li>你有专业知识？→ 做知识付费（教程、课程）</li>
+    <li>你有货源？→ 做实物电商</li>
+    <li>你会设计？→ 做定制服务（PPT、海报）</li>
+    <li>你啥都不会？→ 做资料整理（收集、打包、售卖）</li>
+  </ul>
+  
+  <h3>第二层：用户要什么？</h3>
+  <p><strong>不要卖"你觉得好的"，要卖"用户想要的"。</strong></p>
+  <p>怎么知道用户要什么？</p>
+  <ol>
+    <li>闲鱼搜索框下拉联想（用户最常搜的词）</li>
+    <li>同行商品销量（看什么卖得好）</li>
+    <li>逛闲鱼看同行：什么卖得好，就去研究什么</li>
+  </ol>
+  
+  <h3>第三层：竞争大不大？</h3>
+  <p><strong>新手建议：选"中等竞争"的类目。</strong></p>
+  <ul>
+    <li>太红海：你干不过老卖家</li>
+    <li>太蓝海：没流量</li>
+  </ul>
+  <p><strong>虚拟资料包属于"中等竞争"：</strong></p>
+  <ul>
+    <li>需求大（副业、赚钱是刚需）</li>
+    <li>竞争中等（不像服装那么卷）</li>
+    <li>门槛低（不需要货源、不需要发货）</li>
+  </ul>
+  
+  <h3>第四层：能不能持续做？</h3>
+  <p><strong>不要选"一次性"的品，要选"能持续迭代"的品。</strong></p>
+  <p><strong>我的策略：</strong></p>
+  <ul>
+    <li>先卖"资料包"（引流）</li>
+    <li>再卖"深度教程"（利润）</li>
+    <li>最后卖"定制服务"（高客单价）</li>
+  </ul>
+</div>
+
+<div class="content-section" id="part4">
+  <h2>第四部分：流量运营技巧</h2>
+  <p>上架了商品，怎么让更多人看到？</p>
+  
+  <h3>1. 每天擦亮（刷新）- 2026最新规则</h3>
+  <p><strong>闲鱼擦亮是一键统一擦亮</strong>，打开闲鱼→「我的」→「我发布的」→顶部「一键擦亮」按钮，所有商品同时刷新到搜索前排。每天只能操作一次（24小时冷却）。</p>
+  
+  <p><strong>🕐 最佳擦亮时间：</strong></p>
+  <ul>
+    <li>早上7:00-9:00（通勤高峰）</li>
+    <li>中午12:00-13:00（午休时间）</li>
+    <li><strong>晚上20:00-22:00（流量最高峰，优先选择）</strong></li>
+  </ul>
+  
+  <p><strong>💡 擦亮顺序技巧：</strong></p>
+  <p>系统会按商品发布时间倒序擦亮——<strong>最晚发布的商品最先被擦亮</strong>。所以建议把最有潜力的爆款商品最后发布，这样擦亮时它排在最前面，获得最多曝光。</p>
+  
+  <p><strong>💰 超级擦亮（付费推广）：</strong></p>
+  <p>如果想让某个特定商品获得更多曝光，可以使用"超级擦亮"功能：</p>
+  <ul>
+    <li>最低充值30元，可选套餐包或自定义投放</li>
+    <li>CPM（千次曝光）约6.9元</li>
+    <li>投放时选择"有数据、有浏览、有想要"的商品</li>
+    <li>新手建议30-50元小额测试，不要一上来就大投入</li>
+  </ul>
+  
+  <p><strong>⚡ 擦亮效果增强：</strong></p>
+  <p>擦亮后前30分钟是黄金时间，此时商品排名最靠前。可以提前优化好标题（含搜索热词）和封面图，让擦亮的效果最大化。</p>
+  
+  <h3>2. 多挂商品，形成矩阵</h3>
+  <p><strong>一个商品曝光有限，10个商品曝光×10。</strong></p>
+  <p><strong>建议：新手阶段上架10-20个商品。</strong></p>
+  
+  <h3>3. 回复要快</h3>
+  <p><strong>闲鱼算法偏好"响应快"的卖家。</strong></p>
+  <ul>
+    <li>用户发消息，尽量5分钟内回复</li>
+    <li>设置"自动回复"（"在的，稍等马上回复您"）</li>
+    <li>开启消息通知（手机推送）</li>
+  </ul>
+  
+  <h3>4. 优化标题和主图</h3>
+  <p><strong>如果7天没曝光，说明标题或主图有问题。</strong></p>
+  <ul>
+    <li>检查标题是否包含关键词</li>
+    <li>检查主图是否清晰、有吸引力</li>
+    <li>对比同行爆款：看人家标题怎么写、主图怎么做</li>
+  </ul>
+</div>
+
+<div class="content-section" id="part5">
+  <h2>第五部分：客户接待技巧</h2>
+  <p>用户来咨询了，怎么成交？</p>
+  
+  <h3>1. 回复要快、要专业</h3>
+  <ul>
+    <li>5分钟内回复</li>
+    <li>不要只回"在的"，要回"在的，您想了解哪方面？"</li>
+    <li>引导用户说出需求</li>
+  </ul>
+  
+  <h3>2. 不要硬推销</h3>
+  <div class="error-box">
+    <p><strong>❌ 错误话术：</strong><br>"赶紧买吧，超值！不买就没了！"</p>
+  </div>
+  <div class="success-box">
+    <p><strong>✅ 正确话术：</strong><br>"您目前是什么情况？我帮您看看这个资料适不适合您。"</p>
+  </div>
+  
+  <h3>3. 用案例建立信任</h3>
+  <p>示例：</p>
+  <p>"我之前有个客户，也是零经验起步，买了资料包看完后，3天就出了第一单。他说资料里最有用的是'7天养号流程'，照着做真的有效。"</p>
+  
+  <h3>4. 处理"太贵了"</h3>
+  <p>示例：</p>
+  <p>"理解您的顾虑。这份资料2.8万字，覆盖了从0到1的所有流程。您算一下，就算只帮您少走1个月弯路，省下的时间也值回票价了。"</p>
+</div>
+
+<div class="content-section" id="part6">
+  <h2>第六部分：站外引流六平台打法</h2>
+  <p>闲鱼流量有限，要从其他平台引流。</p>
+  
+  <h3>1. 今日头条</h3>
+  <ul>
+    <li>写文章/微头条，结尾引导"想要资料私信我"</li>
+    <li>标题包含关键词（"闲鱼怎么赚钱"）</li>
+    <li>内容提供价值（分享干货）</li>
+  </ul>
+  
+  <h3>2. 小红书</h3>
+  <ul>
+    <li>发图文笔记/口播视频</li>
+    <li><strong>关键技巧：把红薯号改成微信号数字</strong>，用户搜ID就能加到微信</li>
+    <li>私信可以发图片引导</li>
+  </ul>
+  
+  <h3>3. 抖音</h3>
+  <ul>
+    <li>发短视频，评论区引导"私信我"</li>
+    <li>视频内容：分享干货、展示成果</li>
+    <li>私信发图片引导</li>
+  </ul>
+  
+  <h3>4. 公众号</h3>
+  <ul>
+    <li>作为内容沉淀平台</li>
+    <li>用户在各平台搜"副业资料库"找到公众号</li>
+  </ul>
+  
+  <h3>5. 百家号</h3>
+  <p>类似今日头条，写文章引流。</p>
+  
+  <h3>6. 知乎</h3>
+  <p>回答相关问题，引流到私域。</p>
+</div>
+
+<div class="cta-section">
+  <h2>📖 想深入学习？</h2>
+  <p>这篇指南是我从零开始摸索闲鱼的全部经验。</p>
+  <p>如果你读完觉得有用，说明你是认真想做这件事的人。</p>
+  <p><strong>我还整理了一份《闲鱼经营内参手册》</strong></p>
+  <p><strong>2.8万字，覆盖了从0到1的所有细节：</strong></p>
+  <ul style="text-align:left;margin:15px 0;padding-left:20px;font-size:14px;line-height:1.8">
+    <li>7天养号完整流程（每天做什么、怎么做、注意事项）</li>
+    <li>选品四层思路（怎么找到适合自己的品）</li>
+    <li>五天选品循环（持续找到爆款的方法）</li>
+    <li>流量运营技巧（怎么提高曝光、点击、转化）</li>
+    <li>客户接待话术（怎么处理"太贵了""再考虑"）</li>
+    <li>上架实操（标题/图片/描述/定价的完整模板）</li>
+    <li>站外引流六平台打法（头条/小红书/抖音/公众号/百家号/知乎）</li>
+    <li>平台规则与违禁词（避免被封号）</li>
+  </ul>
+  <p><strong>这份手册，是我2个月实战经验的精华，市面上找不到第二份。</strong></p>
+  <div class="price"><span>¥</span>39.9</div>
+  <button class="cta-btn" onclick="location.href='index.html#products-section'">立即购买 ¥39.9</button>
+  <p style="margin-top:15px;font-size:13px;opacity:0.8">即买即用 · 网盘链接发货 · 永久有效</p>
+</div>
+
+<div style="background:#fff;margin:15px;border-radius:16px;padding:20px;text-align:center">
+  <p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:12px">如果你也想靠自己摸索走通一条路</p>
+  <p style="font-size:16px;font-weight:bold;color:#f97316;margin-bottom:15px">私信我，我帮你诊断</p>
+  <button onclick="location.href='index.html#chat-section'" style="background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;padding:12px 30px;border-radius:50px;font-size:16px;font-weight:bold;cursor:pointer">💬 找我聊聊</button>
+</div>
+
+
+<script>
+function showPhoto(){
+  document.getElementById('imgOverlay').classList.add('active');
+}
+function hidePhoto(){
+  document.getElementById('imgOverlay').classList.remove('active');
+}
+</script>
+</body>
+</html>

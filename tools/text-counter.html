@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>文字计数器</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #f3f4f6; color: #333; min-height: 100vh;
+    max-width: 480px; margin: 0 auto; padding: 0; overflow-x: hidden;
+}
+.header {
+    background: linear-gradient(135deg, #f97316, #fb923c); padding: 20px 16px;
+    text-align: center; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(249,115,22,0.3);
+}
+.header h1 { color: #fff; font-size: 22px; font-weight: 700; }
+.header .subtitle { color: rgba(255,255,255,0.9); font-size: 14px; margin-top: 4px; }
+.back-btn {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: #fff; font-size: 28px; text-decoration: none;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: rgba(255,255,255,0.2);
+}
+.container { padding: 16px; }
+.card {
+    background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.text-input {
+    width: 100%; min-height: 160px; padding: 16px; font-size: 17px;
+    border: 2px solid #fed7aa; border-radius: 12px; background: #FFFBF0;
+    color: #333; outline: none; resize: vertical; line-height: 1.8;
+    font-family: inherit;
+}
+.text-input:focus { border-color: #f97316; box-shadow: 0 0 0 3px rgba(249,115,22,0.15); }
+.text-input::placeholder { color: #ccc; }
+.stats-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px;
+}
+.stat-box {
+    background: linear-gradient(135deg, #fff7ed, #fef3c7);
+    border: 2px solid #fed7aa; border-radius: 14px; padding: 16px; text-align: center;
+}
+.stat-num {
+    font-size: 32px; font-weight: 700; color: #f97316; display: block;
+    line-height: 1.2;
+}
+.stat-label { font-size: 14px; color: #92400e; margin-top: 4px; font-weight: 600; }
+.stat-box.blue { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-color: #93c5fd; }
+.stat-box.blue .stat-num { color: #3b82f6; }
+.stat-box.blue .stat-label { color: #1e40af; }
+.stat-box.green { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-color: #86efac; }
+.stat-box.green .stat-num { color: #22c55e; }
+.stat-box.green .stat-label { color: #166534; }
+.stat-box.purple { background: linear-gradient(135deg, #faf5ff, #f3e8ff); border-color: #c4b5fd; }
+.stat-box.purple .stat-num { color: #8b5cf6; }
+.stat-box.purple .stat-label { color: #5b21b6; }
+.tools-row { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.tool-btn {
+    padding: 12px 16px; font-size: 15px; font-weight: 600;
+    border: 2px solid #fed7aa; border-radius: 12px;
+    background: #FFFBF0; color: #666; cursor: pointer; flex: 1;
+    text-align: center; min-width: 100px;
+}
+.tool-btn:active { background: #fff3e0; border-color: #f97316; color: #f97316; }
+.clear-btn {
+    width: 100%; padding: 14px; font-size: 16px; font-weight: 600;
+    background: #fff; color: #999; border: 2px solid #e5e7eb;
+    border-radius: 12px; cursor: pointer; margin-top: 12px;
+}
+.clear-btn:active { background: #fef2f2; border-color: #ef4444; color: #ef4444; }
+.more-tools {
+    display: block; text-align: center; padding: 16px;
+    background: linear-gradient(135deg, #f97316, #fb923c); color: #fff;
+    border-radius: 14px; font-size: 17px; font-weight: 700;
+    text-decoration: none; margin-top: 16px;
+    box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+}
+.feedback-bar {
+    margin: 16px 0; background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    border-radius: 12px; padding: 10px 16px; display: flex; align-items: center;
+    justify-content: center; gap: 8px; box-shadow: 0 2px 12px rgba(59,130,246,0.3);
+}
+.feedback-bar span { color: #fff; font-size: 13px; font-weight: bold; }
+.feedback-bar button {
+    background: #fff; color: #3b82f6; border: none; padding: 6px 16px;
+    border-radius: 16px; font-size: 13px; font-weight: bold; cursor: pointer;
+}
+.footer-space { height: 30px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html" class="back-btn">&#8249;</a>
+    <h1>文字计数器</h1>
+    <div class="subtitle">粘贴文字，实时统计字数</div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <textarea class="text-input" id="textInput" placeholder="在这里粘贴或输入文字..." oninput="countText()"></textarea>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <span class="stat-num" id="charCount">0</span>
+                <div class="stat-label">总字符数</div>
+            </div>
+            <div class="stat-box blue">
+                <span class="stat-num" id="noSpaceCount">0</span>
+                <div class="stat-label">不含空格</div>
+            </div>
+            <div class="stat-box green">
+                <span class="stat-num" id="cnCount">0</span>
+                <div class="stat-label">中文字数</div>
+            </div>
+            <div class="stat-box purple">
+                <span class="stat-num" id="lineCount">0</span>
+                <div class="stat-label">行数</div>
+            </div>
+        </div>
+
+        <div class="tools-row">
+            <button class="tool-btn" onclick="cleanSpaces()">去掉多余空格</button>
+            <button class="tool-btn" onclick="cleanLineBreaks()">去掉空行</button>
+        </div>
+        <div class="tools-row">
+            <button class="tool-btn" onclick="toPlain()">转纯文本</button>
+            <button class="tool-btn" onclick="copyText()">复制全部</button>
+        </div>
+        <button class="clear-btn" onclick="clearText()">清空</button>
+    </div>
+
+    <div class="feedback-bar">
+        <span>遇到问题？</span>
+        <button onclick="showFeedback()">点击反馈</button>
+    </div>
+
+    <a href="https://fuye-shop-v2.surge.sh" class="more-tools">更多免费工具</a>
+    <div class="footer-space"></div>
+</div>
+
+<div id="copyHint" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.8);color:#fff;padding:16px 32px;border-radius:12px;font-size:18px;font-weight:600;z-index:9999;display:none;">已复制到剪贴板</div>
+
+<div id="feedbackModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:24px;width:90%;max-width:360px;margin:auto;position:relative;top:50%;transform:translateY(-50%);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="margin:0;font-size:18px;color:#333;">反馈问题</h3>
+      <span onclick="closeFeedback()" style="font-size:24px;cursor:pointer;color:#999;">&#10005;</span>
+    </div>
+    <textarea id="feedbackText" placeholder="说说你遇到了什么问题..." style="width:100%;height:100px;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:15px;resize:none;box-sizing:border-box;"></textarea>
+    <input id="feedbackContact" type="text" placeholder="QQ/微信/邮箱（选填）" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:14px;box-sizing:border-box;outline:none;margin-top:8px;">
+    <button onclick="submitFeedback()" style="width:100%;margin-top:12px;padding:14px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;">提交反馈</button>
+  </div>
+</div>
+
+<script>
+function countText() {
+    var text = document.getElementById('textInput').value;
+    var total = text.length;
+    var noSpace = text.replace(/\s/g, '').length;
+    var cn = 0;
+    for (var i = 0; i < text.length; i++) {
+        if (text.charCodeAt(i) > 127) cn++;
+    }
+    var lines = text === '' ? 0 : text.split('\n').length;
+    document.getElementById('charCount').textContent = total;
+    document.getElementById('noSpaceCount').textContent = noSpace;
+    document.getElementById('cnCount').textContent = cn;
+    document.getElementById('lineCount').textContent = lines;
+}
+
+function cleanSpaces() {
+    var ta = document.getElementById('textInput');
+    ta.value = ta.value.replace(/[ \t]+/g, ' ').replace(/ +/g, ' ').trim();
+    countText();
+}
+
+function cleanLineBreaks() {
+    var ta = document.getElementById('textInput');
+    ta.value = ta.value.replace(/\n{2,}/g, '\n').replace(/^\n+|\n+$/g, '');
+    countText();
+}
+
+function toPlain() {
+    var ta = document.getElementById('textInput');
+    var text = ta.value;
+    var div = document.createElement('div');
+    div.innerHTML = text;
+    ta.value = div.textContent || div.innerText || '';
+    countText();
+}
+
+function copyText() {
+    var text = document.getElementById('textInput').value;
+    if (!text) { alert('没有内容可复制'); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() { showCopyHint(); }).catch(function() { fallbackCopy(text); });
+    } else { fallbackCopy(text); }
+}
+
+function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); showCopyHint();
+}
+
+function showCopyHint() {
+    var h = document.getElementById('copyHint');
+    h.style.display = 'block';
+    setTimeout(function() { h.style.display = 'none'; }, 1500);
+}
+
+function clearText() {
+    document.getElementById('textInput').value = '';
+    countText();
+}
+
+function showFeedback() { document.getElementById('feedbackModal').style.display = 'flex'; }
+function closeFeedback() { document.getElementById('feedbackModal').style.display = 'none'; }
+function submitFeedback() {
+    var text = document.getElementById('feedbackText').value.trim();
+    var contact = document.getElementById('feedbackContact').value.trim();
+    if (!text) { alert('请描述一下问题'); return; }
+    var content = contact ? (text + '\n\n联系方式: ' + contact) : text;
+    var formData = new FormData();
+    formData.append('_subject', '文字计数器反馈');
+    formData.append('_captcha', 'false');
+    formData.append('问题描述', content);
+    formData.append('来源页面', location.href);
+    fetch('https://formsubmit.co/ajax/1643202119@qq.com', { method: 'POST', body: formData })
+    .then(function(r) { return r.json(); })
+    .then(function() { alert('反馈成功，谢谢！'); closeFeedback(); })
+    .catch(function() { alert('提交失败，请稍后重试'); });
+}
+</script>
+</body>
+</html>

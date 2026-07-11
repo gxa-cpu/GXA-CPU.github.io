@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>AI爆款标题生成器</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #FFF8E7;
+    color: #333;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0;
+    overflow-x: hidden;
+}
+.header {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    padding: 20px 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(249,115,22,0.3);
+}
+.header h1 {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.header .subtitle {
+    color: rgba(255,255,255,0.9);
+    font-size: 14px;
+    margin-top: 4px;
+}
+.back-btn {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 28px;
+    text-decoration: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+}
+.container {
+    padding: 16px;
+}
+.card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.input-group {
+    margin-bottom: 16px;
+}
+.input-group label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+.input-group input,
+.input-group textarea,
+.input-group select {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 17px;
+    border: 2px solid #fed7aa;
+    border-radius: 12px;
+    background: #FFFBF0;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+}
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+}
+.input-group textarea {
+    min-height: 80px;
+    resize: vertical;
+    line-height: 1.5;
+}
+.platform-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+.platform-btn {
+    padding: 12px 8px;
+    font-size: 15px;
+    font-weight: 600;
+    border: 2px solid #fed7aa;
+    border-radius: 12px;
+    background: #FFFBF0;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+.platform-btn.active {
+    background: #f97316;
+    color: #fff;
+    border-color: #f97316;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.3);
+}
+.gen-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(249,115,22,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.gen-btn:active {
+    transform: scale(0.97);
+}
+.gen-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+.gen-btn .spinner {
+    display: none;
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+.gen-btn.loading .spinner {
+    display: inline-block;
+}
+.gen-btn.loading .btn-text {
+    display: none;
+}
+.gen-btn.loading .loading-text {
+    display: inline;
+}
+.gen-btn .loading-text {
+    display: none;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.result-area {
+    margin-top: 16px;
+    display: none;
+}
+.result-area.show {
+    display: block;
+}
+.result-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #f97316;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.result-item {
+    background: #FFFBF0;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #333;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.15s;
+    word-break: break-all;
+}
+.result-item:active {
+    background: #fff3e0;
+}
+.copy-hint {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    z-index: 9999;
+    display: none;
+    animation: fadeInOut 1.5s ease;
+}
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+}
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.modal-overlay.show {
+    display: flex;
+}
+.modal-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    max-width: 340px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-box h3 {
+    font-size: 20px;
+    color: #f97316;
+    margin-bottom: 12px;
+}
+.modal-box p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+.modal-box .qr-placeholder {
+    width: 180px;
+    height: 180px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+    border: 2px dashed #ddd;
+}
+.modal-close {
+    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #f97316;
+    background: #fff;
+    border: 2px solid #f97316;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.result-block {
+    background: #FFFBF0;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+.result-block h4 {
+    font-size: 16px;
+    color: #f97316;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+.result-block .content {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.copy-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #f97316;
+    background: #fff;
+    border: 2px solid #f97316;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+.tag {
+    background: #fff3e0;
+    color: #f97316;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.footer-space {
+    height: 30px;
+}
+.follow-up-wrap {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+.follow-up-wrap input {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #fed7aa;
+    border-radius: 12px;
+    background: #FFFBF0;
+    color: #333;
+    outline: none;
+}
+.follow-up-wrap input:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+}
+.follow-up-wrap button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.follow-up-wrap button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.follow-up-result {
+    background: #FFFBF0;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+#followUpInput::placeholder { color: #ccc; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html" class="back-btn">‹</a>
+    <h1>🏷️ AI爆款标题生成器</h1>
+    <div class="subtitle">一键生成10个吸引眼球的爆款标题</div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="input-group">
+            <label>💡 输入关键词或主题</label>
+            <input type="text" id="keyword" placeholder="例如：闲鱼卖货、减肥、副业赚钱" maxlength="50">
+        </div>
+
+        <div class="input-group">
+            <label>📱 选择平台</label>
+            <div class="platform-grid">
+                <div class="platform-btn active" data-value="抖音" onclick="selectPlatform(this)">抖音</div>
+                <div class="platform-btn" data-value="小红书" onclick="selectPlatform(this)">小红书</div>
+                <div class="platform-btn" data-value="今日头条" onclick="selectPlatform(this)">头条</div>
+                <div class="platform-btn" data-value="闲鱼" onclick="selectPlatform(this)">闲鱼</div>
+                <div class="platform-btn" data-value="微信视频号" onclick="selectPlatform(this)">视频号</div>
+                <div class="platform-btn" data-value="快手" onclick="selectPlatform(this)">快手</div>
+            </div>
+        </div>
+
+        <button class="gen-btn" id="genBtn" onclick="generate()">
+            <span class="spinner"></span>
+            <span class="btn-text">✨ 立即生成爆款标题</span>
+            <span class="loading-text">AI正在创作中...</span>
+        </button>
+
+        <div style="text-align:center;margin-top:10px;">
+            <span id="usageDisplay" style="font-size:13px;color:#bbb;">今日已用 0/5 次</span>
+        </div>
+    </div>
+
+    <div class="result-area" id="resultArea">
+        <div class="result-title">🔥 生成的爆款标题（点击复制）</div>
+        <div id="resultList"></div>
+        <div id="followUpSection" style="display:none;">
+            <div class="result-title" style="margin-top:20px;">💬 继续追问</div>
+            <div class="follow-up-wrap">
+                <input type="text" id="followUpInput" placeholder="比如：哪个最火？帮我选一个" onkeydown="if(event.key==='Enter')askFollowUp()">
+                <button id="followUpBtn" onclick="askFollowUp()">发送</button>
+            </div>
+            <div id="followUpResult"></div>
+        </div>
+    </div>
+</div>
+
+<div class="footer-space"></div>
+
+<div id="copyHint" class="copy-hint">✅ 已复制到剪贴板</div>
+
+<div class="modal-overlay" id="limitModal">
+    <div class="modal-box">
+        <h3>😅 今日免费次数已用完</h3>
+        <p>每天可免费使用5次<br>扫码付款 <b style="color:#f97316;font-size:22px;">9.9元</b> 解锁无限使用</p>
+        <img src="alipay-qr.png" alt="支付宝收款码" style="width:180px;height:180px;object-fit:contain;border-radius:12px;margin:0 auto 16px;display:block;">
+        <button class="modal-close" onclick="closeLimitModal()">知道了</button>
+    </div>
+</div>
+
+<script>
+const _cfg = atob('c2std3MtSC5SWFhJSVlNLkVPZTUuTUVZQ0lRQ3JCUWFGV0pESWN0S1BTQ0tCWmJWcGM5Y0FuOXlNdklQS0l4dXBxRERVMHdJaEFQY0QzUjJPckNrZXZFczgzTlRkaDNrSDNEZjFuY1loZ1dONC14ZGNsWVcy');
+const API_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+const MODEL = 'qwen-turbo';
+const DAILY_LIMIT = 5;
+
+function getUsageKey(toolName) {
+    const today = new Date().toISOString().slice(0, 10);
+    return 'usage_' + toolName + '_' + today;
+}
+
+function getUsage(toolName) {
+    const key = getUsageKey(toolName);
+    return parseInt(localStorage.getItem(key) || '0');
+}
+
+function incrementUsage(toolName) {
+    const key = getUsageKey(toolName);
+    const count = getUsage(toolName) + 1;
+    localStorage.setItem(key, count.toString());
+    return count;
+}
+
+function showLimitModal() {
+    document.getElementById('limitModal').classList.add('show');
+}
+
+function closeLimitModal() {
+    document.getElementById('limitModal').classList.remove('show');
+}
+
+function showCopyHint() {
+    const hint = document.getElementById('copyHint');
+    hint.style.display = 'block';
+    hint.style.animation = 'none';
+    hint.offsetHeight;
+    hint.style.animation = 'fadeInOut 1.5s ease';
+    setTimeout(function() { hint.style.display = 'none'; }, 1500);
+}
+
+function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() { showCopyHint(); }).catch(function() { fallbackCopy(text); });
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showCopyHint();
+}
+
+async function callAI(systemPrompt, userContent, btnEl) {
+    btnEl.classList.add('loading');
+    btnEl.disabled = true;
+    const controller = new AbortController();
+    const timeout = setTimeout(function() { controller.abort(); }, 30000);
+    try {
+        const resp = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + _cfg,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: MODEL,
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: userContent }
+                ],
+                temperature: 0.85
+            }),
+            signal: controller.signal
+        });
+        clearTimeout(timeout);
+        const data = await resp.json();
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            return data.choices[0].message.content;
+        } else if (data.error) {
+            throw new Error(data.error.message || 'API返回错误');
+        } else {
+            throw new Error('API返回格式异常');
+        }
+    } catch (err) {
+        if (err.name === 'AbortError') {
+            throw new Error('请求超时，请稍后重试');
+        }
+        throw err;
+    } finally {
+        clearTimeout(timeout);
+        btnEl.classList.remove('loading');
+        btnEl.disabled = false;
+    }
+}
+
+function checkLimit(toolName) {
+    const used = getUsage(toolName);
+    if (used >= DAILY_LIMIT) {
+        showLimitModal();
+        return false;
+    }
+    return true;
+}
+
+function updateUsageDisplay(toolName) {
+    const el = document.getElementById('usageDisplay');
+    if (el) {
+        const used = getUsage(toolName);
+        el.textContent = '今日已用 ' + used + '/' + DAILY_LIMIT + ' 次';
+    }
+}
+
+let selectedPlatform = '抖音';
+let generatedText = '';
+
+function selectPlatform(el) {
+    document.querySelectorAll('.platform-btn').forEach(function(b) { b.classList.remove('active'); });
+    el.classList.add('active');
+    selectedPlatform = el.dataset.value;
+}
+
+async function generate() {
+    const keyword = document.getElementById('keyword').value.trim();
+    if (!keyword) {
+        alert('请输入关键词或主题');
+        return;
+    }
+    if (!checkLimit('titles')) return;
+    incrementUsage('titles');
+    updateUsageDisplay('titles');
+
+    const systemPrompt = '你是一个专业的短视频爆款标题创作大师，精通各平台的流量密码和标题套路。你生成的标题具有以下特点：\n1. 吸引眼球，让人忍不住想点\n2. 符合各平台的推荐算法偏好\n3. 包含热点元素和情绪价值\n4. 口语化、接地气\n5. 每个标题风格不同，有悬念型、数字型、痛点型、反转型等';
+
+    const userContent = '请为以下主题在【' + selectedPlatform + '】平台生成10个爆款标题。\n主题/关键词：' + keyword + '\n\n要求：\n- 直接输出10个标题，每行一个\n- 每个标题前面加序号，格式：1. 标题内容\n- 标题要简短有力，15-30字为佳\n- 风格要多样化，涵盖不同套路\n- 不要输出任何解释说明';
+
+    try {
+        const result = await callAI(systemPrompt, userContent, document.getElementById('genBtn'));
+        displayResults(result);
+    } catch (err) {
+        alert('生成失败：' + err.message);
+    }
+}
+
+function displayResults(text) {
+    generatedText = text;
+    const area = document.getElementById('resultArea');
+    const list = document.getElementById('resultList');
+    list.innerHTML = '';
+    document.getElementById('followUpSection').style.display = 'block';
+    document.getElementById('followUpResult').innerHTML = '';
+
+    const lines = text.split('\n').filter(function(l) { return l.trim(); });
+    lines.forEach(function(line) {
+        const clean = line.replace(/^\d+[\.、\)\]]\s*/, '').trim();
+        if (clean) {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.textContent = clean;
+            div.onclick = function() { copyText(clean); };
+            list.appendChild(div);
+        }
+    });
+
+    if (list.children.length === 0) {
+        const div = document.createElement('div');
+        div.className = 'result-item';
+        div.textContent = text;
+        div.onclick = function() { copyText(text); };
+        list.appendChild(div);
+    }
+
+    area.classList.add('show');
+    area.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function askFollowUp() {
+    const question = document.getElementById('followUpInput').value.trim();
+    if (!question) return;
+    if (!generatedText) { alert('请先生成内容'); return; }
+    document.getElementById('followUpInput').value = '';
+    const btn = document.getElementById('followUpBtn');
+    btn.disabled = true;
+    btn.textContent = '...';
+    const resultDiv = document.getElementById('followUpResult');
+    resultDiv.innerHTML = '<div style="color:#999;font-size:15px;">AI思考中...</div>';
+    const controller = new AbortController();
+    const timeout = setTimeout(function() { controller.abort(); }, 30000);
+    try {
+        const sysP = '你是一个专业的短视频爆款标题创作大师。请根据用户生成的标题结果，回答用户的追问。回答要简洁、实用、有具体建议。';
+        const userMsg = '我在' + selectedPlatform + '平台发布了以下内容：\n主题：' + document.getElementById('keyword').value.trim() + '\n\n生成的标题如下：\n' + generatedText + '\n\n我的问题是：' + question;
+        const resp = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + _cfg, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model: MODEL, messages: [{ role: 'system', content: sysP }, { role: 'user', content: userMsg }], temperature: 0.7 }),
+            signal: controller.signal
+        });
+        clearTimeout(timeout);
+        const data = await resp.json();
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            resultDiv.className = 'follow-up-result';
+            resultDiv.textContent = data.choices[0].message.content;
+            resultDiv.onclick = function() { copyText(resultDiv.textContent); };
+        } else {
+            resultDiv.innerHTML = '<div style="color:red;">回答失败，请重试</div>';
+        }
+    } catch (err) {
+        if (err.name === 'AbortError') {
+            resultDiv.innerHTML = '<div style="color:red;">请求超时，请稍后重试</div>';
+        } else {
+            resultDiv.innerHTML = '<div style="color:red;">网络错误：' + err.message + '</div>';
+        }
+    }
+    btn.disabled = false;
+    btn.textContent = '发送';
+}
+
+updateUsageDisplay('titles');
+</script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>图片去水印 加水印</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #f3f4f6; color: #333; min-height: 100vh;
+    max-width: 480px; margin: 0 auto; padding: 0; overflow-x: hidden;
+}
+.header {
+    background: linear-gradient(135deg, #f97316, #fb923c); padding: 20px 16px;
+    text-align: center; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(249,115,22,0.3);
+}
+.header h1 { color: #fff; font-size: 22px; font-weight: 700; }
+.header .subtitle { color: rgba(255,255,255,0.9); font-size: 14px; margin-top: 4px; }
+.back-btn {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: #fff; font-size: 28px; text-decoration: none;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: rgba(255,255,255,0.2);
+}
+.container { padding: 16px; }
+.card {
+    background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.tab-btn {
+    flex: 1; padding: 12px; font-size: 16px; font-weight: 600;
+    border: 2px solid #fed7aa; border-radius: 12px;
+    background: #FFFBF0; color: #666; cursor: pointer; text-align: center;
+    transition: all 0.2s;
+}
+.tab-btn.active {
+    background: #f97316; color: #fff; border-color: #f97316;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.3);
+}
+.upload-area {
+    border: 3px dashed #fed7aa; border-radius: 16px; padding: 30px 20px;
+    text-align: center; cursor: pointer; background: #FFFBF0;
+}
+.upload-area:active { background: #fff3e0; border-color: #f97316; }
+.upload-icon { font-size: 48px; margin-bottom: 10px; }
+.upload-text { font-size: 17px; font-weight: 600; color: #f97316; }
+.upload-hint { font-size: 14px; color: #999; margin-top: 6px; }
+.canvas-wrap {
+    display: none; margin-top: 16px; text-align: center;
+    background: #f9fafb; border-radius: 12px; padding: 12px; overflow: hidden;
+}
+.canvas-wrap canvas {
+    max-width: 100%; height: auto; border-radius: 8px;
+    touch-action: none;
+}
+.control-group { margin-top: 16px; display: none; }
+.control-group label {
+    display: block; font-size: 16px; font-weight: 600; color: #555; margin-bottom: 8px;
+}
+.control-group input[type="text"],
+.control-group input[type="number"],
+.control-group select {
+    width: 100%; padding: 12px 14px; font-size: 16px;
+    border: 2px solid #fed7aa; border-radius: 10px;
+    background: #FFFBF0; color: #333; outline: none;
+}
+.control-group input:focus, .control-group select:focus {
+    border-color: #f97316;
+}
+.control-row { display: flex; gap: 8px; margin-top: 8px; }
+.control-row .control-group { flex: 1; margin-top: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+input[type="color"] {
+    width: 50px; height: 44px; border: 2px solid #fed7aa;
+    border-radius: 10px; cursor: pointer; padding: 2px;
+}
+.color-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.color-row span { font-size: 15px; color: #666; }
+.crop-hint {
+    display: none; background: #fff7ed; border: 1px solid #fed7aa;
+    border-radius: 10px; padding: 12px; margin-top: 12px;
+    font-size: 14px; color: #92400e; text-align: center; line-height: 1.6;
+}
+.action-btn {
+    width: 100%; padding: 16px; font-size: 20px; font-weight: 700;
+    color: #fff; background: linear-gradient(135deg, #f97316, #ea580c);
+    border: none; border-radius: 14px; cursor: pointer; margin-top: 16px;
+    box-shadow: 0 4px 15px rgba(249,115,22,0.4);
+}
+.action-btn:active { transform: scale(0.97); }
+.action-btn.green {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 15px rgba(34,197,94,0.4);
+}
+.result-row { display: flex; gap: 8px; margin-top: 12px; display: none; }
+.result-row.show { display: flex; }
+.more-tools {
+    display: block; text-align: center; padding: 16px;
+    background: linear-gradient(135deg, #f97316, #fb923c); color: #fff;
+    border-radius: 14px; font-size: 17px; font-weight: 700;
+    text-decoration: none; margin-top: 16px;
+    box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+}
+.feedback-bar {
+    margin: 16px 0; background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    border-radius: 12px; padding: 10px 16px; display: flex; align-items: center;
+    justify-content: center; gap: 8px; box-shadow: 0 2px 12px rgba(59,130,246,0.3);
+}
+.feedback-bar span { color: #fff; font-size: 13px; font-weight: bold; }
+.feedback-bar button {
+    background: #fff; color: #3b82f6; border: none; padding: 6px 16px;
+    border-radius: 16px; font-size: 13px; font-weight: bold; cursor: pointer;
+}
+.footer-space { height: 30px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html" class="back-btn">&#8249;</a>
+    <h1>图片去水印 加水印</h1>
+    <div class="subtitle">裁切掉水印区域，或加上自己的水印</div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="tabs">
+            <div class="tab-btn active" onclick="switchTab('remove')">去水印</div>
+            <div class="tab-btn" onclick="switchTab('add')">加水印</div>
+        </div>
+
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">&#128444;</div>
+            <div class="upload-text">点击选择图片</div>
+            <div class="upload-hint" id="uploadHint">上传有水印的截图</div>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFile(this)">
+
+        <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="mainCanvas"></canvas>
+        </div>
+
+        <!-- 去水印控制面板 -->
+        <div id="removePanel" style="display:none;">
+            <div class="crop-hint" id="cropHint" style="display:block;">
+                在图片上<strong>拖动选择</strong>要裁掉的区域（水印部分），然后点"裁切并下载"
+            </div>
+            <button class="action-btn green" onclick="cropAndDownload()">裁切并下载</button>
+            <button class="action-btn" style="margin-top:8px;background:#6b7280;box-shadow:none;" onclick="resetImage()">重新选择</button>
+        </div>
+
+        <!-- 加水印控制面板 -->
+        <div id="addPanel" style="display:none;">
+            <div class="control-group" style="display:block;">
+                <label>水印文字</label>
+                <input type="text" id="wmText" placeholder="输入水印文字" value="" oninput="updateWatermark()">
+            </div>
+            <div class="control-row" style="margin-top:12px;">
+                <div class="control-group" style="display:block;">
+                    <label>字号</label>
+                    <input type="number" id="wmSize" value="24" min="10" max="100" oninput="updateWatermark()">
+                </div>
+                <div class="control-group" style="display:block;">
+                    <label>位置</label>
+                    <select id="wmPosition" onchange="updateWatermark()">
+                        <option value="bottom-right">右下角</option>
+                        <option value="bottom-left">左下角</option>
+                        <option value="top-right">右上角</option>
+                        <option value="top-left">左上角</option>
+                        <option value="center">中间</option>
+                    </select>
+                </div>
+            </div>
+            <div class="color-row">
+                <span>颜色</span>
+                <input type="color" id="wmColor" value="#ffffff" oninput="updateWatermark()">
+                <span>透明度</span>
+                <input type="range" id="wmOpacity" min="10" max="100" value="60" style="flex:1;" oninput="updateWatermark()">
+            </div>
+            <button class="action-btn green" style="margin-top:16px;" onclick="downloadWatermarked()">下载加水印图片</button>
+            <button class="action-btn" style="margin-top:8px;background:#6b7280;box-shadow:none;" onclick="resetImage()">重新选择</button>
+        </div>
+    </div>
+
+    <div class="feedback-bar">
+        <span>遇到问题？</span>
+        <button onclick="showFeedback()">点击反馈</button>
+    </div>
+
+    <a href="https://fuye-shop-v2.surge.sh" class="more-tools">更多免费工具</a>
+    <div class="footer-space"></div>
+</div>
+
+<div id="feedbackModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:24px;width:90%;max-width:360px;margin:auto;position:relative;top:50%;transform:translateY(-50%);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="margin:0;font-size:18px;color:#333;">反馈问题</h3>
+      <span onclick="closeFeedback()" style="font-size:24px;cursor:pointer;color:#999;">&#10005;</span>
+    </div>
+    <textarea id="feedbackText" placeholder="说说你遇到了什么问题..." style="width:100%;height:100px;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:15px;resize:none;box-sizing:border-box;"></textarea>
+    <input id="feedbackContact" type="text" placeholder="QQ/微信/邮箱（选填）" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:14px;box-sizing:border-box;outline:none;margin-top:8px;">
+    <button onclick="submitFeedback()" style="width:100%;margin-top:12px;padding:14px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;">提交反馈</button>
+  </div>
+</div>
+
+<script>
+var currentTab = 'remove';
+var originalImg = null;
+var canvas, ctx;
+var isDragging = false;
+var cropRect = { x: 0, y: 0, w: 0, h: 0 };
+var scaleRatio = 1;
+
+function switchTab(tab) {
+    currentTab = tab;
+    var btns = document.querySelectorAll('.tab-btn');
+    btns[0].classList.toggle('active', tab === 'remove');
+    btns[1].classList.toggle('active', tab === 'add');
+    document.getElementById('removePanel').style.display = tab === 'remove' ? 'block' : 'none';
+    document.getElementById('addPanel').style.display = tab === 'add' ? 'block' : 'none';
+    document.getElementById('uploadHint').textContent = tab === 'remove' ? '上传有水印的截图' : '上传要加水印的图片';
+    if (originalImg) {
+        drawImage();
+        if (tab === 'add') updateWatermark();
+    }
+}
+
+function handleFile(input) {
+    var file = input.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+            originalImg = img;
+            canvas = document.getElementById('mainCanvas');
+            ctx = canvas.getContext('2d');
+            var maxW = Math.min(440, window.innerWidth - 60);
+            scaleRatio = img.width > maxW ? maxW / img.width : 1;
+            canvas.width = img.width * scaleRatio;
+            canvas.height = img.height * scaleRatio;
+            drawImage();
+            document.getElementById('canvasWrap').style.display = 'block';
+            document.getElementById('uploadArea').style.display = 'none';
+            if (currentTab === 'remove') {
+                document.getElementById('removePanel').style.display = 'block';
+                document.getElementById('cropHint').style.display = 'block';
+            } else {
+                document.getElementById('addPanel').style.display = 'block';
+                updateWatermark();
+            }
+            setupCropEvents();
+        };
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+function drawImage() {
+    if (!originalImg || !ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(originalImg, 0, 0, canvas.width, canvas.height);
+}
+
+function setupCropEvents() {
+    canvas.onmousedown = canvas.ontouchstart = function(e) {
+        if (currentTab !== 'remove') return;
+        e.preventDefault();
+        var pos = getPos(e);
+        isDragging = true;
+        cropRect.x = pos.x;
+        cropRect.y = pos.y;
+        cropRect.w = 0;
+        cropRect.h = 0;
+    };
+    canvas.onmousemove = canvas.ontouchmove = function(e) {
+        if (!isDragging || currentTab !== 'remove') return;
+        e.preventDefault();
+        var pos = getPos(e);
+        cropRect.w = pos.x - cropRect.x;
+        cropRect.h = pos.y - cropRect.y;
+        drawImage();
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([6, 3]);
+        ctx.strokeRect(cropRect.x, cropRect.y, cropRect.w, cropRect.h);
+        ctx.setLineDash([]);
+        ctx.fillStyle = 'rgba(239,68,68,0.15)';
+        ctx.fillRect(cropRect.x, cropRect.y, cropRect.w, cropRect.h);
+    };
+    canvas.onmouseup = canvas.ontouchend = function(e) {
+        isDragging = false;
+    };
+}
+
+function getPos(e) {
+    var rect = canvas.getBoundingClientRect();
+    var x, y;
+    if (e.touches && e.touches.length > 0) {
+        x = e.touches[0].clientX - rect.left;
+        y = e.touches[0].clientY - rect.top;
+    } else {
+        x = e.clientX - rect.left;
+        y = e.clientY - rect.top;
+    }
+    return { x: x, y: y };
+}
+
+function cropAndDownload() {
+    if (!originalImg) return;
+    var x = Math.min(cropRect.x, cropRect.x + cropRect.w) / scaleRatio;
+    var y = Math.min(cropRect.y, cropRect.y + cropRect.h) / scaleRatio;
+    var w = Math.abs(cropRect.w) / scaleRatio;
+    var h = Math.abs(cropRect.h) / scaleRatio;
+    if (w < 5 || h < 5) {
+        alert('请先在图片上拖动选择要裁掉的区域');
+        return;
+    }
+    var tmpCanvas = document.createElement('canvas');
+    tmpCanvas.width = originalImg.width;
+    tmpCanvas.height = originalImg.height;
+    var tmpCtx = tmpCanvas.getContext('2d');
+    tmpCtx.drawImage(originalImg, 0, 0);
+    tmpCtx.clearRect(x, y, w, h);
+    tmpCanvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'cropped_image.png';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 'image/png');
+}
+
+function updateWatermark() {
+    if (!originalImg || !ctx) return;
+    var text = document.getElementById('wmText').value;
+    drawImage();
+    if (!text) return;
+    var size = parseInt(document.getElementById('wmSize').value) || 24;
+    var color = document.getElementById('wmColor').value;
+    var opacity = parseInt(document.getElementById('wmOpacity').value) / 100;
+    var position = document.getElementById('wmPosition').value;
+    ctx.save();
+    ctx.font = 'bold ' + size + 'px sans-serif';
+    ctx.fillStyle = color;
+    ctx.globalAlpha = opacity;
+    var metrics = ctx.measureText(text);
+    var tw = metrics.width;
+    var th = size;
+    var pad = 10;
+    var x, y;
+    switch (position) {
+        case 'bottom-right': x = canvas.width - tw - pad; y = canvas.height - pad; break;
+        case 'bottom-left': x = pad; y = canvas.height - pad; break;
+        case 'top-right': x = canvas.width - tw - pad; y = th + pad; break;
+        case 'top-left': x = pad; y = th + pad; break;
+        case 'center': x = (canvas.width - tw) / 2; y = (canvas.height + th) / 2; break;
+    }
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 4;
+    ctx.fillText(text, x, y);
+    ctx.restore();
+}
+
+function downloadWatermarked() {
+    canvas.toBlob(function(blob) {
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'watermarked_image.jpg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 'image/jpeg', 0.92);
+}
+
+function resetImage() {
+    originalImg = null;
+    document.getElementById('canvasWrap').style.display = 'none';
+    document.getElementById('uploadArea').style.display = 'block';
+    document.getElementById('removePanel').style.display = 'none';
+    document.getElementById('addPanel').style.display = 'none';
+    document.getElementById('fileInput').value = '';
+    cropRect = { x: 0, y: 0, w: 0, h: 0 };
+}
+
+function showFeedback() { document.getElementById('feedbackModal').style.display = 'flex'; }
+function closeFeedback() { document.getElementById('feedbackModal').style.display = 'none'; }
+function submitFeedback() {
+    var text = document.getElementById('feedbackText').value.trim();
+    var contact = document.getElementById('feedbackContact').value.trim();
+    if (!text) { alert('请描述一下问题'); return; }
+    var content = contact ? (text + '\n\n联系方式: ' + contact) : text;
+    var formData = new FormData();
+    formData.append('_subject', '水印工具反馈');
+    formData.append('_captcha', 'false');
+    formData.append('问题描述', content);
+    formData.append('来源页面', location.href);
+    fetch('https://formsubmit.co/ajax/1643202119@qq.com', { method: 'POST', body: formData })
+    .then(function(r) { return r.json(); })
+    .then(function() { alert('反馈成功，谢谢！'); closeFeedback(); })
+    .catch(function() { alert('提交失败，请稍后重试'); });
+}
+</script>
+</body>
+</html>

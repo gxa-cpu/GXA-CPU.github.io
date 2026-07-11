@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>短视频口播稿生成器</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #FFF8E7;
+    color: #333;
+    min-height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0;
+    overflow-x: hidden;
+}
+.header {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    padding: 20px 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(249,115,22,0.3);
+}
+.header h1 {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.header .subtitle {
+    color: rgba(255,255,255,0.9);
+    font-size: 14px;
+    margin-top: 4px;
+}
+.back-btn {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 28px;
+    text-decoration: none;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+}
+.container {
+    padding: 16px;
+}
+.card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.input-group {
+    margin-bottom: 16px;
+}
+.input-group label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+.input-group input,
+.input-group textarea,
+.input-group select {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 17px;
+    border: 2px solid #fed7aa;
+    border-radius: 12px;
+    background: #FFFBF0;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+}
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+}
+.input-group textarea {
+    min-height: 80px;
+    resize: vertical;
+    line-height: 1.5;
+}
+.platform-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+.platform-btn {
+    padding: 12px 8px;
+    font-size: 15px;
+    font-weight: 600;
+    border: 2px solid #fed7aa;
+    border-radius: 12px;
+    background: #FFFBF0;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+.platform-btn.active {
+    background: #f97316;
+    color: #fff;
+    border-color: #f97316;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.3);
+}
+.gen-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(249,115,22,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.gen-btn:active {
+    transform: scale(0.97);
+}
+.gen-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+.gen-btn .spinner {
+    display: none;
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+.gen-btn.loading .spinner {
+    display: inline-block;
+}
+.gen-btn.loading .btn-text {
+    display: none;
+}
+.gen-btn.loading .loading-text {
+    display: inline;
+}
+.gen-btn .loading-text {
+    display: none;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.result-area {
+    margin-top: 16px;
+    display: none;
+}
+.result-area.show {
+    display: block;
+}
+.result-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #f97316;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.result-item {
+    background: #FFFBF0;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #333;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.15s;
+    word-break: break-all;
+}
+.result-item:active {
+    background: #fff3e0;
+}
+.copy-hint {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    z-index: 9999;
+    display: none;
+    animation: fadeInOut 1.5s ease;
+}
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+}
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.modal-overlay.show {
+    display: flex;
+}
+.modal-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    max-width: 340px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-box h3 {
+    font-size: 20px;
+    color: #f97316;
+    margin-bottom: 12px;
+}
+.modal-box p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+.modal-box .qr-placeholder {
+    width: 180px;
+    height: 180px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+    border: 2px dashed #ddd;
+}
+.modal-close {
+    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #f97316;
+    background: #fff;
+    border: 2px solid #f97316;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.result-block {
+    background: #FFFBF0;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+.result-block h4 {
+    font-size: 16px;
+    color: #f97316;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+.result-block .content {
+    font-size: 17px;
+    line-height: 1.7;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.copy-all-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #f97316;
+    background: #fff;
+    border: 2px solid #f97316;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+.tag {
+    background: #fff3e0;
+    color: #f97316;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.footer-space {
+    height: 30px;
+}
+.follow-up-wrap {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+.follow-up-wrap input {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #fed7aa;
+    border-radius: 12px;
+    background: #FFFBF0;
+    color: #333;
+    outline: none;
+}
+.follow-up-wrap input:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+}
+.follow-up-wrap button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.follow-up-wrap button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.follow-up-result {
+    background: #FFFBF0;
+    border: 1px solid #fed7aa;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+#followUpInput::placeholder { color: #ccc; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html" class="back-btn">‹</a>
+    <h1>🎬 短视频口播稿生成器</h1>
+    <div class="subtitle">AI帮你写口播稿，照着念就行</div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="input-group">
+            <label>💡 主题/关键词</label>
+            <input type="text" id="topic" placeholder="例如：为什么穷人越省越穷" maxlength="80">
+        </div>
+
+        <div class="input-group">
+            <label>⏱️ 视频时长</label>
+            <div class="platform-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="platform-btn active" data-value="30秒" onclick="selectDuration(this)">30秒</div>
+                <div class="platform-btn" data-value="1分钟" onclick="selectDuration(this)">1分钟</div>
+                <div class="platform-btn" data-value="3分钟" onclick="selectDuration(this)">3分钟</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>🎭 口播风格</label>
+            <div class="platform-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="platform-btn active" data-value="干货型" onclick="selectStyle(this)">干货型</div>
+                <div class="platform-btn" data-value="吐槽型" onclick="selectStyle(this)">吐槽型</div>
+                <div class="platform-btn" data-value="故事型" onclick="selectStyle(this)">故事型</div>
+            </div>
+        </div>
+
+        <button class="gen-btn" id="genBtn" onclick="generate()">
+            <span class="spinner"></span>
+            <span class="btn-text">✨ 生成口播稿</span>
+            <span class="loading-text">AI正在创作中...</span>
+        </button>
+
+        <div style="text-align:center;margin-top:10px;">
+            <span id="usageDisplay" style="font-size:13px;color:#bbb;">今日已用 0/5 次</span>
+        </div>
+    </div>
+
+    <div class="result-area" id="resultArea">
+        <div class="result-title">🎤 生成的口播稿（点击复制）</div>
+        <div id="resultContent"></div>
+        <button class="copy-all-btn" onclick="copyAll()">📋 复制全部口播稿</button>
+        <div id="followUpSection" style="display:none;">
+            <div class="result-title" style="margin-top:20px;">💬 继续追问</div>
+            <div class="follow-up-wrap">
+                <input type="text" id="followUpInput" placeholder="比如：开头不够吸引人？帮我加互动引导" onkeydown="if(event.key==='Enter')askFollowUp()">
+                <button id="followUpBtn" onclick="askFollowUp()">发送</button>
+            </div>
+            <div id="followUpResult"></div>
+        </div>
+    </div>
+</div>
+
+<div class="footer-space"></div>
+
+<div id="copyHint" class="copy-hint">✅ 已复制到剪贴板</div>
+
+<div class="modal-overlay" id="limitModal">
+    <div class="modal-box">
+        <h3>😅 今日免费次数已用完</h3>
+        <p>每天可免费使用5次<br>扫码付款 <b style="color:#f97316;font-size:22px;">9.9元</b> 解锁无限使用</p>
+        <img src="alipay-qr.png" alt="支付宝收款码" style="width:180px;height:180px;object-fit:contain;border-radius:12px;margin:0 auto 16px;display:block;">
+        <button class="modal-close" onclick="closeLimitModal()">知道了</button>
+    </div>
+</div>
+
+<script>
+const _cfg = atob('c2std3MtSC5SWFhJSVlNLkVPZTUuTUVZQ0lRQ3JCUWFGV0pESWN0S1BTQ0tCWmJWcGM5Y0FuOXlNdklQS0l4dXBxRERVMHdJaEFQY0QzUjJPckNrZXZFczgzTlRkaDNrSDNEZjFuY1loZ1dONC14ZGNsWVcy');
+const API_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+const MODEL = 'qwen-turbo';
+const DAILY_LIMIT = 5;
+
+function getUsageKey(toolName) {
+    const today = new Date().toISOString().slice(0, 10);
+    return 'usage_' + toolName + '_' + today;
+}
+
+function getUsage(toolName) {
+    const key = getUsageKey(toolName);
+    return parseInt(localStorage.getItem(key) || '0');
+}
+
+function incrementUsage(toolName) {
+    const key = getUsageKey(toolName);
+    const count = getUsage(toolName) + 1;
+    localStorage.setItem(key, count.toString());
+    return count;
+}
+
+function showLimitModal() {
+    document.getElementById('limitModal').classList.add('show');
+}
+
+function closeLimitModal() {
+    document.getElementById('limitModal').classList.remove('show');
+}
+
+function showCopyHint() {
+    const hint = document.getElementById('copyHint');
+    hint.style.display = 'block';
+    hint.style.animation = 'none';
+    hint.offsetHeight;
+    hint.style.animation = 'fadeInOut 1.5s ease';
+    setTimeout(function() { hint.style.display = 'none'; }, 1500);
+}
+
+function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() { showCopyHint(); }).catch(function() { fallbackCopy(text); });
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showCopyHint();
+}
+
+async function callAI(systemPrompt, userContent, btnEl) {
+    btnEl.classList.add('loading');
+    btnEl.disabled = true;
+    const controller = new AbortController();
+    const timeout = setTimeout(function() { controller.abort(); }, 30000);
+    try {
+        const resp = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + _cfg,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                model: MODEL,
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: userContent }
+                ],
+                temperature: 0.85
+            }),
+            signal: controller.signal
+        });
+        clearTimeout(timeout);
+        const data = await resp.json();
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            return data.choices[0].message.content;
+        } else if (data.error) {
+            throw new Error(data.error.message || 'API返回错误');
+        } else {
+            throw new Error('API返回格式异常');
+        }
+    } catch (err) {
+        if (err.name === 'AbortError') {
+            throw new Error('请求超时，请稍后重试');
+        }
+        throw err;
+    } finally {
+        clearTimeout(timeout);
+        btnEl.classList.remove('loading');
+        btnEl.disabled = false;
+    }
+}
+
+function checkLimit(toolName) {
+    const used = getUsage(toolName);
+    if (used >= DAILY_LIMIT) {
+        showLimitModal();
+        return false;
+    }
+    return true;
+}
+
+function updateUsageDisplay(toolName) {
+    const el = document.getElementById('usageDisplay');
+    if (el) {
+        const used = getUsage(toolName);
+        el.textContent = '今日已用 ' + used + '/' + DAILY_LIMIT + ' 次';
+    }
+}
+
+let selectedDuration = '30秒';
+let selectedStyle = '干货型';
+
+function selectDuration(el) {
+    el.parentElement.querySelectorAll('.platform-btn').forEach(function(b) { b.classList.remove('active'); });
+    el.classList.add('active');
+    selectedDuration = el.dataset.value;
+}
+
+function selectStyle(el) {
+    el.parentElement.querySelectorAll('.platform-btn').forEach(function(b) { b.classList.remove('active'); });
+    el.classList.add('active');
+    selectedStyle = el.dataset.value;
+}
+
+async function generate() {
+    const topic = document.getElementById('topic').value.trim();
+    if (!topic) {
+        alert('请输入主题或关键词');
+        return;
+    }
+    if (!checkLimit('script')) return;
+    incrementUsage('script');
+    updateUsageDisplay('script');
+
+    const wordCountMap = {
+        '30秒': '100-150字',
+        '1分钟': '250-350字',
+        '3分钟': '800-1000字'
+    };
+    const wordCount = wordCountMap[selectedDuration];
+
+    const styleDescMap = {
+        '干货型': '逻辑清晰，信息密度高，每个观点都有支撑，适合知识分享',
+        '吐槽型': '语气犀利，带点幽默和调侃，敢说实话，容易引发共鸣和互动',
+        '故事型': '用故事引入，有情节起伏，代入感强，最后点题升华'
+    };
+    const styleDesc = styleDescMap[selectedStyle];
+
+    const systemPrompt = '你是一个百万粉丝短视频博主的御用文案写手，精通各类口播稿的创作。你写的口播稿有以下特点：\n1. 开头3秒必须有强力钩子，让人停不下来\n2. 口语化表达，像跟朋友聊天\n3. 节奏感强，适合朗读\n4. 有情绪起伏，不平淡\n5. 结尾有互动引导（点赞、关注、评论）';
+
+    const userContent = '请为以下主题写一篇短视频口播稿：\n\n主题：' + topic + '\n时长：' + selectedDuration + '（约' + wordCount + '）\n风格：' + selectedStyle + '（' + styleDesc + '）\n\n要求：\n1. 直接输出口播稿正文，不需要标注"开头""正文""结尾"等标签\n2. 开头第一句就要抓人，直接抛出悬念/冲突/反常识\n3. 全程口语化，像在跟朋友说话\n4. 适当加一些语气词（"对吧""你想想""说实话"）\n5. 结尾引导互动，自然不生硬\n6. 总字数控制在' + wordCount + '\n7. 不要输出任何额外说明、标题或格式标记，直接输出可以照着念的稿子';
+
+    try {
+        const result = await callAI(systemPrompt, userContent, document.getElementById('genBtn'));
+        displayResults(result);
+    } catch (err) {
+        alert('生成失败：' + err.message);
+    }
+}
+
+let fullText = '';
+let generatedText = '';
+
+function displayResults(text) {
+    fullText = text;
+    generatedText = text;
+    const area = document.getElementById('resultArea');
+    const content = document.getElementById('resultContent');
+    content.innerHTML = '';
+    document.getElementById('followUpSection').style.display = 'block';
+    document.getElementById('followUpResult').innerHTML = '';
+
+    const block = document.createElement('div');
+    block.className = 'result-block';
+
+    const h4 = document.createElement('h4');
+    h4.textContent = '🎤 口播稿正文';
+    block.appendChild(h4);
+
+    const div = document.createElement('div');
+    div.className = 'content';
+    div.textContent = text.trim();
+    block.appendChild(div);
+
+    content.appendChild(block);
+
+    area.classList.add('show');
+    area.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyAll() {
+    if (fullText) copyText(fullText);
+}
+
+async function askFollowUp() {
+    const question = document.getElementById('followUpInput').value.trim();
+    if (!question) return;
+    if (!generatedText) { alert('请先生成内容'); return; }
+    document.getElementById('followUpInput').value = '';
+    const btn = document.getElementById('followUpBtn');
+    btn.disabled = true;
+    btn.textContent = '...';
+    const resultDiv = document.getElementById('followUpResult');
+    resultDiv.innerHTML = '<div style="color:#999;font-size:15px;">AI思考中...</div>';
+    const controller = new AbortController();
+    const timeout = setTimeout(function() { controller.abort(); }, 30000);
+    try {
+        const sysP = '你是一个百万粉丝短视频博主的御用文案写手。请根据用户生成的口播稿，回答用户的追问。回答要简洁、实用、有具体建议。';
+        const topic = document.getElementById('topic').value.trim();
+        const userMsg = '我写了一段短视频口播稿：\n主题：' + topic + '\n时长：' + selectedDuration + '\n风格：' + selectedStyle + '\n\n口播稿内容：\n' + generatedText + '\n\n我的问题是：' + question;
+        const resp = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + _cfg, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model: MODEL, messages: [{ role: 'system', content: sysP }, { role: 'user', content: userMsg }], temperature: 0.7 }),
+            signal: controller.signal
+        });
+        clearTimeout(timeout);
+        const data = await resp.json();
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+            resultDiv.className = 'follow-up-result';
+            resultDiv.textContent = data.choices[0].message.content;
+            resultDiv.onclick = function() { copyText(resultDiv.textContent); };
+        } else {
+            resultDiv.innerHTML = '<div style="color:red;">回答失败，请重试</div>';
+        }
+    } catch (err) {
+        if (err.name === 'AbortError') {
+            resultDiv.innerHTML = '<div style="color:red;">请求超时，请稍后重试</div>';
+        } else {
+            resultDiv.innerHTML = '<div style="color:red;">网络错误：' + err.message + '</div>';
+        }
+    }
+    btn.disabled = false;
+    btn.textContent = '发送';
+}
+
+updateUsageDisplay('script');
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>副业资料库</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Microsoft YaHei', sans-serif;
+  background: #fff8e1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.container {
+  width: 90%;
+  max-width: 800px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
+.brand { font-size: 48px; font-weight: bold; margin-bottom: 10px; }
+.slogan { font-size: 20px; opacity: 0.9; }
+.stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 25px 20px;
+  background: #fff3e0;
+  border-bottom: 2px dashed #f97316;
+}
+.stat-item { text-align: center; }
+.stat-num { font-size: 36px; font-weight: bold; color: #f97316; }
+.stat-label { font-size: 14px; color: #666; margin-top: 4px; }
+.products {
+  padding: 30px 25px;
+}
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.product-card {
+  border: 2px solid #f97316;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  background: #fffbf5;
+}
+.product-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+.product-desc {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.product-price {
+  font-size: 28px;
+  font-weight: bold;
+  color: #f97316;
+}
+.product-original {
+  font-size: 14px;
+  color: #999;
+  text-decoration: line-through;
+  margin-left: 5px;
+}
+.footer {
+  background: #333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+}
+.footer a { color: #fb923c; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="brand">🎯 副业资料库</div>
+    <div class="slogan">52岁大叔的实战经验 · 不画饼只说真话</div>
+  </div>
+  
+  <div class="stats">
+    <div class="stat-item">
+      <div class="stat-num">2.8万</div>
+      <div class="stat-label">字实操手册</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">40</div>
+      <div class="stat-label">核心知识点</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">人已领取</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">8</div>
+      <div class="stat-label">大章节体系</div>
+    </div>
+  </div>
+  
+  <div class="products">
+    <div class="section-title">🔥 热门商品</div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-name">⭐ 闲鱼经营内参手册</div>
+        <div class="product-desc">2.8万字系统教程<br>从养号到发货全讲透<br>40个知识点 · 8大章节</div>
+        <div class="product-price">¥39.9</div>
+      </div>
+      <div class="product-card">
+        <div class="product-name">📦 网站搭建全套资料包</div>
+        <div class="product-desc">源码+部署教程+AI提示词<br>照做就能搭一个一模一样的<br>副业网站</div>
+        <div class="product-price">¥99</div>
+      </div>
+      <div class="product-card">
+        <div class="product-name">👨‍🏫 一对一指导搭建</div>
+        <div class="product-desc">帮你搭建一个能赚钱的<br>副业网站<br>带AI客服+自动发货</div>
+        <div class="product-price">¥299<span style="font-size:14px;color:#666">/次</span></div>
+      </div>
+      <div class="product-card">
+        <div class="product-name">✍️ 文案代写/简历优化</div>
+        <div class="product-desc">文案代写¥30起<br>简历优化¥50起<br>PPT代做¥20/页起</div>
+        <div class="product-price">¥30<span style="font-size:14px;color:#666">起</span></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    🌐 fuye-shop-v2.surge.sh<br>
+    <span style="font-size:14px;opacity:0.7">微信扫码购买 · 微信/支付宝均可</span>
+  </div>
+</div>
+</body>
+</html>

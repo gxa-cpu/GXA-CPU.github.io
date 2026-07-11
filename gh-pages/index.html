@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>副业资料库 - 52岁大叔的实战副业经验</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#FFF8E7;color:#333;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:70px}
+
+/* ====== 顶部导航 ====== */
+.header{background:linear-gradient(135deg,#f97316,#fb923c);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(249,115,22,0.3)}
+.header .logo{color:#fff;font-size:20px;font-weight:bold;letter-spacing:1px}
+.header .wx-btn{background:#fff;color:#f97316;border:none;padding:8px 16px;border-radius:20px;font-size:14px;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:4px}
+.header .wx-btn svg{width:18px;height:18px}
+
+/* ====== 欢迎横幅 ====== */
+.banner{background:linear-gradient(135deg,#f97316 0%,#fb923c 50%,#fdba74 100%);padding:30px 20px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.banner::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,0.1) 0%,transparent 60%);animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.banner h1{font-size:26px;font-weight:bold;margin-bottom:8px;text-shadow:0 2px 4px rgba(0,0,0,0.1);position:relative}
+.banner p{font-size:16px;opacity:0.95;position:relative}
+.stats-row{display:flex;justify-content:center;gap:24px;margin-top:20px;position:relative}
+.stat-item{text-align:center}
+.stat-num{font-size:28px;font-weight:bold;display:block}
+.stat-label{font-size:13px;opacity:0.9}
+
+/* ====== 快捷入口 ====== */
+.quick-nav{display:flex;justify-content:space-around;padding:16px 12px;background:#fff;margin:0;border-bottom:1px solid #fde68a}
+.quick-item{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;text-decoration:none;color:#333}
+.quick-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.quick-icon.lib{background:linear-gradient(135deg,#fef3c7,#fde68a)}
+.quick-icon.chat{background:linear-gradient(135deg,#fed7aa,#fdba74)}
+.quick-icon.free{background:linear-gradient(135deg,#d9f99d,#bef264)}
+.quick-label{font-size:13px;font-weight:600;color:#555}
+
+/* ====== 对话框区域 ====== */
+.chat-section{margin:16px 12px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.chat-header{background:linear-gradient(135deg,#f97316,#fb923c);padding:14px 16px;display:flex;align-items:center;gap:10px}
+.chat-avatar{width:40px;height:40px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+.chat-info{flex:1}
+.chat-name{color:#fff;font-size:16px;font-weight:bold}
+.chat-status{color:rgba(255,255,255,0.85);font-size:12px}
+.chat-body{height:280px;overflow-y:auto;padding:16px;background:#f9fafb}
+.msg{margin-bottom:14px;display:flex;gap:8px}
+.msg.bot{flex-direction:row}
+.msg.user{flex-direction:row-reverse}
+.msg-bubble{max-width:75%;padding:12px 14px;border-radius:16px;font-size:15px;line-height:1.6;word-break:break-word}
+.msg.bot .msg-bubble{background:#fff;border:1px solid #e5e7eb;border-top-left-radius:4px}
+.msg.user .msg-bubble{background:#f97316;color:#fff;border-top-right-radius:4px}
+.msg-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.msg.bot .msg-avatar{background:#fde68a}
+.msg.user .msg-avatar{background:#fed7aa}
+.chat-input-area{display:flex;align-items:center;padding:16px;background:#fff;border-top:1px solid #f3f4f6;gap:12px}
+.chat-input{flex:1;border:2px solid #e5e7eb;border-radius:24px;padding:14px 20px;font-size:17px;outline:none;transition:border-color 0.2s}
+.chat-input:focus{border-color:#f97316}
+.chat-send{background:#f97316;color:#fff;border:none;width:52px;height:52px;border-radius:50%;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;box-shadow:0 4px 12px rgba(249,115,22,0.4)}
+.chat-send:active{background:#ea580c}
+
+/* ====== 专区标题 ====== */
+.section-title{padding:20px 16px 10px;display:flex;align-items:center;gap:8px}
+.section-title h2{font-size:20px;font-weight:bold;color:#333}
+.section-title .badge{background:#f97316;color:#fff;font-size:12px;padding:2px 8px;border-radius:10px;font-weight:bold}
+.section-title .line{flex:1;height:2px;background:linear-gradient(to right,#f97316,transparent)}
+
+/* ====== 商品卡片 ====== */
+.products-grid{padding:0 12px;display:flex;flex-direction:column;gap:12px}
+.product-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);border:1px solid #fef3c7;transition:transform 0.2s}
+.product-card:active{transform:scale(0.98)}
+.product-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.product-name{font-size:17px;font-weight:bold;color:#333;flex:1;line-height:1.3}
+.product-tag{background:linear-gradient(135deg,#f97316,#fb923c);color:#fff;font-size:11px;padding:3px 8px;border-radius:8px;white-space:nowrap;font-weight:bold;flex-shrink:0;margin-left:8px}
+.product-desc{font-size:14px;color:#666;margin-bottom:10px;line-height:1.5}
+.product-bottom{display:flex;align-items:center;justify-content:space-between}
+.product-price{font-size:22px;font-weight:bold;color:#f97316}
+.product-price span{font-size:14px}
+.product-stats{font-size:12px;color:#999}
+.product-buy{background:linear-gradient(135deg,#f97316,#fb923c);color:#fff;border:none;padding:8px 20px;border-radius:20px;font-size:14px;font-weight:bold;cursor:pointer;transition:opacity 0.2s}
+.product-buy:active{opacity:0.8}
+
+/* ====== 待上架专区 ====== */
+.pending-section{padding:0 12px}
+.pending-box{background:#fff;border-radius:14px;padding:30px 20px;text-align:center;border:2px dashed #fde68a}
+.pending-icon{font-size:40px;margin-bottom:10px}
+.pending-text{font-size:16px;color:#999;line-height:1.6}
+.pending-text strong{color:#f97316}
+
+/* ====== 底部导航 ====== */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;display:flex;justify-content:space-around;padding:10px 0;padding-bottom:max(10px,env(safe-area-inset-bottom));border-top:1px solid #e5e7eb;z-index:100}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;text-decoration:none;color:#999;font-size:11px}
+.nav-item.active{color:#f97316}
+.nav-item.highlight{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff !important;border-radius:20px;padding:6px 14px;margin-top:-8px;box-shadow:0 4px 12px rgba(249,115,22,0.5);animation:nav-pulse 2s infinite}
+@keyframes nav-pulse{0%,100%{box-shadow:0 4px 12px rgba(249,115,22,0.5)}50%{box-shadow:0 4px 20px rgba(249,115,22,0.9)}}
+.nav-icon{font-size:22px}
+
+/* ====== 弹窗 ====== */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:#fff;border-radius:16px;padding:24px;max-width:320px;width:90%;text-align:center}
+.modal h3{font-size:18px;margin-bottom:12px;color:#333}
+.modal p{font-size:14px;color:#666;margin-bottom:16px;line-height:1.6}
+.modal-close{background:#f97316;color:#fff;border:none;padding:10px 32px;border-radius:20px;font-size:15px;font-weight:bold;cursor:pointer}
+
+/* ====== 动画 ====== */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.msg{animation:fadeIn 0.3s ease}
+.product-card{animation:fadeIn 0.4s ease}
+</style>
+</head>
+<body>
+
+<!-- ====== 顶部导航 ====== -->
+<div class="header">
+  <div class="logo">📦 副业资料库</div>
+  <button class="wx-btn" onclick="showWxModal()">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.045c.134 0 .24-.11.24-.245 0-.06-.024-.12-.04-.178l-.325-1.233a.492.492 0 0 1 .177-.554C23.028 18.485 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zM14.53 13.39c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982z"/></svg>
+    加微信
+  </button>
+</div>
+
+<!-- ====== 欢迎横幅 ====== -->
+<div class="banner">
+  <h1>🎯 副业资料库</h1>
+  <p>52岁大叔的实战经验 · 不画饼只说真话</p>
+  <div class="stats-row">
+    <div class="stat-item">
+      <span class="stat-num">2.8万</span>
+      <span class="stat-label">字实操手册</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">8大</span>
+      <span class="stat-label">核心体系</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">500+</span>
+      <span class="stat-label">人已领取</span>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 快捷入口 ====== -->
+<div class="quick-nav">
+  <a class="quick-item" href="#products-section">
+    <div class="quick-icon lib">📚</div>
+    <span class="quick-label">资料库</span>
+  </a>
+  <a class="quick-item" href="#chat-section">
+    <div class="quick-icon chat">💬</div>
+    <span class="quick-label">问一问</span>
+  </a>
+  <a class="quick-item" href="#free-section">
+    <div class="quick-icon free">🎁</div>
+    <span class="quick-label">免费专区</span>
+  </a>
+</div>
+
+<!-- ====== 对话框区域 ====== -->
+<div class="chat-section" id="chat-section">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-info">
+      <div class="chat-name">副业顾问·郭郭</div>
+      <div class="chat-status">在线 · 有问必答</div>
+    </div>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="msg bot">
+      <div class="msg-avatar">🤖</div>
+      <div class="msg-bubble">你好！我是郭郭，52岁开始做副业，踩过的坑比你吃过的盐还多 😄<br><br>想做闲鱼不知道怎么开始？还是已经在做了遇到瓶颈？<br><br>随便问，我把我实操的经验都告诉你 👇</div>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input class="chat-input" id="chatInput" type="text" placeholder="问我任何闲鱼/副业问题..." onkeypress="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send" onclick="sendMsg()">➤</button>
+  </div>
+</div>
+
+<!-- ====== 已上架专区 ====== -->
+<div class="section-title" id="products-section">
+  <h2>🔥 已上架专区</h2>
+  <span class="badge">9个商品</span>
+  <div class="line"></div>
+</div>
+
+<div class="products-grid" id="productsGrid">
+  <!-- 引流款 -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-name">3000G各行业资料大礼包</div>
+      <span class="product-tag">引流爆款</span>
+    </div>
+    <div class="product-desc">覆盖100+行业，入门必看，即买即用</div>
+    <div class="product-bottom">
+      <div class="product-price"><span>¥</span>3.9</div>
+      <div class="product-stats">曝光2394 | 浏览41</div>
+      <button class="product-buy" onclick="showBuyModal('3000G各行业资料大礼包')">立即购买</button>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-name">副业赚钱实操手册</div>
+      <span class="product-tag">🔥 最火</span>
+    </div>
+    <div class="product-desc">精选最实用的副业方法，零成本起步</div>
+    <div class="product-bottom">
+      <div class="product-price"><span>¥</span>1.9</div>
+      <div class="product-stats">曝光771 | 浏览49</div>
+      <button class="product-buy" onclick="showBuyModal('副业赚钱实操手册')">立即购买</button>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-name">PPT模板50套合集</div>
+      <span class="product-tag">办公必备</span>
+    </div>
+    <div class="product-desc">商务述职汇报通用，直接套用</div>
+    <div class="product-bottom">
+      <div class="product-price"><span>¥</span>3.9</div>
+      <div class="product-stats">曝光506 | 浏览10</div>
+      <button class="product-buy" onclick="showBuyModal('PPT模板50套合集')">立即购买</button>
+    </div>
+  </div>
+
+  <!-- 利润款 -->
+  <div class="product-card" style="border:2px solid #f97316">
+    <div class="product-top">
+      <div class="product-name">⭐ 闲鱼经营内参手册</div>
+      <span class="product-tag" style="background:linear-gradient(135deg,#dc2626,#ef4444)">核心产品</span>
+    </div>
+    <div class="product-desc">2.8万字系统教程，从养号到发货全讲透，40个知识点8大章节</div>
+    <div class="product-bottom">
+      <div class="product-price"><span>¥</span>39.9</div>
+      <div class="product-stats">真实案例 | 系统打法</div>
+      <button class="product-buy" onclick="showBuyModal('闲鱼经营内参手册')">立即购买</button>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-name">切片带货全套教程</div>
+      <span class="product-tag">新上架</span>
+    </div>
+    <div class="product-desc">服装IP切片完整打法，从录屏到剪辑</div>
+    <div class="product-bottom">
+      <div class="product-price"><span>¥</span>9.9</div>
+      <div class="product-stats">实操教程 | 工具推荐</div>
+      <button class="product-buy" onclick="showBuyModal('切片带货全套教程')">立即购买</button>
+    </div>
+  </div>
+
+  <!-- 服务款 -->
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-name">AI简历优化</div>
+      <span class="product-tag" style="background:#6366f1">服务款</span>
+    </div>
+    <div class="product-desc">AI帮你优化简历，提升面试机会</div>
+    <div class="product-bottom">
+      <div class="product-price"><span>¥</span>9.9</div>
+      <div class="product-stats">1对1定制 | 24h交付</div>
+      <button class="product-buy" onclick="showBuyModal('AI简历优化')">立即购买</button>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-name">AI推广文案代写</div>
+      <span class="product-tag" style="background:#6366f1">服务款</span>
+    </div>
+    <div class="product-desc">10分钟出稿，商品描述/推广文案</div>
+    <div class="product-bottom">
+      <div class="product-price"><span>¥</span>3.9</div>
+      <div class="product-stats">快速出稿 | 满意为止</div>
+      <button class="product-buy" onclick="showBuyModal('AI推广文案代写')">立即购买</button>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-name">PPT代做美化</div>
+      <span class="product-tag" style="background:#6366f1">服务款</span>
+    </div>
+    <div class="product-desc">专业PPT制作，当天出稿</div>
+    <div class="product-bottom">
+      <div class="product-price"><span>¥</span>9.9</div>
+      <div class="product-stats">商务风格 | 当天交付</div>
+      <button class="product-buy" onclick="showBuyModal('PPT代做美化')">立即购买</button>
+    </div>
+  </div>
+
+  <div class="product-card">
+    <div class="product-top">
+      <div class="product-name">AI自拍变大片定制</div>
+      <span class="product-tag" style="background:#6366f1">服务款</span>
+    </div>
+    <div class="product-desc">AI把自拍变成大片质感</div>
+    <div class="product-bottom">
+      <div class="product-price"><span>¥</span>3.9</div>
+      <div class="product-stats">个性定制 | 即时交付</div>
+      <button class="product-buy" onclick="showBuyModal('AI自拍变大片定制')">立即购买</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 待上架专区 ====== -->
+<div class="section-title" id="pending-section">
+  <h2>📦 待上架专区</h2>
+  <span class="badge" style="background:#9ca3af">敬请期待</span>
+  <div class="line" style="background:linear-gradient(to right,#9ca3af,transparent)"></div>
+</div>
+
+<div class="pending-section">
+  <div class="pending-box">
+    <div class="pending-icon">🚀</div>
+    <div class="pending-text">
+      新品正在准备中...<br>
+      <strong>各行业细分资料包 / AI工具教程</strong><br>
+      关注不迷路，上架第一时间通知你！
+    </div>
+  </div>
+</div>
+
+<!-- ====== 免费专区锚点 ====== -->
+<div id="free-section" style="padding:20px 12px">
+  <div class="section-title" style="padding:0 0 10px">
+    <h2>🎁 免费专区</h2>
+    <span class="badge" style="background:#22c55e">免费</span>
+    <div class="line" style="background:linear-gradient(to right,#22c55e,transparent)"></div>
+  </div>
+  <div class="product-card" style="border:2px solid #22c55e">
+    <div class="product-top">
+      <div class="product-name">闲鱼新手避坑指南（免费试读）</div>
+      <span class="product-tag" style="background:#22c55e">免费</span>
+    </div>
+    <div class="product-desc">新手最容易掉进去的五个坑，看完少走三个月弯路</div>
+    <div class="product-bottom">
+      <div class="product-price" style="color:#22c55e"><span>¥</span>0</div>
+      <div class="product-stats">精选内容 | 直接看</div>
+      <button class="product-buy" style="background:linear-gradient(135deg,#22c55e,#4ade80)" onclick="location.href='free-trial.html'">免费查看</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 底部导航 ====== -->
+<div class="bottom-nav">
+  <a class="nav-item active" href="#">
+    <span class="nav-icon">🏠</span>
+    首页
+  </a>
+  <a class="nav-item" href="#products-section">
+    <span class="nav-icon">📚</span>
+    资料库
+  </a>
+  <a class="nav-item highlight" href="#chat-section">
+    <span class="nav-icon">💬</span>
+    问一问
+  </a>
+  <a class="nav-item" href="#free-section">
+    <span class="nav-icon">🎁</span>
+    免费
+  </a>
+</div>
+
+<!-- ====== 微信弹窗 ====== -->
+<div class="modal-overlay" id="wxModal">
+  <div class="modal">
+    <h3>📱 联系我</h3>
+    <p style="font-size:20px;font-weight:bold;color:#f97316;margin:16px 0">18537180097</p>
+    <p>付款后资料链接自动发送</p>
+    <button class="modal-close" onclick="closeModal('wxModal')">我知道了</button>
+  </div>
+</div>
+
+<!-- ====== 购买弹窗 ====== -->
+<div class="modal-overlay" id="buyModal">
+  <div class="modal">
+    <h3>🛒 扫码购买，自动发货</h3>
+    <p id="buyProductName" style="font-size:16px;font-weight:bold;color:#333;margin:12px 0"></p>
+    <p style="font-size:14px;color:#666">扫码付款后，资料链接自动发到你手机上</p>
+    <p style="font-size:18px;font-weight:bold;color:#f97316;margin:12px 0">微信：18537180097</p>
+    <button class="modal-close" onclick="closeModal('buyModal')">我知道了</button>
+  </div>
+</div>
+
+<!-- ====== 免费内容弹窗 ====== -->
+<div class="modal-overlay" id="freeModal">
+  <div class="modal" style="max-width:360px;text-align:left;max-height:80vh;overflow-y:auto">
+    <h3 style="text-align:center">📖 新手避坑指南</h3>
+    <div style="margin:16px 0;font-size:14px;line-height:1.8;color:#444">
+      <p><strong>❌ 坑一：什么火卖什么</strong></p>
+      <p>今天换明天换——系统给你打的标签是乱的，不知道给你推什么流量。</p>
+      <br>
+      <p><strong>❌ 坑二：用厂家精修图</strong></p>
+      <p>买家一看就是网图，信任感直接掉一半。而且买家会拿着你的图全网比价。</p>
+      <br>
+      <p><strong>❌ 坑三：五个商品就想出爆款</strong></p>
+      <p>20个品是分水岭，100个品才有规模效应。</p>
+      <br>
+      <p><strong>❌ 坑四：定价把利润卷没了</strong></p>
+      <p>降价抢来的都是价格敏感型客户，今天便宜就买你的，明天别人便宜马上走。</p>
+      <br>
+      <p><strong>❌ 坑五：完全跟热门标品</strong></p>
+      <p>经销商清库存时能把价压到你进价以下，个人卖家根本拼不过。</p>
+      <br>
+      <p style="text-align:center;color:#f97316;font-weight:bold;font-size:16px;margin-top:20px">
+        想看完整2.8万字系统教程？<br>
+        👇 点击下方"问一问"找我聊
+      </p>
+    </div>
+    <div style="text-align:center">
+      <button class="modal-close" onclick="closeModal('freeModal')">看完了</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// 显示微信弹窗
+function showWxModal(){document.getElementById('wxModal').classList.add('show')}
+
+// 显示购买弹窗
+function showBuyModal(name){
+  document.getElementById('buyProductName').textContent=name;
+  document.getElementById('buyModal').classList.add('show');
+}
+
+// 显示免费内容
+function showFreeContent(){document.getElementById('freeModal').classList.add('show')}
+
+// 关闭弹窗
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+
+// 点击遮罩关闭
+document.querySelectorAll('.modal-overlay').forEach(m=>{
+  m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show')})
+});
+
+// 发送消息
+// 通义千问API配置
+const QWEN_API_KEY = 'sk-ws-H.RXXIIYM.EOe5.MEYCIQCrBQaFWJDIctKPSCKBZbVpc9cAn9yMvIPKIxupqDDU0wIhAPcD3R2OrCkevEs83NTdh3kH3Df1ncYhgWN4-xdclYW2';
+const QWEN_API_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions';
+const QWEN_MODEL = 'qwen-turbo';
+
+// 对话历史
+let chatHistory = [];
+let msgCount = 0;
+
+// 系统提示词
+const SYSTEM_PROMPT = `你是"副业顾问小郭"，一个52岁零电商经验起步的务实大叔。你说话直接、接地气、不画饼不吹牛，只讲自己亲自做过的实操经验。
+
+【事实底线——绝对不能违反】
+- 绝对不提具体收入数字，不管好坏都不说
+- 严禁说"养活自己""月入过万""已经稳定盈利""赚了不少"这类话
+- 也不说"就出了2单""还没赚到钱""刚开始摸索"这种露怯的话
+- 你的说服逻辑：不卖"我赚了多少"，卖"我整理了多少"；不卖"结果"，卖"系统方法"
+
+【话术生命周期——防重复核心规则】
+- 以下关键词在整个对话中每个只能用一次："2.8万字" "实操总结" "养号流程" "踩过的坑" "从零开始" "少走弯路" "系统教程" "不是网上拼凑"
+- 如果之前已经用过某个短语，这次回复绝对不能再出现
+- 每次推荐产品时必须换一种全新的说法，不能套用之前的句式
+- 如果用户明显在反驳/骂人/拒绝推销，这一轮完全不要提产品，先回应情绪
+
+【水平/能力类话题】
+被问"你啥水平/你懂多少/你做过多久/你有什么经验"时，用自己的话组织回复，核心传达：投入了很多时间精力一步步试出来的，所有经验都写进了手册。注意不要用固定句式，根据上下文灵活组织语言。
+
+【收入/赚钱类话题】
+只有明确问"赚了多少/收入多少/赚没赚钱/月入多少"时，固定回复：
+"说多了像吹牛，说少了你不信😂 不如看看我整理的内容，你自己判断值不值。"
+然后顺势把话题引到内容价值或用户的实际需求上。
+
+注意区分：问水平≠问收入，两个问题用不同话术回答。
+
+【被拒绝/被骂时的应对——最高优先级规则】
+- 检测到骂人/侮辱词汇（如"去你妈""滚""垃圾""骗子""忽悠"等），或被明确拒绝时：
+  → 你的整条回复只能是一句话，绝对不能超过一句
+  → 只能回以下之一（随机选）：
+    "行，有需要再说。"
+    "好的。"
+    "嗯，有问题随时找我。"
+    "行，不耽误你时间了。"
+  → 绝对、绝对、绝对不要在同一条回复里加任何产品推销
+  → 不要解释、不要辩解、不要"不过..."、不要"但是..."
+  → 被骂后这一轮对话结束，不要再主动提产品
+
+核心原则：
+- 每次回复必须针对用户当前的问题，不要重复之前的内容
+- 用户问什么答什么，不要硬扯推销
+- 严禁复制粘贴之前说过的话
+- 用户反复问同一话题时，换角度回答或反问用户具体情况
+
+【大纲回复规则】
+用户说"看看大纲""大纲是什么""给我看看内容"时：
+- 直接开头："8章内容如下：" 然后列出大纲
+- 前面不要加任何推销前缀，不要说"我整理了一本..."
+- 列完大纲后可以加一句简短的："有想细看哪章的？"
+
+你的核心任务：
+1. 帮用户解答闲鱼/副业问题
+2. 聊到3-5轮后，自然引出《闲鱼经营内参手册》推荐（只说一次，别重复）
+3. 如果用户发付款截图，自动回复网盘链接
+
+【常见问答知识库——用户问到这些直接完整答】
+- 【回答规则-知识类问题转化策略】当用户问到擦亮、养号、选品、流量、定价等具体问题时，按三段式回答：
+  第一段-基础操作：告诉用户基本怎么做（比如擦亮：一键擦亮按钮、每天一次）
+  第二段-核心干货：紧接着给出实操策略（比如擦亮：最佳时间早7-9/中12-13/晚20-22优先晚上；哪些商品优先擦亮：有浏览有想要的数据好的品；配合流量：多挂商品矩阵+标题堆关键词+回复要快5分钟内）
+  第三段-推销手册：给完干货后再说"这些是我整理的一本8万字《闲鱼经营内参手册》里的内容，39.9元全套拿走，扫码付款链接自动发你手机上"
+  注意：不要一上来就推销，先把核心干货给出来让用户觉得有价值，最后再引导购买。不要列大纲目录，只针对用户问的具体话题回答。
+- 【常见问答知识库——用户问到这些直接完整答】
+- 【擦亮知识】闲鱼擦亮2026最新规则：打开闲鱼→「我的」→「我发布的」→顶部「一键擦亮」按钮，所有商品同时刷新到搜索前排。每天只能操作一次（24小时冷却）。最佳时间：早7-9点/中午12-13点/晚20-22点，优先晚上擦亮。擦亮顺序技巧：系统按发布时间倒序擦亮，最后发布的商品最先被擦亮，所以爆款要最后发布。超级擦亮（付费）：最低充30元，CPM约6.9元/千次曝光，只投有数据的商品，新手30-50元测试。擦亮后前30分钟是黄金曝光期，提前优化标题和封面效果最大化。
+- 养号：前7天不急着卖东西。每天打开APP逛30分钟，点赞收藏评论，让平台认识你是活跃用户。7天后上架1-2个低价商品试水。
+- 选品思路：选有搜索量但竞争不激烈的品类。可以看闲鱼"想要"数多的、评论区活跃的品类。虚拟资料类零成本，适合新手。
+- 流量提升：多挂商品形成矩阵（一个商品曝光有限，10个商品曝光×10）；标题堆关键词；回复要快（5分钟内）；每天擦亮。
+- 定价技巧：虚拟资料类参考同行定价，新号先低价走量建信用，后面逐步涨价。
+- 被问"怎么提高曝光"：每天擦亮+多挂商品+优化标题关键词+主图清晰有吸引力+回复要快。
+
+当前在售商品（重点推荐39.9的内参手册）：
+- 【主推】《闲鱼经营内参手册》¥39.9 — 2.8万字，8大章节，从0到1系统教程
+  大纲内容：
+  第一章：7天养号完整流程（每天做什么、怎么做、注意事项）
+  第二章：选品四层思路（怎么找到适合自己的品）
+  第三章：五天选品循环（持续找到爆款的方法）
+  第四章：流量运营技巧（怎么提高曝光、点击、转化）
+  第五章：客户接待话术（怎么处理"太贵了""再考虑"）
+  第六章：上架实操（标题/图片/描述/定价的完整模板）
+  第七章：站外引流六平台打法（头条/小红书/抖音/公众号/百家号/知乎）
+  第八章：平台规则与违禁词（避免被封号）
+- 3000G各行业资料大礼包 ¥3.9
+- 副业赚钱实操手册 ¥1.9
+- PPT模板50套合集 ¥3.9
+- 切片带货全套教程 ¥9.9
+- AI简历优化 ¥9.9
+- AI推广文案代写 ¥3.9
+- PPT代做美化 ¥9.9
+- AI自拍变大片定制 ¥3.9
+
+转化策略：
+- 前1-2轮：先帮用户解答问题，建立信任
+- 第3-5轮：顺着话题自然引出"我整理了一份2.8万字的手册..."（只说一次）
+- 不要硬推销，要像朋友推荐一样
+- 如果用户问"怎么买/怎么付款"，回复："加我微信 18537180097，扫码付款后资料链接自动发你手机上。"
+
+付款截图识别：
+- 如果用户发图片且看起来像付款截图，回复："收到！资料马上发你 👇\n百度网盘链接：https://pan.baidu.com/s/xxxxx?pwd=xxxx\n提取码：xxxx\n\n有问题随时找我！"
+
+风格要求：
+- 用"你""我"这种口语化称呼
+- 多用短句，别写大段
+- 适当用emoji（💰🎯✅❌😂）
+- 遇到不懂的问题，诚实说"这个我没研究过"
+- 鼓励用户：52岁都能干，你肯定比我行`;
+
+function sendMsg(){
+  const input=document.getElementById('chatInput');
+  const msg=input.value.trim();
+  if(!msg)return;
+  input.value='';
+  
+  const body=document.getElementById('chatBody');
+  
+  // 用户消息
+  const userDiv=document.createElement('div');
+  userDiv.className='msg user';
+  userDiv.innerHTML=`<div class="msg-avatar">😎</div><div class="msg-bubble">${msg}</div>`;
+  body.appendChild(userDiv);
+  
+  // 添加到对话历史
+  chatHistory.push({role:'user', content:msg});
+  msgCount++;
+  
+  // 骂人/拒绝检测：命中后直接回复短句，不调API
+  const insultWords = ['去你妈','滚蛋','滚','傻逼','狗逼','骗子','垃圾','忽悠','去你的','操','他妈的','神经病','有病'];
+  const rejectWords = ['不需要','别推销','别推荐','不要了','不买','别烦','烦死了','别说话'];
+  const isInsult = insultWords.some(w => msg.includes(w));
+  const isReject = rejectWords.some(w => msg.includes(w));
+  if(isInsult || isReject){
+    const shortReplies = ['行，有需要再说。','好的。','嗯，有问题随时找我。','行，不耽误你时间了。'];
+    const reply = shortReplies[Math.floor(Math.random()*shortReplies.length)];
+    const botDiv=document.createElement('div');
+    botDiv.className='msg bot';
+    botDiv.innerHTML=`<div class="msg-avatar">🤖</div><div class="msg-bubble">${reply}</div>`;
+    body.appendChild(botDiv);
+    chatHistory.push({role:'assistant', content:reply});
+    body.scrollTop=body.scrollHeight;
+    return;
+  }
+  
+  // 显示"正在输入..."
+  const typingDiv=document.createElement('div');
+  typingDiv.className='msg bot';
+  typingDiv.id='typing-indicator';
+  typingDiv.innerHTML=`<div class="msg-avatar">🤖</div><div class="msg-bubble" style="color:#999">正在思考...</div>`;
+  body.appendChild(typingDiv);
+  body.scrollTop=body.scrollHeight;
+  
+  // 调用通义千问API
+  callQwenAPI(msg).then(reply=>{
+    // 移除"正在输入..."
+    const typing=document.getElementById('typing-indicator');
+    if(typing)typing.remove();
+    
+    // AI回复
+    const botDiv=document.createElement('div');
+    botDiv.className='msg bot';
+    botDiv.innerHTML=`<div class="msg-avatar">🤖</div><div class="msg-bubble">${reply}</div>`;
+    body.appendChild(botDiv);
+    
+    // 添加到对话历史
+    chatHistory.push({role:'assistant', content:reply});
+    
+    body.scrollTop=body.scrollHeight;
+  }).catch(err=>{
+    const typing=document.getElementById('typing-indicator');
+    if(typing)typing.remove();
+    
+    const botDiv=document.createElement('div');
+    botDiv.className='msg bot';
+    botDiv.innerHTML=`<div class="msg-avatar">🤖</div><div class="msg-bubble" style="color:#ef4444">网络开小差了，稍后再试~</div>`;
+    body.appendChild(botDiv);
+    body.scrollTop=body.scrollHeight;
+  });
+  
+  body.scrollTop=body.scrollHeight;
+}
+
+async function callQwenAPI(userMsg){
+  // 构建消息列表
+  const messages = [
+    {role:'system', content:SYSTEM_PROMPT},
+    ...chatHistory.slice(-10) // 只保留最近10轮对话
+  ];
+  
+  try{
+    const response = await fetch(QWEN_API_URL, {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':`Bearer ${QWEN_API_KEY}`
+      },
+      body:JSON.stringify({
+        model:QWEN_MODEL,
+        messages:messages,
+        temperature:0.7,
+        max_tokens:800
+      })
+    });
+    
+    const data = await response.json();
+    
+    if(data.choices && data.choices[0] && data.choices[0].message){
+      return data.choices[0].message.content;
+    }else{
+      console.error('API返回异常:', data);
+      return getReply(userMsg); // fallback到关键词回复
+    }
+  }catch(err){
+    console.error('API调用失败:', err);
+    return getReply(userMsg); // fallback到关键词回复
+  }
+}
+
+// 关键词回复（fallback）
+function getReply(msg){
+  const m=msg.toLowerCase();
+  
+  if(m.includes('新手')||m.includes('开始')||m.includes('入门'))
+    return '新手建议从虚拟资料包起步，零成本试错。先把闲鱼养号7天，每天逛30分钟，点赞收藏评论，让平台认识你。7天后上1-2个低价商品试水。<br><br>详细的养号流程、选品方法我都写在手册里了，要不要看看？ 👇';
+  
+  if(m.includes('买')||m.includes('手册')||m.includes('内参')||m.includes('教程'))
+    return '我写了一本《闲鱼经营内参手册》2.8万字，八大章节，从养号到发货全讲透。<br><br>✅ 40个知识点<br>✅ 全是实操踩坑积累<br>✅ 不是拼凑网上的内容<br><br>39.9元一份早餐钱换一个系统打法。<br>加我微信扫码付款，资料自动发你：<strong>18537180097</strong>';
+  
+  if(m.includes('你好')||m.includes('hi')||m.includes('hello'))
+    return '你好！欢迎来到副业资料库 🎯<br><br>我52岁零经验起步做闲鱼，现在把实操经验整理出来了。<br><br>你想了解哪方面？选品？定价？引流？还是直接看我的手册？';
+  
+  // 默认回复
+  const defaults=[
+    '这个问题问得好！你具体说说你的情况？比如你现在做什么品类、每天花多少时间？说得越具体我越能帮到你。',
+    '我52岁都能干的事儿，你肯定比我行 😄 你先说说你现在的情况——有什么技能、每天能花多少时间、想月入多少？我帮你看看哪个方向最合适。',
+    '收到你的问题了！这个我在手册里写得很详细。你可以先看看免费区的避坑指南，或者加我微信 18537180097 细聊，付款后资料自动发你 📱'
+  ];
+  return defaults[Math.floor(Math.random()*defaults.length)];
+}
+
+// 平滑滚动
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    const target=document.querySelector(this.getAttribute('href'));
+    if(target)target.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+
+</body>
+</html>

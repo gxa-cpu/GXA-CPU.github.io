@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>图片压缩工具</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: #f3f4f6; color: #333; min-height: 100vh;
+    max-width: 480px; margin: 0 auto; padding: 0; overflow-x: hidden;
+}
+.header {
+    background: linear-gradient(135deg, #f97316, #fb923c); padding: 20px 16px;
+    text-align: center; position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(249,115,22,0.3);
+}
+.header h1 { color: #fff; font-size: 22px; font-weight: 700; }
+.header .subtitle { color: rgba(255,255,255,0.9); font-size: 14px; margin-top: 4px; }
+.back-btn {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: #fff; font-size: 28px; text-decoration: none;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; background: rgba(255,255,255,0.2);
+}
+.container { padding: 16px; }
+.card {
+    background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.upload-area {
+    border: 3px dashed #fed7aa; border-radius: 16px; padding: 30px 20px;
+    text-align: center; cursor: pointer; transition: all 0.2s;
+    background: #FFFBF0;
+}
+.upload-area:active { background: #fff3e0; border-color: #f97316; }
+.upload-area.has-image { padding: 12px; }
+.upload-icon { font-size: 48px; margin-bottom: 10px; }
+.upload-text { font-size: 17px; font-weight: 600; color: #f97316; }
+.upload-hint { font-size: 14px; color: #999; margin-top: 6px; }
+.preview-img {
+    max-width: 100%; max-height: 200px; border-radius: 10px;
+    display: none; margin: 0 auto;
+}
+.size-info {
+    display: none; margin-top: 12px; padding: 12px;
+    background: #f9fafb; border-radius: 10px; text-align: center;
+}
+.size-info span { font-size: 15px; color: #666; }
+.size-info b { color: #f97316; font-size: 18px; }
+.quality-group { margin-top: 16px; display: none; }
+.quality-group label {
+    display: block; font-size: 16px; font-weight: 600; color: #555; margin-bottom: 10px;
+}
+.slider-wrap {
+    display: flex; align-items: center; gap: 12px;
+}
+.slider-wrap input[type="range"] {
+    flex: 1; height: 8px; -webkit-appearance: none; appearance: none;
+    background: linear-gradient(to right, #f97316, #fdba74);
+    border-radius: 4px; outline: none;
+}
+.slider-wrap input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 28px; height: 28px;
+    background: #f97316; border-radius: 50%; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.4);
+}
+.quality-val {
+    min-width: 48px; text-align: center; font-size: 20px;
+    font-weight: 700; color: #f97316;
+}
+.compress-btn {
+    width: 100%; padding: 16px; font-size: 20px; font-weight: 700;
+    color: #fff; background: linear-gradient(135deg, #f97316, #ea580c);
+    border: none; border-radius: 14px; cursor: pointer; margin-top: 16px;
+    box-shadow: 0 4px 15px rgba(249,115,22,0.4); display: none;
+}
+.compress-btn:active { transform: scale(0.97); }
+.result-card {
+    display: none; background: #fff; border-radius: 16px; padding: 20px;
+    margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.result-card.show { display: block; }
+.compare-row {
+    display: flex; justify-content: space-around; margin-bottom: 16px;
+    text-align: center;
+}
+.compare-item { flex: 1; }
+.compare-label { font-size: 14px; color: #999; margin-bottom: 4px; }
+.compare-value { font-size: 22px; font-weight: 700; }
+.compare-value.before { color: #999; }
+.compare-value.after { color: #22c55e; }
+.compare-arrow { display: flex; align-items: center; font-size: 24px; color: #f97316; padding: 0 8px; }
+.saving-badge {
+    text-align: center; padding: 12px; background: #f0fdf4;
+    border-radius: 12px; border: 2px solid #bbf7d0; margin-bottom: 16px;
+}
+.saving-badge span { font-size: 20px; font-weight: 700; color: #22c55e; }
+.download-btn {
+    width: 100%; padding: 16px; font-size: 20px; font-weight: 700;
+    color: #fff; background: linear-gradient(135deg, #22c55e, #16a34a);
+    border: none; border-radius: 14px; cursor: pointer;
+    box-shadow: 0 4px 15px rgba(34,197,94,0.4);
+}
+.download-btn:active { transform: scale(0.97); }
+.more-tools {
+    display: block; text-align: center; padding: 16px;
+    background: linear-gradient(135deg, #f97316, #fb923c); color: #fff;
+    border-radius: 14px; font-size: 17px; font-weight: 700;
+    text-decoration: none; margin-top: 16px;
+    box-shadow: 0 4px 15px rgba(249,115,22,0.3);
+}
+.feedback-bar {
+    margin: 16px 0; background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    border-radius: 12px; padding: 10px 16px; display: flex; align-items: center;
+    justify-content: center; gap: 8px; box-shadow: 0 2px 12px rgba(59,130,246,0.3);
+}
+.feedback-bar span { color: #fff; font-size: 13px; font-weight: bold; }
+.feedback-bar button {
+    background: #fff; color: #3b82f6; border: none; padding: 6px 16px;
+    border-radius: 16px; font-size: 13px; font-weight: bold; cursor: pointer;
+}
+.footer-space { height: 30px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html" class="back-btn">&#8249;</a>
+    <h1>图片压缩工具</h1>
+    <div class="subtitle">手机照片一键压缩，省空间传得快</div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+            <div id="uploadPlaceholder">
+                <div class="upload-icon">&#128247;</div>
+                <div class="upload-text">点击选择图片</div>
+                <div class="upload-hint">支持 JPG / PNG / WebP</div>
+            </div>
+            <img class="preview-img" id="previewImg">
+        </div>
+        <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFile(this)">
+        <div class="size-info" id="sizeInfo">
+            <span>原图大小：</span><b id="originalSize">-</b>
+        </div>
+
+        <div class="quality-group" id="qualityGroup">
+            <label>压缩质量</label>
+            <div class="slider-wrap">
+                <input type="range" id="qualitySlider" min="10" max="90" value="60" oninput="updateQuality()">
+                <div class="quality-val" id="qualityVal">60%</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:12px;color:#999;">
+                <span>文件更小</span>
+                <span>画质更好</span>
+            </div>
+        </div>
+
+        <button class="compress-btn" id="compressBtn" onclick="compressImage()">开始压缩</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+        <div class="compare-row">
+            <div class="compare-item">
+                <div class="compare-label">压缩前</div>
+                <div class="compare-value before" id="beforeSize">-</div>
+            </div>
+            <div class="compare-arrow">&#10132;</div>
+            <div class="compare-item">
+                <div class="compare-label">压缩后</div>
+                <div class="compare-value after" id="afterSize">-</div>
+            </div>
+        </div>
+        <div class="saving-badge">
+            <span id="savingText">节省了 -</span>
+        </div>
+        <button class="download-btn" onclick="downloadImage()">下载压缩图片</button>
+    </div>
+
+    <div class="feedback-bar">
+        <span>遇到问题？</span>
+        <button onclick="showFeedback()">点击反馈</button>
+    </div>
+
+    <a href="https://fuye-shop-v2.surge.sh" class="more-tools">更多免费工具</a>
+    <div class="footer-space"></div>
+</div>
+
+<div id="feedbackModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:24px;width:90%;max-width:360px;margin:auto;position:relative;top:50%;transform:translateY(-50%);">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="margin:0;font-size:18px;color:#333;">反馈问题</h3>
+      <span onclick="closeFeedback()" style="font-size:24px;cursor:pointer;color:#999;">&#10005;</span>
+    </div>
+    <textarea id="feedbackText" placeholder="说说你遇到了什么问题..." style="width:100%;height:100px;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:15px;resize:none;box-sizing:border-box;"></textarea>
+    <input id="feedbackContact" type="text" placeholder="QQ/微信/邮箱（选填）" style="width:100%;border:1px solid #ddd;border-radius:8px;padding:12px;font-size:14px;box-sizing:border-box;outline:none;margin-top:8px;">
+    <button onclick="submitFeedback()" style="width:100%;margin-top:12px;padding:14px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;">提交反馈</button>
+  </div>
+</div>
+
+<script>
+var originalFile = null;
+var compressedBlob = null;
+
+function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+function handleFile(input) {
+    var file = input.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { alert('请选择图片文件'); return; }
+    originalFile = file;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var img = document.getElementById('previewImg');
+        img.src = e.target.result;
+        img.style.display = 'block';
+        document.getElementById('uploadPlaceholder').style.display = 'none';
+        document.getElementById('uploadArea').classList.add('has-image');
+        document.getElementById('sizeInfo').style.display = 'block';
+        document.getElementById('originalSize').textContent = formatSize(file.size);
+        document.getElementById('qualityGroup').style.display = 'block';
+        document.getElementById('compressBtn').style.display = 'block';
+        document.getElementById('resultCard').classList.remove('show');
+    };
+    reader.readAsDataURL(file);
+}
+
+function updateQuality() {
+    var val = document.getElementById('qualitySlider').value;
+    document.getElementById('qualityVal').textContent = val + '%';
+}
+
+function compressImage() {
+    if (!originalFile) return;
+    var quality = parseInt(document.getElementById('qualitySlider').value) / 100;
+    var img = new Image();
+    img.onload = function() {
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(function(blob) {
+            if (!blob) { alert('压缩失败，请重试'); return; }
+            compressedBlob = blob;
+            var before = originalFile.size;
+            var after = blob.size;
+            var saved = before - after;
+            var pct = ((saved / before) * 100).toFixed(1);
+            document.getElementById('beforeSize').textContent = formatSize(before);
+            document.getElementById('afterSize').textContent = formatSize(after);
+            if (saved > 0) {
+                document.getElementById('savingText').textContent = '节省了 ' + formatSize(saved) + '（' + pct + '%）';
+            } else {
+                document.getElementById('savingText').textContent = '原图已经很小了，无需压缩';
+            }
+            document.getElementById('resultCard').classList.add('show');
+            document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
+        }, 'image/jpeg', quality);
+    };
+    img.src = URL.createObjectURL(originalFile);
+}
+
+function downloadImage() {
+    if (!compressedBlob) return;
+    var url = URL.createObjectURL(compressedBlob);
+    var a = document.createElement('a');
+    a.href = url;
+    var name = originalFile.name.replace(/\.[^.]+$/, '');
+    a.download = name + '_compressed.jpg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function showFeedback() { document.getElementById('feedbackModal').style.display = 'flex'; }
+function closeFeedback() { document.getElementById('feedbackModal').style.display = 'none'; }
+function submitFeedback() {
+    var text = document.getElementById('feedbackText').value.trim();
+    var contact = document.getElementById('feedbackContact').value.trim();
+    if (!text) { alert('请描述一下问题'); return; }
+    var content = contact ? (text + '\n\n联系方式: ' + contact) : text;
+    var formData = new FormData();
+    formData.append('_subject', '图片压缩工具反馈');
+    formData.append('_captcha', 'false');
+    formData.append('问题描述', content);
+    formData.append('来源页面', location.href);
+    fetch('https://formsubmit.co/ajax/1643202119@qq.com', { method: 'POST', body: formData })
+    .then(function(r) { return r.json(); })
+    .then(function() { alert('反馈成功，谢谢！'); closeFeedback(); })
+    .catch(function() { alert('提交失败，请稍后重试'); });
+}
+</script>
+</body>
+</html>
