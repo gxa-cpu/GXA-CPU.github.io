@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-transform">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>老郭副业圈 - 教程·工具·下单专区</title>
@@ -207,7 +209,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .tab-item.breathing{animation:breathe 2s ease-in-out infinite;color:#ea580c !important;border-bottom-color:#f97316 !important;background:linear-gradient(180deg,rgba(249,115,22,0.08),transparent) !important}
 </style>
 </head>
-<body>
+<body style="-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-tap-highlight-color:transparent!important" oncontextmenu="return false" onselectstart="return false" oncopy="return false">
 
 <!-- ====== 顶部导航 ====== -->
 <div class="header">
@@ -237,7 +239,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 <!-- ====== 欢迎横幅 ====== -->
 <div class="banner" id="welcomeBanner">
   <h1>🎯 学教程 · 用工具 · 买资料</h1>
-  <p>副业路上的坑我都替你踩过了</p>
+  <p>副业路上的坑我都替你踩过了 · 已防复制</p>
 </div>
 
 <!-- ============================================================ -->
@@ -2301,14 +2303,28 @@ setTimeout(function(){
 </script>
 
 <script>
-// 防止长按选中文字和复制
-document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+// 防止长按选中文字和复制 - 强化版
+document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; }, true);
 document.addEventListener('selectstart', function(e){ 
-  if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault(); 
-});
+  if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); return false; }
+}, true);
 document.addEventListener('copy', function(e){
-  if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
-});
+  if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); return false; }
+}, true);
+document.addEventListener('cut', function(e){
+  if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); return false; }
+}, true);
+// 阻止长按
+var longPressTimer;
+document.addEventListener('touchstart', function(e){
+  longPressTimer = setTimeout(function(){ 
+    if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+      window.getSelection().removeAllRanges();
+    }
+  }, 400);
+}, true);
+document.addEventListener('touchend', function(){ clearTimeout(longPressTimer); }, true);
+document.addEventListener('touchmove', function(){ clearTimeout(longPressTimer); }, true);
 </script>
 </body>
 </html>
