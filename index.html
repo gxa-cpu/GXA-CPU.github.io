@@ -177,6 +177,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 .product-card{animation:fadeIn 0.4s ease}
 .cases-scroll::-webkit-scrollbar{display:none}
 
+
+/* ====== 手指指引动画 ====== */
+@keyframes fingerBounce{
+  0%{opacity:0;transform:translate(-50%,60px)}
+  15%{opacity:1;transform:translate(-50%,-10px)}
+  30%{transform:translate(-50%,5px)}
+  45%{transform:translate(-50%,-8px)}
+  60%{transform:translate(-50%,3px)}
+  75%{transform:translate(-50%,-5px)}
+  85%{opacity:1;transform:translate(-50%,0)}
+  100%{opacity:0;transform:translate(-50%,40px)}
+}
+.finger-hint{position:fixed;bottom:75px;left:50%;z-index:450;pointer-events:none;display:none}
+.finger-hint.show{display:block;animation:fingerBounce 2.5s ease-in-out forwards}
+.finger-emoji{font-size:42px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2))}
+.finger-label{position:absolute;top:-32px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#f97316,#fb923c);color:#fff;font-size:13px;font-weight:bold;padding:5px 12px;border-radius:12px;white-space:nowrap;box-shadow:0 3px 10px rgba(249,115,22,0.3)}
+.finger-label::after{content:'';position:absolute;bottom:-5px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #f97316}
+
 /* ====== 下单专区呼吸动画 ====== */
 @keyframes breathe{
   0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(249,115,22,0.4)}
@@ -2174,6 +2192,13 @@ function gTouchMove(e) { gTouchDelta = e.touches[0].clientX - gTouchX; }
 function gTouchEnd(e) { if (Math.abs(gTouchDelta) > 50) { if (gTouchDelta < 0) gNext(); else gPrev(); } }
 </script>
 
+
+<!-- ====== 手指指引提示 ====== -->
+<div class="finger-hint" id="fingerHint" onclick="switchTab(2)" style="cursor:pointer;pointer-events:auto">
+  <div class="finger-label">也许有你用得上的 👆</div>
+  <div class="finger-emoji">👆</div>
+</div>
+
 <!-- ====== 定时下单提醒弹窗 ====== -->
 <div id="shopReminder" style="display:none;position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:500;max-width:420px;width:90%;">
   <div style="background:linear-gradient(135deg,#f97316,#fb923c);border-radius:16px;padding:16px 20px;box-shadow:0 6px 24px rgba(249,115,22,0.4);display:flex;align-items:center;gap:12px;animation:fadeIn 0.4s ease;">
@@ -2201,6 +2226,22 @@ function dismissReminder(){
   document.getElementById('shopReminder').style.display='none';
   reminderShown = false;
 }
+
+// 手指指引：首次2.5分钟后，之后每10分钟
+var fingerTimer = null;
+function showFinger(){
+  var f = document.getElementById('fingerHint');
+  f.classList.remove('show');
+  // Force reflow to restart animation
+  void f.offsetWidth;
+  f.classList.add('show');
+  setTimeout(function(){ f.classList.remove('show'); }, 2600);
+}
+setTimeout(function(){
+  showFinger();
+  fingerTimer = setInterval(function(){ showFinger(); }, 600000);
+}, 150000);
+
 // First popup after 2.5 minutes, then every 10 minutes
 setTimeout(function(){
   showShopReminder();
