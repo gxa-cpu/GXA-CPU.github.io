@@ -231,7 +231,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 </div>
 
 <!-- ====== 欢迎横幅 ====== -->
-<div class="banner">
+<div class="banner" id="welcomeBanner">
   <h1>🎯 学教程 · 用工具 · 买资料</h1>
   <p>副业路上的坑我都替你踩过了</p>
 </div>
@@ -606,14 +606,36 @@ function switchTab(idx){
     n.className = 'nav-item' + (i === idx ? ' ' + navColors[idx] : '');
   });
   currentTab = idx;
-  // Section isolation: show only current section, hide others + dividers
+  // === 板块隔离：严格只显示当前板块 ===
+  // 隐藏所有板块
+  for(var s=0; s<sectionIds.length; s++){
+    var el = document.getElementById(sectionIds[s]);
+    if(el){
+      el.style.display = 'none';
+      el.style.visibility = 'hidden';
+      el.style.height = '0';
+      el.style.overflow = 'hidden';
+      el.style.padding = '0';
+      el.style.margin = '0';
+    }
+  }
+  // 只显示当前板块
+  var active = document.getElementById(sectionIds[idx]);
+  if(active){
+    active.style.display = 'block';
+    active.style.visibility = 'visible';
+    active.style.height = 'auto';
+    active.style.overflow = 'visible';
+  }
+  // 隐藏所有分割线
   var dividers = document.querySelectorAll('.section-divider');
-  sectionIds.forEach(function(sid, i){
-    var el = document.getElementById(sid);
-    if(el) el.style.display = (i === idx) ? 'block' : 'none';
-  });
-  dividers.forEach(function(d){ d.style.display = 'none'; });
-  // Scroll to top of visible section
+  for(var d=0; d<dividers.length; d++){
+    dividers[d].style.display = 'none';
+  }
+  // 隐藏欢迎横幅（只在看教程时显示）
+  var banner = document.getElementById('welcomeBanner');
+  if(banner) banner.style.display = (idx === 0) ? 'block' : 'none';
+  // 滚动到顶部
   window.scrollTo({top: 0, behavior:'smooth'});
 }
 
@@ -2252,12 +2274,25 @@ setTimeout(function(){
 <script>
 // Initialize section isolation on page load
 (function(){
+  for(var s=0; s<sectionIds.length; s++){
+    var el = document.getElementById(sectionIds[s]);
+    if(el){
+      if(s === 0){
+        el.style.display = 'block';
+      } else {
+        el.style.display = 'none';
+        el.style.visibility = 'hidden';
+        el.style.height = '0';
+        el.style.overflow = 'hidden';
+        el.style.padding = '0';
+        el.style.margin = '0';
+      }
+    }
+  }
   var dividers = document.querySelectorAll('.section-divider');
-  sectionIds.forEach(function(sid, i){
-    var el = document.getElementById(sid);
-    if(el) el.style.display = (i === 0) ? 'block' : 'none';
-  });
-  dividers.forEach(function(d){ d.style.display = 'none'; });
+  for(var d=0; d<dividers.length; d++){
+    dividers[d].style.display = 'none';
+  }
 })();
 </script>
 </body>
