@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT 详细教程 - AI工具入门指南</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .header h1 { font-size: 2em; margin-bottom: 8px; }
+        .header .category { font-size: 1em; opacity: 0.9; }
+        .header .website {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+            text-decoration: none;
+            color: white;
+            transition: background 0.3s;
+        }
+        .header .website:hover { background: rgba(255,255,255,0.35); }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-size: 1.3em;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .badge-free { background: #d1fae5; color: #065f46; }
+        .badge-freemium { background: #fef3c7; color: #92400e; }
+        .badge-paid { background: #fee2e2; color: #991b1b; }
+        .intro-text { font-size: 1.05em; line-height: 1.8; }
+        .price-detail { margin-top: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; border-left: 4px solid var(--primary); }
+        .step-list, .op-list { list-style: none; counter-reset: none; }
+        .step-item, .op-step {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-light);
+            font-size: 0.95em;
+            line-height: 1.6;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .step-item:hover, .op-step:hover {
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .panel-section { margin-bottom: 20px; }
+        .panel-section h4 {
+            font-size: 1.05em;
+            color: var(--text);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .panel-items {
+            list-style: none;
+            padding-left: 8px;
+        }
+        .panel-items li {
+            padding: 6px 0 6px 16px;
+            position: relative;
+            font-size: 0.92em;
+            line-height: 1.6;
+        }
+        .panel-items li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .suitable-box {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+            border-radius: 10px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .container { padding: 12px; }
+            .header { padding: 24px 16px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回工具目录</a>
+
+        <div class="header">
+            <h1>✍️ ChatGPT</h1>
+            <div class="category">分类：写作类</div>
+            <a href="https://chat.openai.com" target="_blank" class="website">🔗 官方网站：https://chat.openai.com</a>
+        </div>
+
+        <div class="card">
+            <h2>💡 用途介绍</h2>
+            <p class="intro-text">ChatGPT 是由 OpenAI 开发的 AI 对话写作助手，能帮你写文章、邮件、代码、故事、翻译等几乎任何文字内容。它就像一个 24 小时在线的写作搭档，你告诉它想写什么，它就能立刻给你初稿。</p>
+        </div>
+
+        <div class="card">
+            <h2>💰 收费情况</h2>
+            <p><span class="badge badge-freemium">免费+付费</span></p>
+            <div class="price-detail">免费版（GPT-4o mini）可以日常使用，完全够用；ChatGPT Plus 月费 20 美元可使用 GPT-4o 和 GPT-4 等更强模型；Pro 版 200 美元/月享最高优先级。</div>
+        </div>
+
+        <div class="card">
+            <h2>📝 注册步骤（手把手教）</h2>
+            <ul class="step-list">
+                <li class="step-item">1. 打开浏览器，访问 chat.openai.com</li>
+<li class="step-item">2. 点击页面上的「Sign up」注册按钮</li>
+<li class="step-item">3. 输入你的邮箱地址（推荐用 Google 邮箱，注册更快），或者直接点「Continue with Google」用 Google 账号登录</li>
+<li class="step-item">4. 设置密码（至少 8 位，包含字母和数字）</li>
+<li class="step-item">5. 去邮箱里找到 OpenAI 发的验证邮件，点击验证链接</li>
+<li class="step-item">6. 输入你的名字（随便起一个就行）</li>
+<li class="step-item">7. 完成手机号验证（输入手机号，收到验证码后填入）——国内手机号可以收到</li>
+<li class="step-item">8. 注册完成！点击「New Chat」开始聊天</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🖥️ ChatGPT 主界面介绍</h2>
+            
+        <div class="panel-section">
+            <h4>📋 左侧边栏</h4>
+            <ul class="panel-items"><li>「New Chat」按钮：新建一个对话，之前的对话不会丢失</li>
+<li>对话历史列表：你之前所有的对话都保存在这里，点击可以继续聊</li>
+<li>「Explore GPTs」：探索 GPT Store 里的各种专用 GPT（翻译、编程、写作等）</li>
+<li>「Settings」设置：管理账号、切换模型、清空数据等</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 中间主聊天区</h4>
+            <ul class="panel-items"><li>消息输入框：在这里输入你的问题或写作需求，按回车或点击发送按钮</li>
+<li>消息输入框左侧「+」号：上传图片或文件让 ChatGPT 分析</li>
+<li>消息输入框右侧发送按钮（向上箭头）：发送消息</li>
+<li>AI 回复区：ChatGPT 的回答会显示在这里，可以复制、点赞/点踩、重新生成</li>
+<li>「Regenerate」重新生成按钮：对回答不满意可以让它重新写一遍</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 顶部栏</h4>
+            <ul class="panel-items"><li>模型选择下拉框：切换 GPT-4o / GPT-4o mini 等模型（免费用户只有 GPT-4o mini）</li>
+<li>「Share」分享按钮：把对话分享给别人</li></ul>
+        </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 操作步骤（跟着做就行）</h2>
+            <ul class="op-list">
+                <li class="op-step">第1步：新建对话 —— 点击左上角「New Chat」，开始一次新的写作</li>
+<li class="op-step">第2步：输入写作需求 —— 在输入框中描述你想写的内容。例如：「请帮我写一篇关于人工智能在医疗领域应用的文章，800字左右，适合普通读者阅读」</li>
+<li class="op-step">第3步：等待 AI 生成 —— ChatGPT 会逐字输出回答，大约 10-30 秒完成</li>
+<li class="op-step">第4步：修改和优化 —— 如果不满意，可以回复「请把第二段改得更通俗一些」或「请在结尾加一个总结」来让 AI 修改</li>
+<li class="op-step">第5步：复制结果 —— 点击 AI 回复下方的复制按钮，把文字粘贴到你的文档里</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>👥 适合什么人</h2>
+            <div class="suitable-box">所有需要写作的人：学生写论文、职场人写报告邮件、自媒体写文章、程序员写代码、翻译工作者等。完全零基础也能用，会打字就行。</div>
+        </div>
+
+        <div class="footer">
+            <p>AI工具详细教程 | 持续更新中</p>
+            <p>教程内容基于 ChatGPT 最新版本整理，如有变动请以官网为准</p>
+        </div>
+    </div>
+</body>
+</html>

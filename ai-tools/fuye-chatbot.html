@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>老郭副业圈 - 智能副业推荐</title>
+<style>
+  /* ========== 基础重置与全局 ========== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #f97316;
+    --primary-dark: #ea580c;
+    --primary-light: #fff7ed;
+    --primary-bg: #fed7aa;
+    --text: #1c1917;
+    --text-secondary: #57534e;
+    --white: #ffffff;
+    --bg: #fafaf9;
+    --border: #e7e5e4;
+    --success: #16a34a;
+    --shadow: 0 4px 24px rgba(249,115,22,0.15);
+    --radius: 16px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ========== 头部 ========== */
+  .header {
+    width: 100%;
+    max-width: 600px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--white);
+    padding: 28px 24px 24px;
+    text-align: center;
+    border-radius: 0 0 24px 24px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: "💰";
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 64px;
+    opacity: 0.15;
+    transform: rotate(-15deg);
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 17px;
+    opacity: 0.92;
+  }
+
+  /* ========== 聊天容器 ========== */
+  .chat-container {
+    width: 100%;
+    max-width: 600px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 16px 24px;
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  /* ========== 消息气泡 ========== */
+  .message {
+    display: flex;
+    gap: 12px;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .message.bot { justify-content: flex-start; }
+  .message.user { justify-content: flex-end; }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    background: var(--primary-bg);
+    border: 2px solid var(--primary);
+  }
+  .message.user .avatar { display: none; }
+
+  .bubble {
+    max-width: 82%;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    font-size: 18px;
+    line-height: 1.7;
+    word-break: break-word;
+  }
+  .message.bot .bubble {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-top-left-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .message.user .bubble {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--white);
+    border-top-right-radius: 4px;
+    box-shadow: 0 2px 12px rgba(249,115,22,0.25);
+  }
+
+  /* ========== 选项按钮组 ========== */
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .option-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 22px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    background: var(--primary-light);
+    border: 2px solid var(--primary-bg);
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .option-btn:hover {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(249,115,22,0.3);
+  }
+  .option-btn:active {
+    transform: scale(0.96);
+  }
+  .option-btn .icon { font-size: 20px; }
+
+  /* ========== 推荐卡片 ========== */
+  .rec-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 10px;
+    animation: fadeIn 0.6s ease;
+  }
+
+  .rec-card {
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: all 0.25s;
+  }
+  .rec-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 6px 20px rgba(249,115,22,0.15);
+    transform: translateY(-2px);
+  }
+
+  .rec-card-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--white);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .rec-card-header .rec-emoji { font-size: 28px; }
+  .rec-card-header .rec-title { font-size: 20px; font-weight: 700; }
+  .rec-card-header .rec-tag {
+    margin-left: auto;
+    background: rgba(255,255,255,0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .rec-card-body {
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .rec-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .rec-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .rec-meta-item .meta-icon { font-size: 18px; }
+  .rec-meta-item.cost { color: #dc2626; }
+  .rec-meta-item.income { color: var(--success); }
+  .rec-meta-item.time { color: var(--text-secondary); }
+
+  .rec-steps-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 2px;
+  }
+  .rec-steps {
+    list-style: none;
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .rec-steps li {
+    counter-increment: step;
+    font-size: 16px;
+    color: var(--text-secondary);
+    padding-left: 32px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .rec-steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 24px;
+    height: 24px;
+    background: var(--primary-bg);
+    color: var(--primary-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* ========== 重新开始按钮 ========== */
+  .restart-area {
+    text-align: center;
+    padding: 8px 0 20px;
+  }
+  .restart-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 36px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(249,115,22,0.3);
+    transition: all 0.2s;
+  }
+  .restart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(249,115,22,0.4);
+  }
+
+  /* ========== 打字动画 ========== */
+  .typing-dots {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px 0;
+  }
+  .typing-dots span {
+    width: 8px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-8px); }
+  }
+
+  /* ========== 响应式 ========== */
+  @media (max-width: 420px) {
+    .header h1 { font-size: 24px; }
+    .bubble { font-size: 17px; }
+    .option-btn { font-size: 16px; padding: 10px 18px; }
+    .rec-card-header .rec-title { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 头部 -->
+<div class="header">
+  <h1>🧧 老郭副业圈</h1>
+  <p>告诉我你的情况，帮你找到最合适的副业！</p>
+</div>
+
+<!-- 聊天区域 -->
+<div class="chat-container" id="chatContainer"></div>
+
+<!-- 重新开始 -->
+<div class="restart-area" id="restartArea" style="display:none;">
+  <button class="restart-btn" onclick="restart()">🔄 重新测试</button>
+</div>
+
+<script>
+// ========== 副业知识库 ==========
+const SIDE_HUSTLES = [
+  {
+    id: "douyin",
+    name: "抖音短视频带货",
+    emoji: "📱",
+    tag: "热门",
+    cost: "0元起",
+    income: "1000-5000元/月",
+    timeNeed: "每天2-3小时",
+    steps: [
+      "注册抖音账号，完善个人资料",
+      "选择你熟悉的品类（如日用百货、农产品）",
+      "每天发1-2条商品展示短视频",
+      "开通抖音小店或加入精选联盟",
+      "坚持30天，流量会逐步起来"
+    ],
+    match: { ageMax: 65, money: ["0","1000"], time: ["1h","3h"], skill: ["打字","拍照","无"] }
+  },
+  {
+    id: "pinduoduo",
+    name: "拼多多无货源开店",
+    emoji: "🛒",
+    tag: "零门槛",
+    cost: "0-1000元",
+    income: "500-3000元/月",
+    timeNeed: "每天1-2小时",
+    steps: [
+      "注册拼多多商家账号（免费）",
+      "用1688或拼多多找货源，一键代发",
+      "优化商品标题和主图",
+      "设置合理价格，保证有利润",
+      "每天上2-3个新品，坚持出单"
+    ],
+    match: { ageMax: 70, money: ["0","1000"], time: ["1h","3h"], skill: ["打字","无"] }
+  },
+  {
+    id: "xiaohongshu",
+    name: "小红书图文种草",
+    emoji: "📕",
+    tag: "轻量",
+    cost: "0元",
+    income: "800-4000元/月",
+    timeNeed: "每天1-2小时",
+    steps: [
+      "注册小红书账号，选一个垂直领域",
+      "用手机拍产品照片，写真实使用感受",
+      "每天发1篇图文笔记",
+      "粉丝满1000后接品牌合作（蒲公英平台）",
+      "也可以挂商品链接赚佣金"
+    ],
+    match: { ageMax: 55, money: ["0","1000"], time: ["1h","3h"], skill: ["打字","拍照"] }
+  },
+  {
+    id: "weixin_sell",
+    name: "微信朋友圈卖货",
+    emoji: "💬",
+    tag: "熟人经济",
+    cost: "500-2000元",
+    income: "1000-5000元/月",
+    timeNeed: "每天1小时",
+    steps: [
+      "选好货源（本地特产、日用品、服装）",
+      "先自用体验，拍真实照片和视频",
+      "每天朋友圈发2-3条产品介绍",
+      "建微信群维护老客户",
+      "老客户转介绍是最大来源"
+    ],
+    match: { ageMax: 70, money: ["0","1000","5000"], time: ["1h","3h"], skill: ["打字","拍照","无"] }
+  },
+  {
+    id: "task_app",
+    name: "任务类APP赚零花",
+    emoji: "✅",
+    tag: "零门槛",
+    cost: "0元",
+    income: "200-800元/月",
+    timeNeed: "每天1-3小时",
+    steps: [
+      "下载众测、趣闲赚等正规任务APP",
+      "完成问卷调查、试玩APP等任务",
+      "每个任务1-10元，多做多得",
+      "每天花1小时，一个月几百块零花钱",
+      "注意：不要做需要先交钱的任务！"
+    ],
+    match: { ageMax: 99, money: ["0"], time: ["1h","3h"], skill: ["打字","无"] }
+  },
+  {
+    id: "photography",
+    name: "手机摄影接单",
+    emoji: "📸",
+    tag: "技能变现",
+    cost: "0-1000元",
+    income: "2000-8000元/月",
+    timeNeed: "每天2-4小时",
+    steps: [
+      "学习手机摄影基础（光线、构图）",
+      "在闲鱼/小红书发布样片和报价",
+      "先从证件照、产品拍照开始接单",
+      "积累作品，逐步接活动跟拍",
+      "后期可以学修图提高客单价"
+    ],
+    match: { ageMax: 60, money: ["0","1000","5000"], time: ["3h","full"], skill: ["拍照"] }
+  },
+  {
+    id: "writing",
+    name: "自媒体写文章",
+    emoji: "✍️",
+    tag: "长期价值",
+    cost: "0元",
+    income: "1000-10000元/月",
+    timeNeed: "每天2-3小时",
+    steps: [
+      "选择一个你熟悉的领域（育儿、做菜、养生…）",
+      "在公众号/头条号/知乎注册账号",
+      "每周写3-5篇原创文章",
+      "开通流量主/广告分成赚收益",
+      "粉丝多了可以接广告、卖课、出书"
+    ],
+    match: { ageMax: 70, money: ["0","1000"], time: ["3h","full"], skill: ["打字"] }
+  },
+  {
+    id: "live_stream",
+    name: "直播卖货/聊天",
+    emoji: "🎥",
+    tag: "风口",
+    cost: "1000-5000元",
+    income: "2000-20000元/月",
+    timeNeed: "每天3-4小时",
+    steps: [
+      "准备手机支架、补光灯（200元内搞定）",
+      "选一个你擅长的品类或聊天话题",
+      "每天固定时间开播2-3小时",
+      "前期重点涨粉，不要急着卖货",
+      "粉丝过千后挂小黄车开始带货"
+    ],
+    match: { ageMax: 60, money: ["1000","5000","10000+"], time: ["3h","full"], skill: ["打字","拍照","无"] }
+  },
+  {
+    id: "handicraft",
+    name: "手工制作/烘焙售卖",
+    emoji: "🍰",
+    tag: "兴趣变现",
+    cost: "500-5000元",
+    income: "1000-6000元/月",
+    timeNeed: "每天2-4小时",
+    steps: [
+      "学一种手工（烘焙、编织、手串、香薰…）",
+      "先做小样送朋友，收集反馈",
+      "在朋友圈/闲鱼/小红书上架产品",
+      "接定制单，利润更高",
+      "逐步扩大品类，培养回头客"
+    ],
+    match: { ageMax: 99, money: ["1000","5000","10000+"], time: ["3h","full"], skill: ["打字","拍照","无"] }
+  },
+  {
+    id: "delivery",
+    name: "外卖/跑腿配送",
+    emoji: "🛵",
+    tag: "马上赚钱",
+    cost: "0元（有电动车即可）",
+    income: "3000-8000元/月",
+    timeNeed: "每天4-8小时",
+    steps: [
+      "下载美团/饿了么骑手APP注册",
+      "完成新手培训和考核",
+      "选择兼职时段（午晚高峰最赚钱）",
+      "熟悉商圈路线，提高送单效率",
+      "每月稳定出勤，收入很可观"
+    ],
+    match: { ageMax: 55, money: ["0","1000"], time: ["3h","full"], skill: ["无","打字","拍照"] }
+  },
+  {
+    id: "tutor",
+    name: "在线辅导/家教",
+    emoji: "📚",
+    tag: "高收入",
+    cost: "0元",
+    income: "3000-15000元/月",
+    timeNeed: "每天2-4小时",
+    steps: [
+      "确定你擅长的学科或技能（英语、钢琴、书法…）",
+      "在闲鱼/家长群/辅导平台发布信息",
+      "先低价试课积累口碑",
+      "线上用腾讯会议/微信视频上课",
+      "口碑好了家长会主动推荐新学生"
+    ],
+    match: { ageMax: 60, money: ["0","1000"], time: ["3h","full"], skill: ["打字"] }
+  },
+  {
+    id: "voice_over",
+    name: "有声书/配音接单",
+    emoji: "🎙️",
+    tag: "声音赚钱",
+    cost: "0-1000元",
+    income: "1000-5000元/月",
+    timeNeed: "每天2-3小时",
+    steps: [
+      "用手机录一段试音样稿",
+      "在喜马拉雅/懒人听书注册主播",
+      "接有声书录制任务（按小时计费）",
+      "也可以在配音平台接商业配音单",
+      "声音条件好可以做到主业收入"
+    ],
+    match: { ageMax: 65, money: ["0","1000"], time: ["3h","full"], skill: ["打字","无"] }
+  },
+  {
+    id: "community_leader",
+    name: "社区团购团长",
+    emoji: "🏘️",
+    tag: "稳定",
+    cost: "0-1000元",
+    income: "2000-8000元/月",
+    timeNeed: "每天1-3小时",
+    steps: [
+      "申请成为美团优选/多多买菜团长",
+      "把自己的收货点设在家门口",
+      "拉小区邻居进微信群",
+      "每天发团购商品链接，帮大家下单",
+      "每单赚10-15%佣金，量大了很可观"
+    ],
+    match: { ageMax: 99, money: ["0","1000"], time: ["1h","3h"], skill: ["打字","无"] }
+  },
+  {
+    id: "stock_fund",
+    name: "基金/理财定投",
+    emoji: "📈",
+    tag: "钱生钱",
+    cost: "1000元以上",
+    income: "年化5-15%（长期）",
+    timeNeed: "每天30分钟",
+    steps: [
+      "在支付宝/天天基金开账户",
+      "选择2-3只宽基指数基金（沪深300、中证500）",
+      "设置每周/每月自动定投",
+      "坚持3年以上，享受复利增长",
+      "不要追涨杀跌，定投最忌频繁操作"
+    ],
+    match: { ageMax: 65, money: ["1000","5000","10000+"], time: ["1h","3h","full"], skill: ["打字","拍照","无"] }
+  },
+  {
+    id: "daigou",
+    name: "代购/特产电商",
+    emoji: "🎁",
+    tag: "资源变现",
+    cost: "1000-5000元",
+    income: "2000-10000元/月",
+    timeNeed: "每天2-3小时",
+    steps: [
+      "找到本地特色产品（土特产、手工艺品）",
+      "在抖音/小红书/淘宝上架产品",
+      "拍真实产地视频，突出产品故事",
+      "发货注意包装和物流时效",
+      "做出口碑后复购率会很高"
+    ],
+    match: { ageMax: 99, money: ["1000","5000","10000+"], time: ["3h","full"], skill: ["打字","拍照"] }
+  },
+  {
+    id: "consulting",
+    name: "退休经验咨询",
+    emoji: "🧓",
+    tag: "经验变现",
+    cost: "0元",
+    income: "1000-5000元/月",
+    timeNeed: "每天1-2小时",
+    steps: [
+      "梳理你的职场/人生经验（管理、财务、养生…）",
+      "在知乎/在行/小红书上做付费咨询",
+      "定价50-200元/次，先从低价开始",
+      "认真回答每个问题，积累好评",
+      "好评多了可以涨价，还能开线上小课"
+    ],
+    match: { ageMin: 50, ageMax: 99, money: ["0","1000","5000","10000+"], time: ["1h","3h","full"], skill: ["打字"] }
+  }
+];
+
+// ========== 问答流程定义 ==========
+const QUESTIONS = [
+  {
+    key: "age",
+    text: "你好！我是老郭副业圈的小助手 🤝\n先问你第一个问题：你今年多大啦？",
+    options: [
+      { value: "young", label: "30岁以下", icon: "🧑" },
+      { value: "mid",   label: "30-50岁",   icon: "👨" },
+      { value: "older", label: "50-65岁",   icon: "🧔" },
+      { value: "senior",label: "65岁以上",  icon: "🧓" }
+    ]
+  },
+  {
+    key: "money",
+    text: "好嘞！那你能投入多少钱来启动副业呢？",
+    options: [
+      { value: "0",       label: "0元（零成本开始）", icon: "🆓" },
+      { value: "1000",    label: "1000元左右",       icon: "💵" },
+      { value: "5000",    label: "5000元左右",       icon: "💰" },
+      { value: "10000+",  label: "1万以上",          icon: "💎" }
+    ]
+  },
+  {
+    key: "time",
+    text: "明白了！那你每天能花多少时间做副业？",
+    options: [
+      { value: "1h",   label: "1小时左右", icon: "⏰" },
+      { value: "3h",   label: "3小时左右", icon: "🕐" },
+      { value: "full", label: "全天都行",  icon: "🔋" }
+    ]
+  },
+  {
+    key: "skill",
+    text: "最后一个问题！你会下面哪些技能？",
+    options: [
+      { value: "打字", label: "会打字/用手机", icon: "⌨️" },
+      { value: "拍照", label: "会拍照/拍视频", icon: "📷" },
+      { value: "无",   label: "啥都不会也没关系", icon: "😊" }
+    ]
+  }
+];
+
+// ========== 年龄映射 ==========
+function getAgeRange(ageKey) {
+  const map = {
+    young:  { min: 18, max: 30 },
+    mid:    { min: 30, max: 50 },
+    older:  { min: 50, max: 65 },
+    senior: { min: 65, max: 99 }
+  };
+  return map[ageKey] || { min: 18, max: 99 };
+}
+
+// ========== 匹配逻辑 ==========
+function matchHustles(answers) {
+  const ageRange = getAgeRange(answers.age);
+  const money = answers.money;
+  const time = answers.time;
+  const skill = answers.skill;
+
+  const scored = SIDE_HUSTLES.map(h => {
+    const m = h.match;
+    let score = 0;
+
+    // 年龄匹配
+    const ageOk = ageRange.min >= (m.ageMin || 0) && ageRange.max <= m.ageMax;
+    const ageOverlap = ageOk || (ageRange.min < m.ageMax && ageRange.max > (m.ageMin || 0));
+    if (ageOk) score += 3;
+    else if (ageOverlap) score += 1;
+
+    // 资金匹配
+    if (m.money.includes(money)) score += 3;
+
+    // 时间匹配
+    if (m.time.includes(time)) score += 2;
+
+    // 技能匹配
+    if (m.skill.includes(skill)) score += 2;
+
+    return { hustle: h, score };
+  });
+
+  // 按分数排序，取前5个得分>0的
+  const matched = scored
+    .filter(s => s.score >= 3)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+    .map(s => s.hustle);
+
+  // 保底：如果太少，补入一些零门槛的
+  if (matched.length < 3) {
+    const fallback = SIDE_HUSTLES.filter(h =>
+      h.match.money.includes("0") && !matched.find(m => m.id === h.id)
+    );
+    for (const fb of fallback) {
+      if (matched.length >= 3) break;
+      matched.push(fb);
+    }
+  }
+
+  return matched;
+}
+
+// ========== UI 控制 ==========
+const container = document.getElementById('chatContainer');
+const restartArea = document.getElementById('restartArea');
+let answers = {};
+let currentStep = 0;
+
+function addMessage(type, content) {
+  const div = document.createElement('div');
+  div.className = `message ${type}`;
+
+  if (type === 'bot') {
+    const avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.textContent = '🧧';
+    div.appendChild(avatar);
+  }
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.innerHTML = content.replace(/\n/g, '<br>');
+  div.appendChild(bubble);
+
+  container.appendChild(div);
+  scrollToBottom();
+  return bubble;
+}
+
+function addOptions(options, onSelect) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'message bot';
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.textContent = '🧧';
+  wrapper.appendChild(avatar);
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.style.background = 'transparent';
+  bubble.style.border = 'none';
+  bubble.style.boxShadow = 'none';
+  bubble.style.padding = '0';
+
+  const optDiv = document.createElement('div');
+  optDiv.className = 'options';
+
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="icon">${opt.icon}</span> ${opt.label}`;
+    btn.addEventListener('click', () => {
+      // 禁用所有按钮
+      optDiv.querySelectorAll('.option-btn').forEach(b => {
+        b.disabled = true;
+        b.style.opacity = '0.5';
+        b.style.cursor = 'default';
+      });
+      btn.style.opacity = '1';
+      btn.style.background = 'var(--primary)';
+      btn.style.color = 'var(--white)';
+      btn.style.borderColor = 'var(--primary)';
+      onSelect(opt.value, opt.label);
+    });
+    optDiv.appendChild(btn);
+  });
+
+  bubble.appendChild(optDiv);
+  wrapper.appendChild(bubble);
+  container.appendChild(wrapper);
+  scrollToBottom();
+}
+
+function showTyping() {
+  const div = document.createElement('div');
+  div.className = 'message bot';
+  div.id = 'typing';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'avatar';
+  avatar.textContent = '🧧';
+  div.appendChild(avatar);
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+  div.appendChild(bubble);
+
+  container.appendChild(div);
+  scrollToBottom();
+}
+
+function hideTyping() {
+  const el = document.getElementById('typing');
+  if (el) el.remove();
+}
+
+function scrollToBottom() {
+  setTimeout(() => {
+    container.scrollTop = container.scrollHeight;
+  }, 50);
+}
+
+// ========== 主流程 ==========
+function askQuestion(step) {
+  if (step >= QUESTIONS.length) {
+    showResults();
+    return;
+  }
+
+  const q = QUESTIONS[step];
+
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addMessage('bot', q.text);
+    addOptions(q.options, (value, label) => {
+      answers[q.key] = value;
+      addMessage('user', label);
+      setTimeout(() => askQuestion(step + 1), 400);
+    });
+  }, 600);
+}
+
+function showResults() {
+  const matched = matchHustles(answers);
+
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+
+    const ageLabel = { young: "30岁以下", mid: "30-50岁", older: "50-65岁", senior: "65岁以上" }[answers.age] || "";
+    const moneyLabel = { "0": "0元", "1000": "1000元", "5000": "5000元", "10000+": "1万以上" }[answers.money] || "";
+    const timeLabel = { "1h": "1小时", "3h": "3小时", "full": "全天" }[answers.time] || "";
+    const skillLabel = { "打字": "会打字", "拍照": "会拍照", "无": "零基础" }[answers.skill] || "";
+
+    addMessage('bot',
+      `✨ 分析完毕！根据你的情况：<br>` +
+      `<strong>${ageLabel} · ${moneyLabel} · 每天${timeLabel} · ${skillLabel}</strong><br><br>` +
+      `为你推荐以下 <strong>${matched.length}</strong> 个副业方案👇`
+    );
+
+    setTimeout(() => {
+      const cardsWrapper = document.createElement('div');
+      cardsWrapper.className = 'message bot';
+
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar';
+      avatar.textContent = '🧧';
+      cardsWrapper.appendChild(avatar);
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.style.maxWidth = '95%';
+      bubble.style.background = 'transparent';
+      bubble.style.border = 'none';
+      bubble.style.boxShadow = 'none';
+      bubble.style.padding = '0';
+
+      const cardsDiv = document.createElement('div');
+      cardsDiv.className = 'rec-cards';
+
+      matched.forEach((h, i) => {
+        setTimeout(() => {
+          const card = createCard(h, i + 1);
+          cardsDiv.appendChild(card);
+          scrollToBottom();
+        }, i * 200);
+      });
+
+      bubble.appendChild(cardsDiv);
+      cardsWrapper.appendChild(bubble);
+      container.appendChild(cardsWrapper);
+
+      setTimeout(() => {
+        addMessage('bot', '💡 记住：任何副业都需要坚持至少1个月才能看到效果！选一个最心动的，今天就行动起来吧！');
+        restartArea.style.display = 'block';
+        scrollToBottom();
+      }, matched.length * 200 + 500);
+
+    }, 400);
+  }, 800);
+}
+
+function createCard(h, rank) {
+  const card = document.createElement('div');
+  card.className = 'rec-card';
+
+  card.innerHTML = `
+    <div class="rec-card-header">
+      <span class="rec-emoji">${h.emoji}</span>
+      <span class="rec-title">No.${rank} ${h.name}</span>
+      <span class="rec-tag">${h.tag}</span>
+    </div>
+    <div class="rec-card-body">
+      <div class="rec-meta">
+        <span class="rec-meta-item cost"><span class="meta-icon">💸</span> 投入：${h.cost}</span>
+        <span class="rec-meta-item income"><span class="meta-icon">💵</span> 收入：${h.income}</span>
+        <span class="rec-meta-item time"><span class="meta-icon">⏱️</span> ${h.timeNeed}</span>
+      </div>
+      <div>
+        <div class="rec-steps-title">📝 操作步骤：</div>
+        <ol class="rec-steps">
+          ${h.steps.map(s => `<li>${s}</li>`).join('')}
+        </ol>
+      </div>
+    </div>
+  `;
+
+  return card;
+}
+
+// ========== 重新开始 ==========
+function restart() {
+  container.innerHTML = '';
+  restartArea.style.display = 'none';
+  answers = {};
+  currentStep = 0;
+  askQuestion(0);
+}
+
+// ========== 启动 ==========
+askQuestion(0);
+</script>
+</body>
+</html>

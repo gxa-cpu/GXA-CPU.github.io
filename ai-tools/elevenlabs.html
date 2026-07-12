@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElevenLabs 详细教程 - AI工具入门指南</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .header h1 { font-size: 2em; margin-bottom: 8px; }
+        .header .category { font-size: 1em; opacity: 0.9; }
+        .header .website {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+            text-decoration: none;
+            color: white;
+            transition: background 0.3s;
+        }
+        .header .website:hover { background: rgba(255,255,255,0.35); }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-size: 1.3em;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .badge-free { background: #d1fae5; color: #065f46; }
+        .badge-freemium { background: #fef3c7; color: #92400e; }
+        .badge-paid { background: #fee2e2; color: #991b1b; }
+        .intro-text { font-size: 1.05em; line-height: 1.8; }
+        .price-detail { margin-top: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; border-left: 4px solid var(--primary); }
+        .step-list, .op-list { list-style: none; counter-reset: none; }
+        .step-item, .op-step {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-light);
+            font-size: 0.95em;
+            line-height: 1.6;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .step-item:hover, .op-step:hover {
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .panel-section { margin-bottom: 20px; }
+        .panel-section h4 {
+            font-size: 1.05em;
+            color: var(--text);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .panel-items {
+            list-style: none;
+            padding-left: 8px;
+        }
+        .panel-items li {
+            padding: 6px 0 6px 16px;
+            position: relative;
+            font-size: 0.92em;
+            line-height: 1.6;
+        }
+        .panel-items li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .suitable-box {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+            border-radius: 10px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .container { padding: 12px; }
+            .header { padding: 24px 16px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回工具目录</a>
+
+        <div class="header">
+            <h1>🎵 ElevenLabs</h1>
+            <div class="category">分类：音频类</div>
+            <a href="https://elevenlabs.io" target="_blank" class="website">🔗 官方网站：https://elevenlabs.io</a>
+        </div>
+
+        <div class="card">
+            <h2>💡 用途介绍</h2>
+            <p class="intro-text">ElevenLabs 是最顶级的 AI 语音合成平台，能把文字转成极其自然的语音，听起来几乎和真人一模一样。支持 29 种语言，还能克隆你的声音——只需 1 分钟录音，AI 就能模仿你的声音说任何话。特别适合做视频配音、有声书、播客等。</p>
+        </div>
+
+        <div class="card">
+            <h2>💰 收费情况</h2>
+            <p><span class="badge badge-freemium">免费+付费</span></p>
+            <div class="price-detail">免费版每月 10,000 字符额度，3 个自定义声音；Starter 版 5 美元/月（30,000 字符）；Creator 版 22 美元/月（100,000 字符）；Pro 版 99 美元/月（500,000 字符）。</div>
+        </div>
+
+        <div class="card">
+            <h2>📝 注册步骤（手把手教）</h2>
+            <ul class="step-list">
+                <li class="step-item">1. 打开 elevenlabs.io，点击「Sign Up」</li>
+<li class="step-item">2. 使用 Google 账号或邮箱注册</li>
+<li class="step-item">3. 验证邮箱</li>
+<li class="step-item">4. 注册完成！进入语音合成页面，可以直接使用</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🖥️ ElevenLabs 主界面介绍</h2>
+            
+        <div class="panel-section">
+            <h4>📋 Speech Synthesis（语音合成）页面</h4>
+            <ul class="panel-items"><li>文本输入框：输入你想转成语音的文字内容</li>
+<li>Voice 选择下拉框：选择发音人，有上百种预设声音可选</li>
+<li>Language 选择：选择语言（支持中文、英文等 29 种语言）</li>
+<li>Stability 滑块：控制声音稳定性（高=稳定，低=更有表现力但可能不稳定）</li>
+<li>Clarity + Similarity 滑块：控制声音清晰度和相似度</li>
+<li>「Generate」按钮：点击生成语音</li>
+<li>播放器和下载按钮：试听和下载生成的音频</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 VoiceLab（声音实验室）</h4>
+            <ul class="panel-items"><li>「Add Voice」：添加新声音，可以从语音库选或克隆自己的声音</li>
+<li>Voice Cloning：上传一段录音（至少 1 分钟），AI 克隆该声音</li>
+<li>Voice Library：社区分享的数千种声音，可以免费使用</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 左侧导航</h4>
+            <ul class="panel-items"><li>Speech Synthesis：文字转语音</li>
+<li>VoiceLab：声音管理</li>
+<li>Projects：长文本项目（如有声书）</li>
+<li>API：开发者接口</li></ul>
+        </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 操作步骤（跟着做就行）</h2>
+            <ul class="op-list">
+                <li class="op-step">第1步：进入 Speech Synthesis 页面</li>
+<li class="op-step">第2步：选择声音 —— 在 Voice 下拉框中选择你喜欢的声音（可以逐个试听选择）</li>
+<li class="op-step">第3步：输入文本 —— 在文本框中输入要转语音的内容，例如：「大家好，欢迎来到我的频道，今天我们来聊一聊人工智能的最新进展」</li>
+<li class="op-step">第4步：调整参数 —— Stability 建议设 50% 左右，让声音既自然又稳定</li>
+<li class="op-step">第5步：点击 Generate —— 等待 5-10 秒生成音频</li>
+<li class="op-step">第6步：试听和下载 —— 点击播放按钮试听，满意后点击下载保存为 MP3</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>👥 适合什么人</h2>
+            <div class="suitable-box">视频创作者（配音）、播客主播、有声书制作者、教育内容创作者、企业培训视频制作、语音助手开发者。中文配音效果也很好。</div>
+        </div>
+
+        <div class="footer">
+            <p>AI工具详细教程 | 持续更新中</p>
+            <p>教程内容基于 ElevenLabs 最新版本整理，如有变动请以官网为准</p>
+        </div>
+    </div>
+</body>
+</html>

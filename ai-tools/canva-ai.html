@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canva AI 详细教程 - AI工具入门指南</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .header h1 { font-size: 2em; margin-bottom: 8px; }
+        .header .category { font-size: 1em; opacity: 0.9; }
+        .header .website {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+            text-decoration: none;
+            color: white;
+            transition: background 0.3s;
+        }
+        .header .website:hover { background: rgba(255,255,255,0.35); }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-size: 1.3em;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .badge-free { background: #d1fae5; color: #065f46; }
+        .badge-freemium { background: #fef3c7; color: #92400e; }
+        .badge-paid { background: #fee2e2; color: #991b1b; }
+        .intro-text { font-size: 1.05em; line-height: 1.8; }
+        .price-detail { margin-top: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; border-left: 4px solid var(--primary); }
+        .step-list, .op-list { list-style: none; counter-reset: none; }
+        .step-item, .op-step {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-light);
+            font-size: 0.95em;
+            line-height: 1.6;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .step-item:hover, .op-step:hover {
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .panel-section { margin-bottom: 20px; }
+        .panel-section h4 {
+            font-size: 1.05em;
+            color: var(--text);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .panel-items {
+            list-style: none;
+            padding-left: 8px;
+        }
+        .panel-items li {
+            padding: 6px 0 6px 16px;
+            position: relative;
+            font-size: 0.92em;
+            line-height: 1.6;
+        }
+        .panel-items li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .suitable-box {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+            border-radius: 10px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .container { padding: 12px; }
+            .header { padding: 24px 16px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回工具目录</a>
+
+        <div class="header">
+            <h1>🛠️ Canva AI</h1>
+            <div class="category">分类：其他类</div>
+            <a href="https://www.canva.com" target="_blank" class="website">🔗 官方网站：https://www.canva.com</a>
+        </div>
+
+        <div class="card">
+            <h2>💡 用途介绍</h2>
+            <p class="intro-text">Canva 是全球最受欢迎的在线设计工具，内置了强大的 AI 功能。AI 能帮你一键生成演示文稿、社交媒体图片、海报、简历等设计作品。只需描述你想要什么，AI 就能自动排版、选图、配文字，10 秒出图，完全不需要设计基础。</p>
+        </div>
+
+        <div class="card">
+            <h2>💰 收费情况</h2>
+            <p><span class="badge badge-freemium">免费+付费</span></p>
+            <div class="price-detail">免费版功能已经很强大，包含大量模板和 AI 功能；Canva Pro 12.99 美元/月解锁更多模板、素材和 AI 功能；Canva Teams 适合团队协作。</div>
+        </div>
+
+        <div class="card">
+            <h2>📝 注册步骤（手把手教）</h2>
+            <ul class="step-list">
+                <li class="step-item">1. 打开 canva.com，点击「Sign up」</li>
+<li class="step-item">2. 使用 Google、Apple 或邮箱注册（推荐 Google 一键注册）</li>
+<li class="step-item">3. 选择用途：个人、教育、企业等（影响推荐模板类型）</li>
+<li class="step-item">4. 完成注册，进入 Canva 主页面</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🖥️ Canva AI 界面介绍</h2>
+            
+        <div class="panel-section">
+            <h4>📋 首页</h4>
+            <ul class="panel-items"><li>搜索栏：搜索模板或直接描述你想要的设计（AI 会理解并推荐）</li>
+<li>「Magic Design」按钮：AI 一键设计入口，输入描述自动生成整套设计</li>
+<li>模板分类：社交媒体、演示文稿、海报、视频、简历等</li>
+<li>最近设计：你之前创建的所有设计</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 设计编辑器</h4>
+            <ul class="panel-items"><li>左侧工具栏：模板、元素、文字、上传、AI 工具等</li>
+<li>「Magic Media」：AI 生成图片和视频，输入描述即可</li>
+<li>「Magic Write」：AI 写文案，帮你写标题和正文</li>
+<li>「Magic Edit」：AI 编辑图片，替换背景、删除元素等</li>
+<li>「Magic Eraser」：AI 橡皮擦，涂抹即可删除图片中不想要的元素</li>
+<li>画布区：中间主编辑区，拖拽排版</li>
+<li>右上角下载/分享按钮：导出为 PNG、PDF、MP4 等格式</li></ul>
+        </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 操作步骤（跟着做就行）</h2>
+            <ul class="op-list">
+                <li class="op-step">第1步：在首页搜索栏输入需求 —— 例如「小红书美食推荐卡片」，AI 会自动推荐相关模板</li>
+<li class="op-step">第2步：选择模板或用 Magic Design —— 点模板直接用，或点 Magic Design 让 AI 从零生成</li>
+<li class="op-step">第3步：编辑内容 —— 双击文字修改文案，拖拽替换图片，用 AI 工具辅助</li>
+<li class="op-step">第4步：使用 Magic Write —— 点击文字工具里的 Magic Write，让 AI 帮你优化文案</li>
+<li class="op-step">第5步：下载导出 —— 右上角点分享→下载，选择格式（PNG 最常用），保存到电脑</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>👥 适合什么人</h2>
+            <div class="suitable-box">所有人！特别是没有设计基础但又需要做图的人：自媒体博主、小商家、活动策划、学生、HR 做招聘海报、老师做课件。Canva 是最容易上手的 AI 设计工具。</div>
+        </div>
+
+        <div class="footer">
+            <p>AI工具详细教程 | 持续更新中</p>
+            <p>教程内容基于 Canva AI 最新版本整理，如有变动请以官网为准</p>
+        </div>
+    </div>
+</body>
+</html>

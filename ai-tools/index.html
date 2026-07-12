@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI工具详细教程 - 从零开始学会每一个工具</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .hero {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+            color: white;
+            padding: 48px 32px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .hero h1 { font-size: 2.2em; margin-bottom: 12px; }
+        .hero p { font-size: 1.1em; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+        .hero .stats { margin-top: 20px; display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; }
+        .hero .stat { text-align: center; }
+        .hero .stat-num { font-size: 1.8em; font-weight: 700; }
+        .hero .stat-label { font-size: 0.85em; opacity: 0.8; }
+        .category-section { margin-bottom: 32px; }
+        .category-section h2 {
+            font-size: 1.4em;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+        }
+        .tool-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            display: block;
+        }
+        .tool-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: var(--primary-light);
+        }
+        .tool-name { font-size: 1.15em; font-weight: 600; color: var(--primary); margin-bottom: 6px; }
+        .tool-desc { font-size: 0.88em; color: var(--text-light); margin-bottom: 10px; line-height: 1.5; }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 600;
+        }
+        .badge-free { background: #d1fae5; color: #065f46; }
+        .badge-freemium { background: #fef3c7; color: #92400e; }
+        .badge-paid { background: #fee2e2; color: #991b1b; }
+        .footer { text-align: center; padding: 30px 0; color: var(--text-light); font-size: 0.85em; }
+        @media (max-width: 600px) {
+            .container { padding: 12px; }
+            .hero { padding: 32px 16px; }
+            .hero h1 { font-size: 1.6em; }
+            .tool-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>🤖 AI工具详细教程</h1>
+            <p>从零开始，手把手教你使用每一个AI工具。小白也能看懂，每一步都有详细说明。</p>
+            <div class="stats">
+                <div class="stat"><div class="stat-num">10</div><div class="stat-label">工具教程</div></div>
+                <div class="stat"><div class="stat-num">5</div><div class="stat-label">分类</div></div>
+                <div class="stat"><div class="stat-num">6</div><div class="stat-label">教程板块</div></div>
+            </div>
+        </div>
+
+        
+        <div class="category-section">
+            <h2>✍️ 写作类</h2>
+            <div class="tool-grid">
+                <a href="chatgpt.html" class="tool-card">
+                    <div class="tool-name">ChatGPT</div>
+                    <div class="tool-desc">ChatGPT 是由 OpenAI 开发的 AI 对话写作助手，能帮你写文章、邮件、代码、故事、翻译等几乎任何文字内容。...</div>
+                    <div class="tool-meta"><span class="badge badge-freemium">免费+付费</span></div>
+                </a>
+                <a href="claude.html" class="tool-card">
+                    <div class="tool-name">Claude</div>
+                    <div class="tool-desc">Claude 是 Anthropic 公司开发的 AI 助手，以长文写作和深度分析见长。它的文风更自然流畅，特别擅长写长...</div>
+                    <div class="tool-meta"><span class="badge badge-freemium">免费+付费</span></div>
+                </a></div>
+        </div>
+        <div class="category-section">
+            <h2>🎨 图片类</h2>
+            <div class="tool-grid">
+                <a href="midjourney.html" class="tool-card">
+                    <div class="tool-name">Midjourney</div>
+                    <div class="tool-desc">Midjourney 是目前最流行的 AI 绘画工具之一，能根据文字描述生成高质量的艺术图片。无论你需要插画、海报、产品...</div>
+                    <div class="tool-meta"><span class="badge badge-paid">付费</span></div>
+                </a>
+                <a href="stable-diffusion.html" class="tool-card">
+                    <div class="tool-name">Stable Diffusion (WebUI)</div>
+                    <div class="tool-desc">Stable Diffusion 是开源的 AI 绘画模型，最大的优势是免费、可本地运行、可自由定制。通过 WebUI ...</div>
+                    <div class="tool-meta"><span class="badge badge-free">免费</span></div>
+                </a></div>
+        </div>
+        <div class="category-section">
+            <h2>🎬 视频类</h2>
+            <div class="tool-grid">
+                <a href="sora.html" class="tool-card">
+                    <div class="tool-name">Sora (OpenAI)</div>
+                    <div class="tool-desc">Sora 是 OpenAI 推出的 AI 视频生成工具，能根据文字描述生成逼真的短视频。输入一段文字描述，Sora 就能...</div>
+                    <div class="tool-meta"><span class="badge badge-freemium">免费+付费</span></div>
+                </a>
+                <a href="runway.html" class="tool-card">
+                    <div class="tool-name">Runway ML</div>
+                    <div class="tool-desc">Runway 是专业级 AI 视频创作平台，功能最全面。支持文字生成视频、图片生成视频、视频编辑、绿幕抠像、运动笔刷等多...</div>
+                    <div class="tool-meta"><span class="badge badge-freemium">免费+付费</span></div>
+                </a></div>
+        </div>
+        <div class="category-section">
+            <h2>🎵 音频类</h2>
+            <div class="tool-grid">
+                <a href="suno.html" class="tool-card">
+                    <div class="tool-name">Suno AI</div>
+                    <div class="tool-desc">Suno 是 AI 音乐生成工具，只需输入一段文字描述，就能生成包含人声演唱、乐器伴奏和歌词的完整歌曲！无论你需要 BG...</div>
+                    <div class="tool-meta"><span class="badge badge-freemium">免费+付费</span></div>
+                </a>
+                <a href="elevenlabs.html" class="tool-card">
+                    <div class="tool-name">ElevenLabs</div>
+                    <div class="tool-desc">ElevenLabs 是最顶级的 AI 语音合成平台，能把文字转成极其自然的语音，听起来几乎和真人一模一样。支持 29 ...</div>
+                    <div class="tool-meta"><span class="badge badge-freemium">免费+付费</span></div>
+                </a></div>
+        </div>
+        <div class="category-section">
+            <h2>🛠️ 其他类</h2>
+            <div class="tool-grid">
+                <a href="canva-ai.html" class="tool-card">
+                    <div class="tool-name">Canva AI</div>
+                    <div class="tool-desc">Canva 是全球最受欢迎的在线设计工具，内置了强大的 AI 功能。AI 能帮你一键生成演示文稿、社交媒体图片、海报、简...</div>
+                    <div class="tool-meta"><span class="badge badge-freemium">免费+付费</span></div>
+                </a>
+                <a href="notion-ai.html" class="tool-card">
+                    <div class="tool-name">Notion AI</div>
+                    <div class="tool-desc">Notion 是最流行的知识管理和协作工具，Notion AI 在此基础上加入了 AI 写作、总结、翻译等功能。你可以在...</div>
+                    <div class="tool-meta"><span class="badge badge-freemium">免费+付费</span></div>
+                </a></div>
+        </div>
+
+        <div class="footer">
+            <p>AI工具详细教程 | 持续更新中</p>
+            <p>教程内容均基于各工具最新版本整理，如有变动请以官网为准</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stable Diffusion (WebUI) 详细教程 - AI工具入门指南</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .header h1 { font-size: 2em; margin-bottom: 8px; }
+        .header .category { font-size: 1em; opacity: 0.9; }
+        .header .website {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+            text-decoration: none;
+            color: white;
+            transition: background 0.3s;
+        }
+        .header .website:hover { background: rgba(255,255,255,0.35); }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-size: 1.3em;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .badge-free { background: #d1fae5; color: #065f46; }
+        .badge-freemium { background: #fef3c7; color: #92400e; }
+        .badge-paid { background: #fee2e2; color: #991b1b; }
+        .intro-text { font-size: 1.05em; line-height: 1.8; }
+        .price-detail { margin-top: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; border-left: 4px solid var(--primary); }
+        .step-list, .op-list { list-style: none; counter-reset: none; }
+        .step-item, .op-step {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-light);
+            font-size: 0.95em;
+            line-height: 1.6;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .step-item:hover, .op-step:hover {
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .panel-section { margin-bottom: 20px; }
+        .panel-section h4 {
+            font-size: 1.05em;
+            color: var(--text);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .panel-items {
+            list-style: none;
+            padding-left: 8px;
+        }
+        .panel-items li {
+            padding: 6px 0 6px 16px;
+            position: relative;
+            font-size: 0.92em;
+            line-height: 1.6;
+        }
+        .panel-items li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .suitable-box {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+            border-radius: 10px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .container { padding: 12px; }
+            .header { padding: 24px 16px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回工具目录</a>
+
+        <div class="header">
+            <h1>🎨 Stable Diffusion (WebUI)</h1>
+            <div class="category">分类：图片类</div>
+            <a href="https://github.com/AUTOMATIC1111/stable-diffusion-webui" target="_blank" class="website">🔗 官方网站：https://github.com/AUTOMATIC1111/stable-diffusion-webui</a>
+        </div>
+
+        <div class="card">
+            <h2>💡 用途介绍</h2>
+            <p class="intro-text">Stable Diffusion 是开源的 AI 绘画模型，最大的优势是免费、可本地运行、可自由定制。通过 WebUI 界面（也叫 AUTOMATIC1111），你可以像用 Midjourney 一样输入文字生成图片，而且完全不用付费，生成次数无限制。还有海量社区模型和 LoRA 可以切换不同画风。</p>
+        </div>
+
+        <div class="card">
+            <h2>💰 收费情况</h2>
+            <p><span class="badge badge-free">完全免费</span></p>
+            <div class="price-detail">完全免费开源！只需一台有独立显卡的电脑（建议 8GB 显存以上）。也可以用免费的云服务（如 Google Colab）运行。</div>
+        </div>
+
+        <div class="card">
+            <h2>📝 注册步骤（手把手教）</h2>
+            <ul class="step-list">
+                <li class="step-item">1. 准备环境 —— 安装 Python 3.10 和 Git</li>
+<li class="step-item">2. 克隆项目 —— 打开命令行，输入 git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git</li>
+<li class="step-item">3. 下载模型 —— 去 civitai.com 下载模型文件（.safetensors），放到 models/Stable-diffusion/ 目录下。新手推荐下载 SDXL 或 DreamShaper 模型</li>
+<li class="step-item">4. 启动程序 —— 进入项目目录，运行 webui-user.bat（Windows）或 ./webui.sh（Mac/Linux）</li>
+<li class="step-item">5. 等待加载 —— 首次启动会自动安装依赖，大约 5-10 分钟</li>
+<li class="step-item">6. 打开浏览器 —— 程序启动后会显示一个网址（通常是 127.0.0.1:7860），在浏览器中打开即可</li>
+<li class="step-item">7. 开始使用 —— 界面已经准备好了，直接输入提示词就能生成图片</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🖥️ Stable Diffusion WebUI 界面介绍</h2>
+            
+        <div class="panel-section">
+            <h4>📋 txt2img（文生图）标签页</h4>
+            <ul class="panel-items"><li>Prompt（正向提示词）：描述你想要什么，例如「a beautiful sunset over the ocean, 4K」</li>
+<li>Negative prompt（反向提示词）：描述你不想要什么，例如「blurry, ugly, deformed」</li>
+<li>Sampling method（采样方法）：推荐 Euler a 或 DPM++ 2M Karras</li>
+<li>Sampling steps（采样步数）：推荐 20-30 步，越多越精细但越慢</li>
+<li>Resolution（分辨率）：设置图片宽高，推荐 1024×1024</li>
+<li>Batch size（批量）：一次生成几张图，建议 2-4</li>
+<li>「Generate」生成按钮：点击开始生成</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 img2img（图生图）标签页</h4>
+            <ul class="panel-items"><li>上传参考图：拖入或选择一张图片作为基础</li>
+<li>Denoising strength：控制变化程度，0.3 微调、0.7 大改</li>
+<li>其余参数和 txt2img 类似</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 其他功能标签页</h4>
+            <ul class="panel-items"><li>Extras：放大图片分辨率（高清化）</li>
+<li>PNG Info：上传图片查看其生成参数</li>
+<li>Checkpoint Merger：合并两个模型</li>
+<li>Extensions：安装各种插件扩展功能</li></ul>
+        </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 操作步骤（跟着做就行）</h2>
+            <ul class="op-list">
+                <li class="op-step">第1步：选择模型 —— 页面左上角的下拉框选择你下载的模型（如 DreamShaper）</li>
+<li class="op-step">第2步：输入提示词 —— 在 Prompt 框输入你的描述，例如：「masterpiece, best quality, 1girl, standing in a flower garden, soft sunlight」</li>
+<li class="op-step">第3步：输入反向提示词 —— 在 Negative prompt 框输入排除内容，例如：「lowres, bad anatomy, bad hands, blurry」</li>
+<li class="op-step">第4步：调整参数 —— 采样步数设 25，分辨率设 1024×1024，其他保持默认</li>
+<li class="op-step">第5步：点击 Generate —— 等待 10-30 秒，图片就会出现在右侧</li>
+<li class="op-step">第6步：保存图片 —— 右键图片选择保存，或点击图片下方的保存按钮</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>👥 适合什么人</h2>
+            <div class="suitable-box">有电脑基础的人：设计师、插画师、AI 绘画爱好者、独立开发者。需要有一点电脑操作能力来安装软件，但生成图片本身很简单。适合不想花钱又想无限生成的人。</div>
+        </div>
+
+        <div class="footer">
+            <p>AI工具详细教程 | 持续更新中</p>
+            <p>教程内容基于 Stable Diffusion (WebUI) 最新版本整理，如有变动请以官网为准</p>
+        </div>
+    </div>
+</body>
+</html>

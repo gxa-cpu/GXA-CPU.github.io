@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suno AI 详细教程 - AI工具入门指南</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .header h1 { font-size: 2em; margin-bottom: 8px; }
+        .header .category { font-size: 1em; opacity: 0.9; }
+        .header .website {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+            text-decoration: none;
+            color: white;
+            transition: background 0.3s;
+        }
+        .header .website:hover { background: rgba(255,255,255,0.35); }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-size: 1.3em;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .badge-free { background: #d1fae5; color: #065f46; }
+        .badge-freemium { background: #fef3c7; color: #92400e; }
+        .badge-paid { background: #fee2e2; color: #991b1b; }
+        .intro-text { font-size: 1.05em; line-height: 1.8; }
+        .price-detail { margin-top: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; border-left: 4px solid var(--primary); }
+        .step-list, .op-list { list-style: none; counter-reset: none; }
+        .step-item, .op-step {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-light);
+            font-size: 0.95em;
+            line-height: 1.6;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .step-item:hover, .op-step:hover {
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .panel-section { margin-bottom: 20px; }
+        .panel-section h4 {
+            font-size: 1.05em;
+            color: var(--text);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .panel-items {
+            list-style: none;
+            padding-left: 8px;
+        }
+        .panel-items li {
+            padding: 6px 0 6px 16px;
+            position: relative;
+            font-size: 0.92em;
+            line-height: 1.6;
+        }
+        .panel-items li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .suitable-box {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+            border-radius: 10px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .container { padding: 12px; }
+            .header { padding: 24px 16px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回工具目录</a>
+
+        <div class="header">
+            <h1>🎵 Suno AI</h1>
+            <div class="category">分类：音频类</div>
+            <a href="https://suno.com" target="_blank" class="website">🔗 官方网站：https://suno.com</a>
+        </div>
+
+        <div class="card">
+            <h2>💡 用途介绍</h2>
+            <p class="intro-text">Suno 是 AI 音乐生成工具，只需输入一段文字描述，就能生成包含人声演唱、乐器伴奏和歌词的完整歌曲！无论你需要 BGM、主题曲、广告歌还是纯音乐，Suno 都能在 1 分钟内完成。支持中文歌词，音质接近专业水平。</p>
+        </div>
+
+        <div class="card">
+            <h2>💰 收费情况</h2>
+            <p><span class="badge badge-freemium">免费+付费</span></p>
+            <div class="price-detail">免费版每月 50 首歌的额度（每天约 2 首），Pro 版 10 美元/月（500 首/月），Premier 版 30 美元/月（2000 首/月）。免费版生成歌曲不可商用。</div>
+        </div>
+
+        <div class="card">
+            <h2>📝 注册步骤（手把手教）</h2>
+            <ul class="step-list">
+                <li class="step-item">1. 打开 suno.com，点击「Sign Up」或「Make a Song」</li>
+<li class="step-item">2. 使用 Google 账号、Discord 账号或 Microsoft 账号登录（推荐 Google 一键登录）</li>
+<li class="step-item">3. 同意服务条款</li>
+<li class="step-item">4. 注册完成！直接进入创作页面</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🖥️ Suno 主界面介绍</h2>
+            
+        <div class="panel-section">
+            <h4>📋 创作区</h4>
+            <ul class="panel-items"><li>「Create」标签：创作新歌曲的核心页面</li>
+<li>Song Description 输入框：描述你想要的歌曲，例如「一首关于夏天海边的欢快流行歌」</li>
+<li>「Custom」开关：打开后可以分别输入歌词和风格，关闭则由 AI 自动生成歌词</li>
+<li>Lyrics 框：输入自定义歌词（Custom 模式下可见）</li>
+<li>Style of Music 框：指定音乐风格，如 Pop、Rock、Jazz 等</li>
+<li>「Create」生成按钮：点击开始生成，一次生成 2 首供选择</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 左侧栏</h4>
+            <ul class="panel-items"><li>「Library」音乐库：你生成的所有歌曲</li>
+<li>「Explore」探索：听其他人生成的热门歌曲，获取灵感</li>
+<li>「Playlists」播放列表：把喜欢的歌整理成列表</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 歌曲操作</h4>
+            <ul class="panel-items"><li>播放/暂停：点击歌曲卡片播放试听</li>
+<li>下载按钮：下载 MP3 文件</li>
+<li>分享按钮：分享到社交媒体</li>
+<li>「Continue」续写：在现有歌曲基础上继续创作下一部分</li></ul>
+        </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 操作步骤（跟着做就行）</h2>
+            <ul class="op-list">
+                <li class="op-step">第1步：点击「Create」进入创作页面</li>
+<li class="op-step">第2步：描述歌曲 —— 在输入框输入描述，例如：「一首轻快的中文流行歌，关于咖啡和早晨，女声演唱，吉他伴奏」</li>
+<li class="op-step">第3步：选择模式 —— 想自己写歌词就打开「Custom」，分别输入歌词和风格；让 AI 自由发挥就保持关闭</li>
+<li class="op-step">第4步：点击「Create」—— 等待约 30-60 秒，生成 2 首歌</li>
+<li class="op-step">第5步：试听选择 —— 播放两首歌，选择更喜欢的那首</li>
+<li class="op-step">第6步：下载使用 —— 点击下载按钮获取 MP3 文件</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>👥 适合什么人</h2>
+            <div class="suitable-box">视频创作者（需要 BGM）、自媒体博主、广告人（需要广告歌）、独立音乐人、游戏开发者、任何需要原创音乐但不会乐器的人。</div>
+        </div>
+
+        <div class="footer">
+            <p>AI工具详细教程 | 持续更新中</p>
+            <p>教程内容基于 Suno AI 最新版本整理，如有变动请以官网为准</p>
+        </div>
+    </div>
+</body>
+</html>

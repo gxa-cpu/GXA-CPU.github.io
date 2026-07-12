@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude 详细教程 - AI工具入门指南</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .header h1 { font-size: 2em; margin-bottom: 8px; }
+        .header .category { font-size: 1em; opacity: 0.9; }
+        .header .website {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.9em;
+            text-decoration: none;
+            color: white;
+            transition: background 0.3s;
+        }
+        .header .website:hover { background: rgba(255,255,255,0.35); }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-size: 1.3em;
+            color: var(--primary);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .badge-free { background: #d1fae5; color: #065f46; }
+        .badge-freemium { background: #fef3c7; color: #92400e; }
+        .badge-paid { background: #fee2e2; color: #991b1b; }
+        .intro-text { font-size: 1.05em; line-height: 1.8; }
+        .price-detail { margin-top: 12px; padding: 12px 16px; background: #f1f5f9; border-radius: 8px; border-left: 4px solid var(--primary); }
+        .step-list, .op-list { list-style: none; counter-reset: none; }
+        .step-item, .op-step {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-light);
+            font-size: 0.95em;
+            line-height: 1.6;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .step-item:hover, .op-step:hover {
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .panel-section { margin-bottom: 20px; }
+        .panel-section h4 {
+            font-size: 1.05em;
+            color: var(--text);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed var(--border);
+        }
+        .panel-items {
+            list-style: none;
+            padding-left: 8px;
+        }
+        .panel-items li {
+            padding: 6px 0 6px 16px;
+            position: relative;
+            font-size: 0.92em;
+            line-height: 1.6;
+        }
+        .panel-items li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .suitable-box {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+            border-radius: 10px;
+            font-size: 0.95em;
+            line-height: 1.7;
+        }
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-light);
+            font-size: 0.85em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 600px) {
+            .container { padding: 12px; }
+            .header { padding: 24px 16px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← 返回工具目录</a>
+
+        <div class="header">
+            <h1>✍️ Claude</h1>
+            <div class="category">分类：写作类</div>
+            <a href="https://claude.ai" target="_blank" class="website">🔗 官方网站：https://claude.ai</a>
+        </div>
+
+        <div class="card">
+            <h2>💡 用途介绍</h2>
+            <p class="intro-text">Claude 是 Anthropic 公司开发的 AI 助手，以长文写作和深度分析见长。它的文风更自然流畅，特别擅长写长篇文章、分析报告和创意写作。最大亮点是支持超长上下文（最多 200K 字符），可以一次性处理整本书的内容。</p>
+        </div>
+
+        <div class="card">
+            <h2>💰 收费情况</h2>
+            <p><span class="badge badge-freemium">免费+付费</span></p>
+            <div class="price-detail">免费版可以日常使用，每天有使用次数限制；Pro 版月费 20 美元，更多使用次数和优先访问新功能。</div>
+        </div>
+
+        <div class="card">
+            <h2>📝 注册步骤（手把手教）</h2>
+            <ul class="step-list">
+                <li class="step-item">1. 打开浏览器，访问 claude.ai</li>
+<li class="step-item">2. 点击「Sign up」或「Try Claude」按钮</li>
+<li class="step-item">3. 使用 Google 邮箱或 Apple ID 注册（推荐 Google 一键登录最快）</li>
+<li class="step-item">4. 同意服务条款和隐私政策</li>
+<li class="step-item">5. 完成人机验证（可能需要等几秒）</li>
+<li class="step-item">6. 注册完成！自动进入对话页面，可以直接开始使用</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>🖥️ Claude 主界面介绍</h2>
+            
+        <div class="panel-section">
+            <h4>📋 左侧边栏</h4>
+            <ul class="panel-items"><li>「New Chat」按钮：开始新对话</li>
+<li>对话历史列表：所有历史对话，支持搜索</li>
+<li>「Projects」项目区：把相关对话归类到一个项目里，方便管理</li>
+<li>「Settings」设置：账号管理、主题切换等</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 中间主聊天区</h4>
+            <ul class="panel-items"><li>消息输入框：输入你的问题或写作需求</li>
+<li>「附加上下文」按钮：可以上传文档（PDF、Word、txt 等）让 Claude 阅读</li>
+<li>AI 回复区：Claude 的回答，支持复制和追问</li>
+<li>回答下方的操作按钮：复制、点赞/点踩、继续生成（如果回答被截断）</li></ul>
+        </div>
+        <div class="panel-section">
+            <h4>📋 模型选择</h4>
+            <ul class="panel-items"><li>顶部模型切换：Claude 3.5 Sonnet（默认，快速）、Claude 3 Opus（最强，Pro 版可用）</li></ul>
+        </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 操作步骤（跟着做就行）</h2>
+            <ul class="op-list">
+                <li class="op-step">第1步：新建对话 —— 点击「New Chat」</li>
+<li class="op-step">第2步：描述写作任务 —— 例如：「请写一篇 1500 字的科技评论文章，主题是元宇宙的兴衰，要求观点鲜明，有数据支撑」</li>
+<li class="op-step">第3步：上传参考资料（可选） —— 点击输入框旁的附件按钮，上传 PDF 或文档，Claude 会先阅读再写作</li>
+<li class="op-step">第4步：等待生成 —— Claude 写作速度适中，长文大约 30-60 秒</li>
+<li class="op-step">第5步：迭代修改 —— 回复「请在第三段增加一个具体案例」或「语气改得更轻松一些」来微调</li>
+<li class="op-step">第6步：复制使用 —— 点击回复区的复制按钮，粘贴到你的文档中</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>👥 适合什么人</h2>
+            <div class="suitable-box">需要写长篇文章的人：记者写深度报道、分析师写行业报告、作家写小说大纲、学术研究者写论文、产品经理写 PRD 文档。特别适合需要处理长文档的场景。</div>
+        </div>
+
+        <div class="footer">
+            <p>AI工具详细教程 | 持续更新中</p>
+            <p>教程内容基于 Claude 最新版本整理，如有变动请以官网为准</p>
+        </div>
+    </div>
+</body>
+</html>
