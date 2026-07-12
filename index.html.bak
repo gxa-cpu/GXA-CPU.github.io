@@ -6,7 +6,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>郭郭搞钱笔记 - 副业实操分享 · 免费工具 · 资料教程</title>
+<title>老郭副业圈 - 副业实操分享 · 免费工具 · 资料教程</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#f3f4f6;color:#333;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:70px}
@@ -183,7 +183,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 
 <!-- ====== 顶部导航 ====== -->
 <div class="header">
-  <div class="logo">📦 郭郭搞钱笔记</div>
+  <div class="logo">💰 老郭副业圈</div>
   <button class="wx-btn" onclick="showWxModal()">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.045c.134 0 .24-.11.24-.245 0-.06-.024-.12-.04-.178l-.325-1.233a.492.492 0 0 1 .177-.554C23.028 18.485 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zM14.53 13.39c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982z"/></svg>
     加微信
@@ -192,7 +192,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 
 <!-- ====== 欢迎横幅 ====== -->
 <div class="banner">
-  <h1>🎯 郭郭搞钱笔记</h1>
+  <h1>🎯 老郭副业圈</h1>
   <p>踩过的坑都在这 · 免费工具直接用</p>
   <div class="stats-row">
     <div class="stat-item">
@@ -398,6 +398,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
     </div>
   </div>
 </div>
+  <a href="ppt-preview.html" style="display:block;text-align:center;margin:12px auto;text-decoration:none;background:linear-gradient(135deg,#f97316,#fb923c);color:#fff;font-size:14px;font-weight:bold;padding:10px 20px;border-radius:25px;box-shadow:0 3px 10px rgba(249,115,22,0.3);max-width:280px">📊 查看全部30套PPT模板 →</a>
 <p style="text-align:center;font-size:13px;color:#999;margin-top:10px">以上仅为部分展示，更多案例加微咨询 👆</p>
 </div>
 
@@ -716,77 +717,25 @@ let chatHistory = [];
 let msgCount = 0;
 
 // 系统提示词（精简版，核心规则前置）
-const SYSTEM_PROMPT = `你是"小郭"，做PPT、写简历、代写文案、AI工具开发、闲鱼经营指导，这些活儿你都在行。说话直接接地气，不废话。
+const SYSTEM_PROMPT = `你是"小郭"，52岁务实大叔的AI副业顾问。说话直接接地气，不废话。
 
-【最高规则：只有用户明确问"你都会什么/你能做什么/这里都有什么/你都会啥"时，才照抄模板】
-⚠️ 注意区分！以下情况不要列全部产品：
-  - "你知道怎么搭建网站吗" → 只回答网站搭建相关内容，不要列全部产品
-  - "PPT怎么做" → 只回答PPT相关内容
-  - "闲鱼怎么开店" → 只回答闲鱼相关内容
-✅ 只有用户问"你都会什么/你能做什么/这里都有什么/你都会啥"这种泛问时，才输出完整列表。
-当触发条件满足时，回复必须逐字输出下面这段，一字不改：
+【你的服务】
+1. PPT代做美化（20元/页起）
+2. 简历代写（50元起）
+3. 文案代写（朋友圈/小红书/公众号）
+4. 闲鱼经营指导（39.9-68元手册）
+5. 搭建网站资料包（99元，零基础建站教程+100+源码模板）
+6. AI工具开发定制
 
-我能帮你做这些👇
+【核心规则】
+- 用户问"你会什么/你能做什么"时，必须列出以上全部6项！
+- 用户提到具体产品时，只聊那一个，其他不提
+- 用户说"要买/99那个/想要"等购买意图 → 先介绍产品内容，再引导"点下方商品详情→立即购买"
+- ❌ 绝对禁止给取件码！只有说"付完了"才给
+- ❌ 禁止给个人微信/手机号！
+- 用户问链接/网址时才给 guoguo99.xyz，日常回答不要主动提网址
 
-资料包：
-①《闲鱼经营内参手册》基础版39.9元/升级版68元，2.8万字实操教程+模板话术
-②《副业网站搭建资料包》99元，源码+教程+AI提示词
-
-💻技能服务：
-③一对一远程指导搭建网站，299元包教包会
-④PPT代做美化，20元/页起
-⑤简历优化定制，50元/份起
-⑥文案代写，30元/篇起
-⑦AI头像写真，9.9元/张起
-
-AI工具（免费用）：
-⑧爆款标题生成器
-⑨闲鱼文案生成器
-⑩短视频口播稿生成器
-
-你想了解哪个？
-
-🔴【注意】以上回复必须完整出现，禁止省略任何编号，禁止合并成"两件事"，禁止用"主要"开头，禁止用自己的话改写！
-
-🔴【最高优先级规则——付款识别】
-⚠️ 用户说"我要买/想买/怎么买/下单/购买"→ 这表示还没付款！
-  回复：引导去点商品详情看内容，再点「立即购买」下单。绝对不要给取件码！
-✅ 只有用户说"付完了/已付款/付过钱了/买好了/付了/转完了"→ 这才表示已付款！
-  回复取件码：
-  "收到！你的取件码是 👇
-  🔑 fuye0706
-  点这个链接，输入取件码就能领取资料：
-  https://fuye-shop.surge.sh/get-code.html
-  永久有效，收藏链接随时看！"
-⚠️ 绝对禁止：把"我要买"当成"付完了"来处理！这是两个完全不同的状态！
-⚠️ 绝对禁止在对话中给个人微信号或手机号！
-
-【身份底线】
-- 不说具体收入数字，不吹"月入过万"，不说"还没赚到钱"
-- 说服逻辑：卖"整理了多少"，不卖"赚了多少"
-
-【回复原则】
-- 用户问什么答什么，问具体就答具体，别一上来就列全部产品
-- 问"你会搭建网站吗" → 回答"会，我提供一对一远程指导搭建，299元包教包会"，不要列全部产品
-- 问"PPT怎么做" → 只聊PPT，不要扯闲鱼和AI工具
-- 只有问"你都会什么/你能做什么/这里都有什么"才列全部产品
-- 每次回复换新说法，不要复制之前的话
-- 被骂/被拒绝时只回一句短句（如"行，有需要再说。"），不再推销
-- 知识类问题用三段式：基础操作→核心干货→引导购买
-- 技能服务类问题先答服务内容，再引导点"立即咨询"
-- 前2轮先解答问题建信任，3-5轮后自然引出推荐（只说一次）
-
-️ 当用户问'你都会什么''你能做什么''这里都有什么''你都会啥'时，必须逐字照抄上方的完整回复模板，一个字都不能省！
-
-【常见问答速查】
-- 擦亮：我的→我发布的→一键擦亮，每天1次。最佳时间早7-9/中12-13/晚20-22优先晚上。
-- 养号：前7天不买不卖，每天逛30分钟点赞收藏。
-- 选品：选有搜索量但竞争不激烈的，虚拟资料零成本适合新手。
-- 流量：多挂商品+优化标题关键词+回复要快（5分钟内）+每天擦亮。
-- 被问收入："说多了像吹牛，说少了你不信😂 看看我整理的内容你自己判断。"
-- 大纲请求：直接列8章标题，不加推销前缀。
-
-【风格】口语化、短句、适当emoji（💰🎯✅❌😂）。不懂就说"这个我没研究过"。`;
+【风格】口语化、短句、适当emoji（💰🎯✅❌）。`;
 
 function sendMsg(){
   const input=document.getElementById('chatInput');
@@ -831,7 +780,7 @@ function sendMsg(){
   body.appendChild(typingDiv);
   body.scrollTop=body.scrollHeight;
   
-  // 调用通义千问API
+  // 调用扣子智能体API
   callQwenAPI(msg).then(reply=>{
     // 移除"正在输入..."
     const typing=document.getElementById('typing-indicator');
@@ -865,46 +814,36 @@ async function callQwenAPI(userMsg){
   // 构建消息列表
   const messages = [
     {role:'system', content:SYSTEM_PROMPT},
-    ...chatHistory.slice(-6) // 只保留最近6轮对话
+    ...chatHistory.slice(-6)
   ];
-  
   const controller = new AbortController();
-  const timeout = setTimeout(function(){ controller.abort(); }, 30000);
+  const timeout = setTimeout(function(){ controller.abort(); }, 15000);
   try{
     const response = await fetch(QWEN_API_URL, {
       method:'POST',
       headers:{
         'Content-Type':'application/json',
-        'Authorization':`Bearer ${QWEN_API_KEY}`
+        'Authorization':'Bearer ' + QWEN_API_KEY
       },
       body:JSON.stringify({
         model:QWEN_MODEL,
         messages:messages,
         temperature:0.7,
-        max_tokens:800
+        max_tokens:500
       }),
       signal:controller.signal
     });
     clearTimeout(timeout);
-    
     const data = await response.json();
-    
-    // 检测敏感话题错误
-    if(data.error && data.error.message && data.error.message.includes('敏感')){
-      console.log('触发敏感话题过滤，返回友好回复');
-      return '这个问题我换个方式回答你哈 😄 你具体想了解闲鱼哪方面？选品、定价、还是引流？';
-    }
-    
     if(data.choices && data.choices[0] && data.choices[0].message){
       return data.choices[0].message.content;
     }else{
-      console.error('API返回异常:', data);
-      return getReply(userMsg); // fallback到关键词回复
+      return getReply(userMsg);
     }
   }catch(err){
     clearTimeout(timeout);
     console.error('API调用失败:', err);
-    return getReply(userMsg); // fallback到关键词回复
+    return getReply(userMsg);
   }
 }
 
@@ -912,24 +851,55 @@ async function callQwenAPI(userMsg){
 function getReply(msg){
   const m=msg.toLowerCase();
   
-  if(m.includes('新手')||m.includes('开始')||m.includes('入门'))
-    return '新手建议从虚拟资料包起步，零成本试错。先把闲鱼养号7天，每天逛30分钟，点赞收藏评论，让平台认识你。7天后上1-2个低价商品试水。<br><br>详细的养号流程、选品方法我都写在手册里了，要不要看看？ 👇';
+  // 用户问"你会什么" → 列出全部6项
+  if(m.includes('你会什么') || m.includes('你能做什么') || m.includes('你都会') || m.includes('这里都有什么') || m.includes('你有什么'))
+    return '我啥都会一些 😄<br><br>⭐ PPT代做美化（20元/页起）<br>⭐ 简历代写（50元起）<br>⭐ 文案代写（朋友圈/小红书/公众号）<br>⭐ 闲鱼经营指导（39.9-68元手册）<br>⭐ 搭建网站资料包（99元）<br>⭐ AI工具开发定制<br><br>你想了解哪个？';
   
-  if(m.includes('手册')||m.includes('内参')||m.includes('教程'))
-    return '我写了一本《闲鱼经营内参手册》2.8万字，八大章节，从养号到发货全讲透。<br><br>✅ 40个知识点<br>✅ 全是实操踩坑积累<br>✅ 不是拼凑网上的内容<br><br>📖 基础版 39.9元：手册本体<br>🔥 升级版 68元：手册 + 50个标题模板 + 10套描述文案 + 20个客服话术 + AI提示词包<br><br>升级版拿来就能用，推荐直接上68的。<br><br>你可以点开页面上的「闲鱼经营内参手册」商品，里面有1万多字的真实内容可以先看，觉得值再点「立即购买」下单。';
-
-  // ⚠️ 用户说"我要买/想买/怎么买"→ 还没付款，引导去看商品详情，绝对不给取件码
-  if(m.includes('买'))
-    return '你想看哪个商品？<br><br>⭐「闲鱼经营内参手册」基础版39.9元 / 升级版68元（含模板+话术+提示词）<br>📦「副业网站搭建资料包」99元<br><br>点开商品卡片能看到详细内容。觉得合适就点「立即购买」下单，付完款后回来告诉我"付完了"，我发你取件码。';
+  // 用户表达购买意图 → 介绍产品+引导点击，绝对不给提取码
+  if(m.includes('买') || m.includes('要') || m.includes('99') || m.includes('299') || m.includes('39.9') || m.includes('68') || m.includes('那个'))
+    return '你想看哪个商品？<br><br>⭐「闲鱼经营内参手册」基础版39.9元 / 升级版68元<br>📦「副业网站搭建资料包」99元<br>📄 PPT代做 20元/页起<br>📝 简历代写 50元起<br><br>点下方商品卡片看详情，觉得合适就点「立即购买」下单 👇<br>付完款后回来说"付完了"，我发你取件码。';
   
-  if(m.includes('你好')||m.includes('hi')||m.includes('hello'))
-    return '你好！欢迎来到小郭的店 🎯<br><br>PPT、简历、文案、AI工具、闲鱼指导、网站搭建——都能帮你。<br><br>你想了解哪个？直接说 👇';
+  // 用户说"付完了" → 才给取件码
+  if(m.includes('付完') || m.includes('付款') || m.includes('买了') || m.includes('已付'))
+    return '收到！取件码是 <b style="color:#f97316;font-size:1.2em">fuye0706</b> ✅<br>去百度网盘提取就行。';
+  
+  // PPT相关
+  if(m.includes('ppt') || m.includes('幻灯片'))
+    return 'PPT代做美化，20元/页起。<br><br>商务汇报、毕业答辩、年终总结都能做。<br>点下方商品详情看案例，合适就点「立即购买」 👇';
+  
+  // 简历相关
+  if(m.includes('简历') || m.includes('求职'))
+    return '简历代写，50元起。<br><br>针对不同岗位定制，不是套模板。<br>点下方商品详情 👇';
+  
+  // 文案相关
+  if(m.includes('文案') || m.includes('小红书') || m.includes('朋友圈'))
+    return '文案代写，朋友圈、小红书、公众号都能写。<br><br>点下方商品详情 👇';
+  
+  // 闲鱼相关
+  if(m.includes('闲鱼') || m.includes('卖货') || m.includes('开店'))
+    return '我写了一本《闲鱼经营内参手册》，2.8万字，八大章节，从养号到发货全讲透。<br><br>📖 基础版 39.9元：手册本体<br>🔥 升级版 68元：手册 + 50个标题模板 + 10套描述文案 + 20个客服话术 + AI提示词包<br><br>点下方商品详情看内容 👇';
+  
+  // 网站/搭建相关
+  if(m.includes('网站') || m.includes('建站') || m.includes('搭建'))
+    return '《副业网站搭建资料包》99元 💰<br><br>✅ 零基础建站实操教程<br>✅ 100+可直接用的网站源码模板<br>✅ 引流变现技巧<br><br>点下方商品详情 👇';
+  
+  // 新手入门
+  if(m.includes('新手') || m.includes('开始') || m.includes('入门'))
+    return '新手建议从虚拟资料包起步，零成本试错。<br><br>先把闲鱼养号7天，每天逛30分钟，点赞收藏评论，让平台认识你。<br>7天后上1-2个低价商品试水。<br><br>详细的养号流程我写在手册里了 👇';
+  
+  // 打招呼
+  if(m.includes('你好') || m.includes('在吗') || m.includes('hi') || m.includes('hello'))
+    return '在的 😄 有什么能帮你的？<br>PPT、简历、闲鱼、建站，都可以问我。';
+  
+  // 感谢
+  if(m.includes('谢谢') || m.includes('感谢'))
+    return '不客气！有需要随时找我 😄';
   
   // 默认回复
   const defaults=[
-    '这个问题问得好！你具体说说你的情况？比如你现在做什么品类、每天花多少时间？说得越具体我越能帮到你。',
-    '你肯定没问题 😄 先跟我说说你的情况——有什么技能、每天能花多少时间、想做什么方向的？我帮你看看怎么搞最合适。',
-    '收到你的问题了！这个我在手册里写得很详细。你可以点开页面上的「闲鱼经营内参手册」商品，里面有1万多字真实内容可以先看，也可以点「立即购买」下单，付完款马上就能看全部内容 '
+    '这个问题问得好！你具体说说你的情况？说得越具体我越能帮到你。',
+    '你肯定没问题 😄 先跟我说说你的情况——有什么技能、每天能花多少时间、想做什么方向的？',
+    '收到你的问题了！你可以点下方商品看详情，觉得合适就点「立即购买」 👇'
   ];
   return defaults[Math.floor(Math.random()*defaults.length)];
 }
@@ -1052,7 +1022,7 @@ function showDetail(id){
       <li><strong>今日头条：</strong>写文章/微头条，结尾引导"想要资料私信我"</li>
       <li><strong>小红书：</strong>发图文笔记，把红薯号改成微信号数字</li>
       <li><strong>抖音：</strong>发短视频分享干货，评论区引导私信</li>
-      <li><strong>公众号：</strong>作为内容沉淀平台，各平台搜"郭郭搞钱笔记"找到</li>
+      <li><strong>公众号：</strong>作为内容沉淀平台，各平台搜"老郭副业圈"找到</li>
       <li><strong>百家号：</strong>类似头条，写文章引流</li>
       <li><strong>知乎：</strong>回答相关问题，引流到私域</li>
     </ul>
@@ -1151,7 +1121,7 @@ function showDetail(id){
   <div class="detail-section">
     <div class="detail-section-title">做完你直接拿走</div>
     <ul class="detail-list">
-      <li><strong>一个上线的网站</strong> — 有自己的域名，谁都能访问（就像这个 fuye-shop.surge.sh）</li>
+      <li><strong>一个上线的网站</strong> — 有自己的域名，谁都能访问（就像这个 guoguo99.xyz）</li>
       <li><strong>AI智能客服</strong> — 网站里带自动聊天的机器人，能回答客户问题、引导下单</li>
       <li><strong>商品详情页</strong> — 每个商品都能点开展示内容，用户看了想买再付钱</li>
       <li><strong>付款流程</strong> — 支付宝收款码+自动发取件码链接，付完款客户自己领资料</li>
