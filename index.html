@@ -2201,11 +2201,11 @@ function dismissReminder(){
   document.getElementById('shopReminder').style.display='none';
   reminderShown = false;
 }
-// First popup after 18 seconds, then every 45 seconds
+// First popup after 2.5 minutes, then every 10 minutes
 setTimeout(function(){
   showShopReminder();
-  reminderTimer = setInterval(function(){ showShopReminder(); }, 45000);
-}, 18000);
+  reminderTimer = setInterval(function(){ showShopReminder(); }, 600000);
+}, 150000);
 </script>
 
 <script>
