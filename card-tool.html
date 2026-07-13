@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>引流卡片制作工具</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --orange:#f97316;
+  --dark:#ea580c;
+  --bg:#fff7ed;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+  background:var(--bg);
+  min-height:100vh;
+  padding:12px;
+  padding-bottom:40px;
+}
+
+/* ===== 顶部 ===== */
+.hd{text-align:center;padding:12px 0 8px}
+.hd h1{font-size:20px;color:var(--dark)}
+.hd p{font-size:13px;color:#999;margin-top:4px}
+
+/* ===== 表单 ===== */
+.form{
+  background:#fff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+.g{margin-bottom:14px}
+.g:last-child{margin-bottom:0}
+.lb{
+  display:block;
+  font-size:14px;
+  font-weight:700;
+  color:#333;
+  margin-bottom:6px;
+}
+input[type=text]{
+  width:100%;
+  height:44px;
+  border:2px solid #eee;
+  border-radius:10px;
+  padding:0 12px;
+  font-size:15px;
+  outline:none;
+  transition:border .2s;
+}
+input[type=text]:focus{border-color:var(--orange)}
+
+/* 上传 */
+.up{
+  border:2px dashed #ddd;
+  border-radius:12px;
+  padding:18px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .2s;
+  position:relative;
+  overflow:hidden;
+}
+.up:active{border-color:var(--orange);background:#fff7ed}
+.up input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.up .ic{font-size:30px;margin-bottom:4px}
+.up .tx{font-size:13px;color:#aaa}
+.up.ok{border-color:var(--orange);border-style:solid;padding:8px}
+.up.ok .ic,.up.ok .tx{display:none}
+.up img{max-width:100%;max-height:100px;border-radius:6px}
+
+/* 颜色 */
+.cl{display:flex;gap:12px;flex-wrap:wrap}
+.ci{
+  width:38px;height:38px;
+  border-radius:50%;
+  cursor:pointer;
+  border:3px solid transparent;
+  transition:all .15s;
+}
+.ci.on{border-color:#333;transform:scale(1.15)}
+
+/* 模板 */
+.tl{display:flex;gap:10px}
+.ti{
+  flex:1;
+  padding:10px 0;
+  border:2px solid #eee;
+  border-radius:10px;
+  text-align:center;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:all .15s;
+}
+.ti.on{border-color:var(--orange);background:#fff7ed;color:var(--dark)}
+
+/* ===== 预览 ===== */
+.sec-t{font-size:15px;font-weight:700;color:#333;margin-bottom:10px;text-align:center}
+.box{
+  background:#fff;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:180px;
+  background-image:
+    linear-gradient(45deg,#f5f5f5 25%,transparent 25%),
+    linear-gradient(-45deg,#f5f5f5 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#f5f5f5 75%),
+    linear-gradient(-45deg,transparent 75%,#f5f5f5 75%);
+  background-size:16px 16px;
+  background-position:0 0,0 8px,8px -8px,-8px 0;
+}
+#pvc{
+  border-radius:10px;
+  box-shadow:0 6px 20px rgba(0,0,0,.15);
+  max-width:100%;
+  height:auto;
+}
+
+/* ===== 保存按钮 ===== */
+.sb{
+  width:100%;
+  height:52px;
+  background:linear-gradient(135deg,var(--orange),var(--dark));
+  color:#fff;
+  border:none;
+  border-radius:14px;
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+  letter-spacing:1px;
+  box-shadow:0 4px 14px rgba(249,115,22,.35);
+}
+.sb:active{opacity:.85;transform:scale(.98)}
+
+/* ===== 提示 ===== */
+.tip{
+  text-align:center;
+  font-size:12px;
+  color:#bbb;
+  margin-top:12px;
+  line-height:1.6;
+}
+
+/* ===== 水印 ===== */
+.wm{
+  text-align:center;
+  margin-top:16px;
+  font-size:12px;
+  color:#ccc;
+}
+.wm a{color:var(--orange);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <h1>🎬 引流卡片制作</h1>
+  <p>填内容 → 选样式 → 保存卡片到手机</p>
+</div>
+
+<div class="form">
+  <div class="g">
+    <label class="lb">✏️ 卡片文字</label>
+    <input type="text" id="t1" value="领资料入口" placeholder="写卡面上的字" maxlength="12">
+  </div>
+  <div class="g">
+    <label class="lb">🖼️ 上传图片</label>
+    <div class="up" id="ub">
+      <input type="file" id="fi" accept="image/*">
+      <div class="ic">📷</div>
+      <div class="tx">点这选图片（二维码/微信号等）</div>
+    </div>
+  </div>
+  <div class="g">
+    <label class="lb">🔗 链接文字</label>
+    <input type="text" id="lk" value="guoguo99.xyz" placeholder="卡片底部显示的网址">
+  </div>
+  <div class="g">
+    <label class="lb">🎨 卡片颜色</label>
+    <div class="cl" id="cp">
+      <div class="ci on" data-c="#f97316" style="background:#f97316"></div>
+      <div class="ci" data-c="#ef4444" style="background:#ef4444"></div>
+      <div class="ci" data-c="#3b82f6" style="background:#3b82f6"></div>
+      <div class="ci" data-c="#22c55e" style="background:#22c55e"></div>
+      <div class="ci" data-c="#a855f7" style="background:#a855f7"></div>
+      <div class="ci" data-c="#ec4899" style="background:#ec4899"></div>
+      <div class="ci" data-c="#111827" style="background:#111827"></div>
+    </div>
+  </div>
+  <div class="g">
+    <label class="lb">📐 卡片大小</label>
+    <div class="tl">
+      <div class="ti on" data-t="s">📇 小卡片</div>
+      <div class="ti" data-t="l">📋 大海报</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-t">— 效果预览 —</div>
+<div class="box">
+  <canvas id="pvc"></canvas>
+</div>
+
+<button class="sb" id="sv">💾 生成卡片图片</button>
+
+<div id="result" style="display:none;background:#fff;border-radius:16px;padding:16px;margin-top:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);text-align:center">
+  <p style="font-size:15px;font-weight:700;color:var(--dark);margin-bottom:10px">✅ 卡片已生成！长按图片保存到相册</p>
+  <img id="rimg" style="max-width:100%;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.12)">
+  <button id="dbtn" style="width:100%;height:44px;margin-top:12px;background:#22c55e;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700">📥 点击下载保存</button>
+</div>
+
+<div class="tip">
+  小卡片适合私信发送 · 大海报适合朋友圈/群发<br>
+  图片会自动缩小放入卡片，不会变形
+</div>
+
+<div class="wm">
+  由 <a href="https://guoguo99.xyz" target="_blank">guoguo99.xyz</a> 提供技术支持
+</div>
+
+<script>
+var $ = function(id){ return document.getElementById(id) };
+
+// Canvas 实际输出尺寸（高清）
+var SZ = {
+  s: { w: 220, h: 220, bar: 68 },    // 小卡片（拇指大小）
+  l: { w: 380, h: 520, bar: 100 }    // 大海报（也缩小）
+};
+
+var tp = 's',       // 当前模板 s=小 l=大
+    cl = '#f97316',  // 当前颜色
+    im = null,       // 已加载的Image对象
+    bk = null;       // 隐藏的绘制canvas
+
+// ========== 颜色选择 ==========
+$('cp').addEventListener('click', function(e){
+  var d = e.target.closest('.ci');
+  if(!d) return;
+  var arr = $('cp').querySelectorAll('.ci');
+  for(var i=0;i<arr.length;i++) arr[i].classList.remove('on');
+  d.classList.add('on');
+  cl = d.dataset.c;
+  go();
+});
+
+// ========== 模板选择 ==========
+var tis = document.querySelectorAll('.ti');
+for(var i=0;i<tis.length;i++){
+  tis[i].addEventListener('click', function(){
+    for(var j=0;j<tis.length;j++) tis[j].classList.remove('on');
+    this.classList.add('on');
+    tp = this.dataset.t;
+    go();
+  });
+}
+
+// ========== 图片上传 ==========
+$('fi').addEventListener('change', function(e){
+  var f = e.target.files[0];
+  if(!f) return;
+  var r = new FileReader();
+  r.onload = function(ev){
+    var img = new Image();
+    img.onload = function(){
+      im = img;
+      var ub = $('ub');
+      ub.classList.add('ok');
+      ub.innerHTML = '<input type="file" id="fi" accept="image/*"><img src="'+ev.target.result+'">';
+      // 重新绑定（因为innerHTML替换了input）
+      $('fi').addEventListener('change', arguments.callee);
+      go();
+    };
+    img.src = ev.target.result;
+  };
+  r.readAsDataURL(f);
+});
+
+// ========== 文字输入实时预览 ==========
+$('t1').addEventListener('input', go);
+$('lk').addEventListener('input', go);
+
+// ========== 核心：绘制卡片 ==========
+function draw(cv){
+  var s = SZ[tp];
+  cv.width = s.w;
+  cv.height = s.h;
+  var c = cv.getContext('2d');
+  var W = s.w, H = s.h, BH = s.bar;
+  var t1 = $('t1').value || '领资料入口';
+  var lk = $('lk').value || '';
+
+  // 1. 白色底 + 圆角裁切
+  c.clearRect(0,0,W,H);
+  c.beginPath();
+  rrect(c, 0, 0, W, H, 20);
+  c.fillStyle = '#ffffff';
+  c.fill();
+  c.save();
+  c.beginPath();
+  rrect(c, 0, 0, W, H, 20);
+  c.clip();
+
+  // 2. 顶部彩色条
+  c.fillStyle = cl;
+  c.fillRect(0, 0, W, BH);
+
+  // 3. 顶部文字（居中）
+  var fs = Math.floor(BH * 0.38);
+  c.fillStyle = '#ffffff';
+  c.font = 'bold '+fs+'px "PingFang SC","Microsoft YaHei",sans-serif';
+  c.textAlign = 'center';
+  c.textBaseline = 'middle';
+  c.fillText(t1, W/2, BH/2);
+
+  // 4. 下半部分放图片
+  var pad = Math.floor(W * 0.08);
+  var botH = H - BH;
+
+  if(im){
+    var aW = W - pad*2;
+    var aH = botH - pad*2;
+    // 底部链接文字高度
+    var lkH = lk ? Math.floor(botH * 0.13) : 0;
+    var imgH = aH - lkH;
+
+    // 图片等比缩放，居中放置
+    var sc = Math.min(aW / im.width, imgH / im.height);
+    var dw = Math.floor(im.width * sc);
+    var dh = Math.floor(im.height * sc);
+    var dx = Math.floor((W - dw) / 2);
+    var dy = BH + Math.floor((imgH - dh) / 2) + pad/2;
+
+    // 图片带轻微圆角
+    c.save();
+    c.beginPath();
+    rrect(c, dx, dy, dw, dh, 8);
+    c.clip();
+    c.drawImage(im, dx, dy, dw, dh);
+    c.restore();
+
+    // 底部链接文字
+    if(lk){
+      var lfs = Math.floor(Math.min(W, botH) * 0.055);
+      c.fillStyle = '#999999';
+      c.font = lfs+'px "PingFang SC","Microsoft YaHei",sans-serif';
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.fillText(lk, W/2, H - lkH/2);
+    }
+  } else {
+    // 没图 → 占位
+    var pfs = Math.floor(W * 0.045);
+    c.fillStyle = '#dddddd';
+    c.font = pfs+'px "PingFang SC","Microsoft YaHei",sans-serif';
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+    c.fillText('↑ 上传图片后显示在这里', W/2, BH + botH/2);
+  }
+
+  c.restore();
+
+  // 5. 外边框
+  c.beginPath();
+  rrect(c, 0, 0, W, H, 20);
+  c.strokeStyle = '#e5e5e5';
+  c.lineWidth = 2;
+  c.stroke();
+}
+
+// 圆角矩形路径
+function rrect(c, x, y, w, h, r){
+  c.moveTo(x+r, y);
+  c.lineTo(x+w-r, y);
+  c.quadraticCurveTo(x+w, y, x+w, y+r);
+  c.lineTo(x+w, y+h-r);
+  c.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  c.lineTo(x+r, y+h);
+  c.quadraticCurveTo(x, y+h, x, y+h-r);
+  c.lineTo(x, y+r);
+  c.quadraticCurveTo(x, y, x+r, y);
+  c.closePath();
+}
+
+// ========== 预览 ==========
+function go(){
+  var pvc = $('pvc');
+  var s = SZ[tp];
+  // 预览缩放显示
+  var maxW = Math.min(window.innerWidth - 64, 320);
+  var ratio = maxW / s.w;
+  pvc.style.width = Math.floor(s.w * ratio) + 'px';
+  pvc.style.height = Math.floor(s.h * ratio) + 'px';
+  draw(pvc);
+}
+
+// ========== 生成卡片图片 ==========
+$('sv').addEventListener('click', function(){
+  var btn = this;
+  btn.textContent = '⏳ 生成中...';
+  btn.disabled = true;
+
+  setTimeout(function(){
+    // 用隐藏canvas绘制全尺寸
+    if(!bk) bk = document.createElement('canvas');
+    draw(bk);
+
+    // 生成dataURL（兼容性最好）
+    var dataUrl = bk.toDataURL('image/png');
+
+    // 显示在页面上，用户可以长按保存
+    var rimg = $('rimg');
+    rimg.src = dataUrl;
+    $('result').style.display = 'block';
+
+    // 下载按钮
+    $('dbtn').onclick = function(){
+      // 方式1：创建a标签下载
+      var a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = '引流卡片_' + Date.now() + '.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      // 方式2：同时尝试新窗口打开（某些浏览器需要）
+      setTimeout(function(){
+        var w = window.open('');
+        if(w){
+          w.document.write('<img src="'+dataUrl+'" style="max-width:100%"><p style="text-align:center;font-size:16px;margin-top:10px">长按图片保存到相册</p>');
+          w.document.title = '引流卡片 - 长按保存';
+        }
+      }, 300);
+    };
+
+    // 滚动到结果区域
+    $('result').scrollIntoView({behavior:'smooth', block:'center'});
+
+    btn.textContent = '✅ 已生成！';
+    setTimeout(function(){
+      btn.textContent = '💾 生成卡片图片';
+      btn.disabled = false;
+    }, 2000);
+  }, 50);
+});
+
+// 初始化
+go();
+</script>
+</body>
+</html>

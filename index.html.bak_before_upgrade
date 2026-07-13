@@ -1151,43 +1151,6 @@ function showDetail(id){
     <button class="detail-cta-btn" onclick="closeDetail();showBuyModal('闲鱼经营内参手册')">立即购买</button>
   </div>`
     },
-    'neican-upgrade':{
-      title:'\u2b50 \u95f2\u9c7c\u5185\u53c2\u624b\u518c\u00b7\u5347\u7ea7\u7248',
-      html:`
-<div class="detail-hero">
-  <div class="detail-hero-icon">\u2b50</div>
-  <div class="detail-hero-name">\u95f2\u9c7c\u5185\u53c2\u624b\u518c\u00b7\u5347\u7ea7\u7248</div>
-  <div class="detail-hero-price"><span>\u00a5</span>68</div>
-  <div class="detail-hero-tag">\u5373\u62ff\u5373\u7528 \u00b7 \u586b\u8bcd\u5c31\u80fd\u53d1</div>
-</div>
-<div class="detail-body">
-  <div class="detail-section">
-    <div class="detail-section-title">\u5347\u7ea7\u7248\u5305\u542b\u4ec0\u4e48</div>
-    <ul class="detail-list">
-      <li><strong>\ud83d\udcd6 \u624b\u518c\u672c\u4f53</strong> \u2014 2.8\u4e07\u5b57\u5b8c\u6574\u6559\u7a0b\uff0c8\u5927\u7ae0\u828240\u4e2a\u77e5\u8bc6\u70b9</li>
-      <li><strong>\ud83d\udcdd 50\u4e2a\u7206\u6b3e\u6807\u9898\u6a21\u677f</strong> \u2014 \u9ad8\u66dd\u5149\u6807\u9898\u516c\u5f0f\uff0c\u76f4\u63a5\u5957\u7528</li>
-      <li><strong>\ud83d\udccb 10\u5957\u5546\u54c1\u63cf\u8ff0\u6587\u6848</strong> \u2014 \u4e0d\u540c\u54c1\u7c7b\u901a\u7528\uff0c\u590d\u5236\u7c98\u8d34\u5373\u53ef</li>
-      <li><strong>\ud83d\udcac 20\u4e2a\u5ba2\u670d\u8bdd\u672f\u6a21\u677f</strong> \u2014 \u552e\u524d/\u780d\u4ef7/\u552e\u540e\u5168\u573a\u666f\u8986\u76d6</li>
-      <li><strong>\ud83e\udd16 AI\u63d0\u793a\u8bcd\u5305</strong> \u2014 \u6279\u91cf\u751f\u6210\u6807\u9898\u63cf\u8ff0\uff0c\u6548\u7387\u7ffb\u500d</li>
-    </ul>
-  </div>
-  <div class="detail-section">
-    <div class="detail-section-title">\u5347\u7ea7\u7248 vs \u57fa\u7840\u7248</div>
-    <table style="width:100%;border-collapse:collapse;font-size:14px">
-      <tr style="background:#f9f9f9"><td style="padding:10px;border:1px solid #eee"><strong>\u57fa\u7840\u7248 \u00a539.9</strong></td><td style="padding:10px;border:1px solid #eee">\u53ea\u6709\u624b\u518c\u672c\u4f53</td></tr>
-      <tr style="background:#fff5f5"><td style="padding:10px;border:1px solid #fee2e2"><strong>\u5347\u7ea7\u7248 \u00a568</strong></td><td style="padding:10px;border:1px solid #fee2e2">\u624b\u518c+\u6807\u9898\u6a21\u677f+\u63cf\u8ff0\u6587\u6848+\u5ba2\u670d\u8bdd\u672f+AI\u63d0\u793a\u8bcd</td></tr>
-    </table>
-  </div>
-  <div class="detail-highlight" style="border:2px solid #dc2626">
-    <p style="font-size:16px;text-align:center"><strong>\u9002\u5408\u8c01\u4e70\u5347\u7ea7\u7248</strong></p>
-    <p style="font-size:14px;text-align:center;margin-top:8px">\u51b3\u5b9a\u505a\u95f2\u9c7c\u3001\u9700\u8981\u62ff\u6765\u5373\u7528\u7684\u6a21\u677f\u548c\u8bdd\u672f<br>\u4e0d\u60f3\u81ea\u5df1\u4ece\u96f6\u6478\u7d22\uff0c\u76f4\u63a5\u7167\u642c\u6210\u719f\u7ecf\u9a8c</p>
-  </div>
-</div>
-<div class="detail-cta">
-    <div class="detail-cta-price"><span>\u00a5</span>68</div>
-    <button class="detail-cta-btn" onclick="closeDetail();showBuyModal('\u95f2\u9c7c\u5185\u53c2\u624b\u518c\u00b7\u5347\u7ea7\u7248')">\u7acb\u5373\u8d2d\u4e70</button>
-  </div>`
-    },
     'ziliaobao':{
       title:'📦 副业网站搭建全套资料包',
       html:`
@@ -1825,43 +1788,6 @@ function showDetail(id){
 <div class="detail-cta">
     <div class="detail-cta-price"><span>¥</span>39.9<span style="font-size:12px;color:#ccc;margin-left:6px">起</span></div>
     <button class="detail-cta-btn" onclick="closeDetail();showBuyModal('闲鱼经营内参手册')">立即购买</button>
-  </div>`
-    },
-    'neican-upgrade':{
-      title:'\u2b50 \u95f2\u9c7c\u5185\u53c2\u624b\u518c\u00b7\u5347\u7ea7\u7248',
-      html:`
-<div class="detail-hero">
-  <div class="detail-hero-icon">\u2b50</div>
-  <div class="detail-hero-name">\u95f2\u9c7c\u5185\u53c2\u624b\u518c\u00b7\u5347\u7ea7\u7248</div>
-  <div class="detail-hero-price"><span>\u00a5</span>68</div>
-  <div class="detail-hero-tag">\u5373\u62ff\u5373\u7528 \u00b7 \u586b\u8bcd\u5c31\u80fd\u53d1</div>
-</div>
-<div class="detail-body">
-  <div class="detail-section">
-    <div class="detail-section-title">\u5347\u7ea7\u7248\u5305\u542b\u4ec0\u4e48</div>
-    <ul class="detail-list">
-      <li><strong>\ud83d\udcd6 \u624b\u518c\u672c\u4f53</strong> \u2014 2.8\u4e07\u5b57\u5b8c\u6574\u6559\u7a0b\uff0c8\u5927\u7ae0\u828240\u4e2a\u77e5\u8bc6\u70b9</li>
-      <li><strong>\ud83d\udcdd 50\u4e2a\u7206\u6b3e\u6807\u9898\u6a21\u677f</strong> \u2014 \u9ad8\u66dd\u5149\u6807\u9898\u516c\u5f0f\uff0c\u76f4\u63a5\u5957\u7528</li>
-      <li><strong>\ud83d\udccb 10\u5957\u5546\u54c1\u63cf\u8ff0\u6587\u6848</strong> \u2014 \u4e0d\u540c\u54c1\u7c7b\u901a\u7528\uff0c\u590d\u5236\u7c98\u8d34\u5373\u53ef</li>
-      <li><strong>\ud83d\udcac 20\u4e2a\u5ba2\u670d\u8bdd\u672f\u6a21\u677f</strong> \u2014 \u552e\u524d/\u780d\u4ef7/\u552e\u540e\u5168\u573a\u666f\u8986\u76d6</li>
-      <li><strong>\ud83e\udd16 AI\u63d0\u793a\u8bcd\u5305</strong> \u2014 \u6279\u91cf\u751f\u6210\u6807\u9898\u63cf\u8ff0\uff0c\u6548\u7387\u7ffb\u500d</li>
-    </ul>
-  </div>
-  <div class="detail-section">
-    <div class="detail-section-title">\u5347\u7ea7\u7248 vs \u57fa\u7840\u7248</div>
-    <table style="width:100%;border-collapse:collapse;font-size:14px">
-      <tr style="background:#f9f9f9"><td style="padding:10px;border:1px solid #eee"><strong>\u57fa\u7840\u7248 \u00a539.9</strong></td><td style="padding:10px;border:1px solid #eee">\u53ea\u6709\u624b\u518c\u672c\u4f53</td></tr>
-      <tr style="background:#fff5f5"><td style="padding:10px;border:1px solid #fee2e2"><strong>\u5347\u7ea7\u7248 \u00a568</strong></td><td style="padding:10px;border:1px solid #fee2e2">\u624b\u518c+\u6807\u9898\u6a21\u677f+\u63cf\u8ff0\u6587\u6848+\u5ba2\u670d\u8bdd\u672f+AI\u63d0\u793a\u8bcd</td></tr>
-    </table>
-  </div>
-  <div class="detail-highlight" style="border:2px solid #dc2626">
-    <p style="font-size:16px;text-align:center"><strong>\u9002\u5408\u8c01\u4e70\u5347\u7ea7\u7248</strong></p>
-    <p style="font-size:14px;text-align:center;margin-top:8px">\u51b3\u5b9a\u505a\u95f2\u9c7c\u3001\u9700\u8981\u62ff\u6765\u5373\u7528\u7684\u6a21\u677f\u548c\u8bdd\u672f<br>\u4e0d\u60f3\u81ea\u5df1\u4ece\u96f6\u6478\u7d22\uff0c\u76f4\u63a5\u7167\u642c\u6210\u719f\u7ecf\u9a8c</p>
-  </div>
-</div>
-<div class="detail-cta">
-    <div class="detail-cta-price"><span>\u00a5</span>68</div>
-    <button class="detail-cta-btn" onclick="closeDetail();showBuyModal('\u95f2\u9c7c\u5185\u53c2\u624b\u518c\u00b7\u5347\u7ea7\u7248')">\u7acb\u5373\u8d2d\u4e70</button>
   </div>`
     },
     'ziliaobao':{

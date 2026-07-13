@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知乎发文模板</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: #f6f6f6;
+  color: #333;
+  padding: 12px;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.card-title {
+  font-size: 17px;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+.card-sub {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 12px;
+}
+
+/* 迷你卡片效果 - 点击展开 */
+.mini-card {
+  display: inline-block;
+  background: #f8f9fa;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: all 0.2s;
+}
+.mini-card:active {
+  background: #eef4ff;
+  border-color: #0066ff;
+}
+.mini-card-surface {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0066ff;
+}
+.mini-card-hidden {
+  display: none;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #666;
+  word-break: break-all;
+}
+.mini-card.expanded .mini-card-hidden {
+  display: block;
+}
+.mini-card.expanded {
+  background: #eef4ff;
+  border-color: #0066ff;
+}
+
+/* 私信卡片 */
+.dm-card {
+  background: #f0f5ff;
+  border: 1px solid #d4e3fc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 8px 0;
+}
+.dm-label { font-size: 13px; color: #666; margin-bottom: 6px; }
+.dm-row { display: flex; align-items: center; gap: 6px; }
+.dm-tag {
+  background: #0066ff; color: #fff;
+  font-size: 11px; padding: 2px 8px;
+  border-radius: 4px;
+}
+.dm-link { font-size: 14px; color: #0066ff; font-weight: 500; }
+
+/* 可复制区域 */
+.copy-box {
+  background: #1a1a2e;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 10px 0;
+  -webkit-user-select: all;
+  user-select: all;
+}
+.copy-box code {
+  color: #22c55e;
+  font-size: 13px;
+  line-height: 1.8;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.btn-copy {
+  display: block;
+  width: 100%;
+  background: #0066ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.btn-copy:active { background: #0052cc; }
+
+.tip {
+  background: #fff8e6;
+  border-left: 3px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 0 8px 8px 0;
+  font-size: 13px;
+  color: #92400e;
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.article-preview {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #444;
+}
+.article-preview p { margin-bottom: 14px; }
+.article-preview h2 {
+  font-size: 17px;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin: 20px 0 10px;
+}
+.article-preview ul { margin: 10px 0 14px 18px; }
+.article-preview li { margin-bottom: 6px; color: #555; }
+
+.divider-line {
+  border: none;
+  border-top: 1px dashed #ddd;
+  margin: 20px 0 10px;
+}
+</style>
+</head>
+<body>
+
+<!-- 卡片1：效果预览 -->
+<div class="card">
+  <div class="card-title">📱 文章末尾效果预览</div>
+  <div class="card-sub">这是读者在知乎看到的样子 ↓</div>
+  
+  <div class="article-preview">
+    <p>最后说一句：<b>副业这件事，难的不是方法，是执行力。</b></p>
+    <p>我把这一年多踩过的坑、实操过的所有方法，都整理成了<b>完整的实操资料包</b>，从选品到引流到成交，全链路都有。</p>
+    
+    <hr class="divider-line">
+    <div class="mini-card" onclick="goProtected()">
+      <div class="mini-card-surface">📎 领资料入口</div>
+      <div class="mini-card-hidden" id="cardHidden">👉 guoguo99.xyz</div>
+    </div>
+  </div>
+</div>
+
+<!-- 卡片2：复制到知乎 -->
+<div class="card">
+  <div class="card-title">📋 直接复制到知乎</div>
+  <div class="card-sub">长按下面内容 → 复制 → 粘贴到知乎编辑器</div>
+  
+  <div class="copy-box" id="copyArea1">
+    <code>---
+> 📎 [**领资料入口**](https://guoguo99.xyz)</code>
+  </div>
+  
+  <button class="btn-copy" onclick="copyText('copyArea1')">👆 点我复制</button>
+  
+  <div class="tip">
+    💡 知乎里只看到"📎 领资料入口"这几个字<br>
+    点一下直接跳到 guoguo99.xyz，表面看不到网址<br>
+    知乎编辑器粘贴后自动变成蓝色可点击链接
+  </div>
+</div>
+
+<!-- 卡片3：私信模板 -->
+<div class="card">
+  <div class="card-title">💬 私信发送模板</div>
+  <div class="card-sub">回复用户咨询时，直接发这段 ↓</div>
+  
+  <div class="copy-box" id="copyArea2">
+    <code>👇 点这里看完整教程
+
+📎 完整实操指南 → https://guoguo99.xyz
+
+里面有详细的步骤和工具推荐，照着做就行。</code>
+  </div>
+  
+  <button class="btn-copy" onclick="copyText('copyArea2')">👆 点我复制私信内容</button>
+</div>
+
+<!-- 卡片4：防屏蔽技巧 -->
+<div class="card">
+  <div class="card-title">🛡️ 防屏蔽小贴士</div>
+  <div class="tip">
+    <b>文章里放链接：</b><br>
+    ✅ 用引用块包裹，像"参考资料"一样自然<br>
+    ✅ 链接前后加文字，别光秃秃放个URL<br>
+    ✅ 同一篇不要放超过2个链接<br>
+    ❌ 别在开头第一段就放链接<br>
+    ❌ 别每篇都放同一个链接<br><br>
+    <b>私信放链接：</b><br>
+    ✅ 私信里放链接基本不会被吞<br>
+    ✅ 先发文字聊天，最后再甩链接<br>
+    ✅ 不同问题用不同话术带链接
+  </div>
+</div>
+
+<script>
+/* ===== 7层防护跳转 ===== */
+var _u = 'aHR0cHM6Ly9ndW9ndW85OS54eXo='; // Base64编码的guoguo99.xyz
+
+function goProtected() {
+  // 展开卡片显示网址
+  var card = document.querySelector('.mini-card');
+  card.classList.add('expanded');
+
+  // 第1层：JS触发，href不暴露
+  // 第2层：Base64编码URL（已定义_u）
+  // 第3层：中转loading页
+  var overlay = document.createElement('div');
+  overlay.id = '_ld';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,0.97);z-index:99999;display:flex;align-items:center;justify-content:center;flex-direction:column;';
+  overlay.innerHTML = '<div style="width:32px;height:32px;border:3px solid #eee;border-top-color:#0066ff;border-radius:50%;animation:_sp 0.8s linear infinite"></div><div style="margin-top:12px;font-size:14px;color:#999">正在跳转...</div><style>@keyframes _sp{to{transform:rotate(360deg)}}</style>';
+  document.body.appendChild(overlay);
+
+  // 第4层：随机延迟1-3秒
+  var delay = 1000 + Math.random() * 2000;
+  setTimeout(function() {
+    // 第5层：UA检测
+    var ua = navigator.userAgent;
+    if (!ua || ua.length < 10) { document.body.removeChild(overlay); return; }
+
+    // 第6层：解码URL，meta refresh伪装referer
+    var url = atob(_u);
+    var meta = document.createElement('meta');
+    meta.setAttribute('http-equiv', 'refresh');
+    meta.setAttribute('content', '0;url=' + url);
+    document.head.appendChild(meta);
+
+    // 第7层：落地页本身不含推广敏感词（guoguo99.xyz已做净化）
+  }, delay);
+}
+
+function copyText(id) {
+  var el = document.getElementById(id);
+  var text = el.querySelector('code').innerText;
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      alert('✅ 已复制！去知乎粘贴吧');
+    }).catch(function() {
+      fallbackCopy(text);
+    });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    alert('✅ 已复制！去知乎粘贴吧');
+  } catch(e) {
+    alert('复制失败，请长按文字手动复制');
+  }
+  document.body.removeChild(ta);
+}
+</script>
+
+</body>
+</html>

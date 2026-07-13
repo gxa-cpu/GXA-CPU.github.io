@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>卡片生成器</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#1a1a2e;color:#fff;min-height:100vh;padding:20px 16px 40px}
+h1{text-align:center;font-size:22px;margin-bottom:4px;color:#f97316}
+.subtitle{text-align:center;font-size:13px;color:#666;margin-bottom:20px}
+
+/* 预览卡片 */
+.preview-area{text-align:center;margin-bottom:24px}
+.preview-label{font-size:12px;color:#555;margin-bottom:8px}
+.preview-card{display:inline-block;cursor:pointer;perspective:800px}
+.pv-wrap{position:relative;width:200px;height:130px}
+.pv-top{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;transition:transform 0.5s ease;box-shadow:0 6px 20px rgba(0,0,0,0.3)}
+.pv-top-text{font-size:18px;font-weight:bold;color:#fff;letter-spacing:1px;text-align:center;padding:0 10px}
+.pv-top-hint{font-size:10px;color:rgba(255,255,255,0.5);margin-top:6px}
+.pv-bottom{position:absolute;top:0;left:0;width:100%;height:100%;background:#fff;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid #ddd;overflow:hidden;padding:8px}
+.pv-bottom img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+.pv-bottom-empty{color:#ccc;font-size:13px;text-align:center}
+.preview-card.flipped .pv-top{transform:rotateX(-180deg);pointer-events:none}
+
+/* 表单 */
+.form-group{margin-bottom:16px}
+label{display:block;font-size:15px;font-weight:bold;margin-bottom:6px;color:#ccc}
+input[type="text"]{width:100%;padding:12px 14px;border-radius:10px;border:2px solid #333;background:#16213e;color:#fff;font-size:16px;outline:none}
+input[type="text"]:focus{border-color:#f97316}
+input[type="text"]::placeholder{color:#555}
+
+/* 图片上传 */
+.upload-area{border:2px dashed #444;border-radius:12px;padding:24px;text-align:center;cursor:pointer;background:#16213e;transition:border 0.2s}
+.upload-area:active{border-color:#f97316}
+.upload-icon{font-size:36px;margin-bottom:8px}
+.upload-text{font-size:14px;color:#888}
+.upload-hint{font-size:12px;color:#555;margin-top:4px}
+.upload-preview{margin-top:12px;display:none}
+.upload-preview img{max-width:120px;max-height:120px;border-radius:8px;border:2px solid #333}
+.upload-preview.show{display:block}
+
+/* 颜色选择 */
+.color-row{display:flex;gap:10px;flex-wrap:wrap}
+.color-opt{width:36px;height:36px;border-radius:10px;border:3px solid transparent;cursor:pointer}
+.color-opt.active{border-color:#fff;transform:scale(1.1)}
+
+/* 生成按钮 */
+.btn-gen{width:100%;padding:14px;border:none;border-radius:12px;font-size:18px;font-weight:bold;color:#fff;background:linear-gradient(135deg,#f97316,#ea580c);cursor:pointer;margin-top:6px;box-shadow:0 4px 15px rgba(249,115,22,0.4)}
+.btn-gen:active{transform:scale(0.97)}
+
+/* 结果 */
+.result-box{margin-top:16px;background:#16213e;border-radius:12px;padding:14px;display:none}
+.result-box.show{display:block}
+.result-label{font-size:13px;color:#888;margin-bottom:8px}
+.result-url{background:#0f3460;border:1px solid #333;border-radius:8px;padding:10px;font-size:12px;color:#f97316;word-break:break-all;user-select:text;-webkit-user-select:text;line-height:1.6}
+.btn-copy{margin-top:10px;width:100%;padding:12px;border:none;border-radius:10px;font-size:16px;font-weight:bold;color:#fff;background:#059669;cursor:pointer}
+.btn-copy:active{background:#047857}
+
+.hidden-input{display:none}
+</style>
+</head>
+<body>
+
+<h1>🎬 卡片生成器</h1>
+<p class="subtitle">表面写字 · 翻开露图 · 复制链接发出去</p>
+
+<!-- 预览 -->
+<div class="preview-area">
+  <div class="preview-label">▼ 点击卡片预览翻转效果 ▼</div>
+  <div class="preview-card" id="previewCard" onclick="this.classList.toggle('flipped')">
+    <div class="pv-wrap">
+      <div class="pv-top" id="pvTop" style="background:linear-gradient(135deg,#0066ff,#0052cc)">
+        <div class="pv-top-text" id="pvText">领资料入口</div>
+        <div class="pv-top-hint">点击翻开</div>
+      </div>
+      <div class="pv-bottom" id="pvBottom">
+        <div class="pv-bottom-empty" id="pvEmpty">上传图片后<br>这里显示图片</div>
+        <img id="pvImg" src="" style="display:none">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 表面文字 -->
+<div class="form-group">
+  <label>表面文字</label>
+  <input type="text" id="inputText" placeholder="如：领资料入口" value="领资料入口" oninput="updatePreview()">
+</div>
+
+<!-- 图片上传 -->
+<div class="form-group">
+  <label>翻开后显示的图片（微信二维码等）</label>
+  <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-icon">🖼️</div>
+    <div class="upload-text">点击上传图片</div>
+    <div class="upload-hint">从相册选择 / 拍照</div>
+  </div>
+  <div class="upload-preview" id="uploadPreview">
+    <img id="uploadImg" src="">
+  </div>
+  <input type="file" class="hidden-input" id="fileInput" accept="image/*" onchange="handleImage(this)">
+</div>
+
+<!-- 颜色 -->
+<div class="form-group">
+  <label>卡片颜色</label>
+  <div class="color-row" id="colorRow">
+    <div class="color-opt active" style="background:linear-gradient(135deg,#0066ff,#0052cc)" data-from="#0066ff" data-to="#0052cc" onclick="selectColor(this)"></div>
+    <div class="color-opt" style="background:linear-gradient(135deg,#f97316,#ea580c)" data-from="#f97316" data-to="#ea580c" onclick="selectColor(this)"></div>
+    <div class="color-opt" style="background:linear-gradient(135deg,#10b981,#059669)" data-from="#10b981" data-to="#059669" onclick="selectColor(this)"></div>
+    <div class="color-opt" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)" data-from="#8b5cf6" data-to="#7c3aed" onclick="selectColor(this)"></div>
+    <div class="color-opt" style="background:linear-gradient(135deg,#ef4444,#dc2626)" data-from="#ef4444" data-to="#dc2626" onclick="selectColor(this)"></div>
+    <div class="color-opt" style="background:linear-gradient(135deg,#ec4899,#db2777)" data-from="#ec4899" data-to="#db2777" onclick="selectColor(this)"></div>
+  </div>
+</div>
+
+<!-- 生成 -->
+<button class="btn-gen" onclick="generateCard()">生成卡片链接</button>
+
+<!-- 结果 -->
+<div class="result-box" id="resultBox">
+  <div class="result-label">📋 复制这个链接发给粉丝</div>
+  <div class="result-url" id="resultUrl"></div>
+  <button class="btn-copy" id="btnCopy" onclick="copyResult()">复制链接</button>
+</div>
+
+<script>
+var colorFrom = '#0066ff', colorTo = '#0052cc';
+var imageData = '';
+
+function selectColor(el){
+  document.querySelectorAll('.color-opt').forEach(function(e){e.classList.remove('active')});
+  el.classList.add('active');
+  colorFrom = el.dataset.from;
+  colorTo = el.dataset.to;
+  updatePreview();
+}
+
+function updatePreview(){
+  var t = document.getElementById('inputText').value || '领资料入口';
+  document.getElementById('pvText').textContent = t;
+  document.getElementById('pvTop').style.background = 'linear-gradient(135deg,'+colorFrom+','+colorTo+')';
+}
+
+function handleImage(input){
+  if(!input.files || !input.files[0]) return;
+  var file = input.files[0];
+  
+  // 压缩图片
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = new Image();
+    img.onload = function(){
+      var canvas = document.createElement('canvas');
+      var maxW = 300, maxH = 300;
+      var w = img.width, h = img.height;
+      if(w > maxW){ h = h * maxW / w; w = maxW; }
+      if(h > maxH){ w = w * maxH / h; h = maxH; }
+      canvas.width = w;
+      canvas.height = h;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      imageData = canvas.toDataURL('image/jpeg', 0.7);
+      
+      // 显示预览
+      document.getElementById('pvImg').src = imageData;
+      document.getElementById('pvImg').style.display = 'block';
+      document.getElementById('pvEmpty').style.display = 'none';
+      document.getElementById('uploadImg').src = imageData;
+      document.getElementById('uploadPreview').classList.add('show');
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function generateCard(){
+  if(!imageData){
+    alert('请先上传一张图片');
+    return;
+  }
+  var t = document.getElementById('inputText').value || '领资料入口';
+  
+  // 编码参数（图片base64可能较长，用encodeURIComponent）
+  var params = '?t=' + encodeURIComponent(t) + '&cf=' + encodeURIComponent(colorFrom) + '&ct=' + encodeURIComponent(colorTo) + '&img=' + encodeURIComponent(imageData);
+  
+  var cardUrl = 'https://guoguo99.xyz/card.html' + params;
+  
+  document.getElementById('resultUrl').textContent = cardUrl;
+  document.getElementById('resultBox').classList.add('show');
+}
+
+function copyResult(){
+  var url = document.getElementById('resultUrl').textContent;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(function(){
+      var btn = document.getElementById('btnCopy');
+      btn.textContent = '✅ 已复制！去粘贴发给粉丝吧';
+      setTimeout(function(){btn.textContent = '复制链接'}, 3000);
+    }).catch(function(){fallbackCopy(url)});
+  } else { fallbackCopy(url); }
+}
+
+function fallbackCopy(text){
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.top = '-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try{
+    document.execCommand('copy');
+    var btn = document.getElementById('btnCopy');
+    btn.textContent = '✅ 已复制！去粘贴发给粉丝吧';
+    setTimeout(function(){btn.textContent = '复制链接'}, 3000);
+  }catch(e){alert('复制失败，请手动长按上方链接复制')}
+  document.body.removeChild(ta);
+}
+</script>
+</body>
+</html>

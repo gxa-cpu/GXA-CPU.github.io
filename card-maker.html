@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>卡片制作</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#111;color:#fff;min-height:100vh;padding:16px 14px 40px}
+h1{text-align:center;font-size:18px;margin-bottom:4px;color:#f97316}
+.sub{text-align:center;font-size:11px;color:#444;margin-bottom:20px}
+
+.form-group{margin-bottom:14px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:5px;color:#999}
+input[type="text"]{width:100%;padding:10px 12px;border-radius:8px;border:1.5px solid #333;background:#1a1a1a;color:#fff;font-size:14px;outline:none}
+input[type="text"]:focus{border-color:#f97316}
+input[type="text"]::placeholder{color:#555}
+
+.upload-area{border:1.5px dashed #444;border-radius:8px;padding:14px;text-align:center;cursor:pointer;background:#1a1a1a}
+.upload-area:active{border-color:#f97316}
+.upload-text{font-size:12px;color:#666}
+
+.color-row{display:flex;gap:8px}
+.color-opt{width:28px;height:28px;border-radius:7px;border:2px solid transparent;cursor:pointer}
+.color-opt.active{border-color:#fff}
+
+/* 生成卡片区域 */
+.card-out{text-align:center;margin:20px auto 16px}
+.card-out canvas{border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,0.5)}
+
+.btn-gen{width:100%;padding:12px;border:none;border-radius:10px;font-size:16px;font-weight:bold;color:#fff;background:linear-gradient(135deg,#f97316,#ea580c);cursor:pointer}
+.btn-gen:active{opacity:.85}
+
+.btn-save{width:100%;padding:11px;border:none;border-radius:8px;font-size:14px;font-weight:bold;color:#fff;background:#059669;cursor:pointer;margin-top:10px;display:none}
+.btn-save.show{display:block}
+.btn-save:active{opacity:.85}
+
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<h1> 卡片制作</h1>
+<p class="sub">小卡片 · 拇指大 · 直接存</p>
+
+<div class="form-group">
+  <label>上面写什么字</label>
+  <input type="text" id="inputText" placeholder="领资料入口" value="领资料入口">
+</div>
+
+<div class="form-group">
+  <label>底下放什么图（二维码/微信号）</label>
+  <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+    <div class="upload-text">📁 点击选图</div>
+  </div>
+  <input type="file" class="hidden" id="fileInput" accept="image/*" onchange="handleImage(this)">
+</div>
+
+<div class="form-group">
+  <label>底下藏什么链接</label>
+  <input type="text" id="inputUrl" placeholder="guoguo99.xyz" value="guoguo99.xyz">
+</div>
+
+<div class="form-group">
+  <label>颜色</label>
+  <div class="color-row">
+    <div class="color-opt active" style="background:#0066ff" data-c="#0066ff" onclick="pickColor(this)"></div>
+    <div class="color-opt" style="background:#f97316" data-c="#f97316" onclick="pickColor(this)"></div>
+    <div class="color-opt" style="background:#10b981" data-c="#10b981" onclick="pickColor(this)"></div>
+    <div class="color-opt" style="background:#8b5cf6" data-c="#8b5cf6" onclick="pickColor(this)"></div>
+    <div class="color-opt" style="background:#ef4444" data-c="#ef4444" onclick="pickColor(this)"></div>
+  </div>
+</div>
+
+<button class="btn-gen" onclick="draw()">生成卡片</button>
+
+<div class="card-out">
+  <canvas id="cv" width="200" height="160"></canvas>
+</div>
+
+<button class="btn-save" id="btnSave" onclick="saveCard()">💾 保存到相册</button>
+
+<script>
+var cardColor = '#0066ff';
+var img = null;
+
+function pickColor(el){
+  document.querySelectorAll('.color-opt').forEach(function(e){e.classList.remove('active')});
+  el.classList.add('active');
+  cardColor = el.dataset.c;
+}
+
+function handleImage(input){
+  if(!input.files||!input.files[0]) return;
+  var r = new FileReader();
+  r.onload = function(e){
+    var ni = new Image();
+    ni.onload = function(){ img = ni; draw(); };
+    ni.src = e.target.result;
+  };
+  r.readAsDataURL(input.files[0]);
+}
+
+function draw(){
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d');
+  var W = 200, H = 160;
+  
+  ctx.clearRect(0,0,W,H);
+  
+  var text = document.getElementById('inputText').value || '领资料入口';
+  var url = document.getElementById('inputUrl').value || '';
+  
+  // === 上层：彩色条，写文字 ===
+  var topH = 48;
+  // 圆角顶
+  var R = 10;
+  ctx.beginPath();
+  ctx.moveTo(R,0); ctx.lineTo(W-R,0);
+  ctx.quadraticCurveTo(W,0,W,R);
+  ctx.lineTo(W,topH); ctx.lineTo(0,topH); ctx.lineTo(0,R);
+  ctx.quadraticCurveTo(0,0,R,0);
+  ctx.closePath();
+  ctx.fillStyle = cardColor;
+  ctx.fill();
+  
+  // 文字居中
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 20px -apple-system, PingFang SC, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, W/2, topH/2);
+  
+  // === 下层：白色底，放图+链接 ===
+  var botY = topH;
+  var botH = H - topH;
+  ctx.fillStyle = '#f5f5f5';
+  ctx.fillRect(0, botY, W, botH);
+  
+  // 底部圆角
+  ctx.beginPath();
+  ctx.moveTo(0, H-R); ctx.lineTo(0, botY); ctx.lineTo(W, botY);
+  ctx.lineTo(W, H-R); ctx.quadraticCurveTo(W,H,W-R,H);
+  ctx.lineTo(R,H); ctx.quadraticCurveTo(0,H,0,H-R);
+  ctx.closePath();
+  ctx.fillStyle = '#f5f5f5';
+  ctx.fill();
+  
+  if(img){
+    // 计算图片缩放，塞进下层区域
+    var pad = 12;
+    var availW = W - pad*2;
+    var availH = botH - pad - 16; // 留点给链接文字
+    var iw = img.width, ih = img.height;
+    var s = Math.min(availW/iw, availH/ih, 1); // 最多原大
+    var dw = iw*s, dh = ih*s;
+    var dx = (W - dw)/2;
+    var dy = botY + pad + (availH - dh)/2;
+    ctx.drawImage(img, dx, dy, dw, dh);
+  }
+  
+  // 链接小字
+  if(url){
+    ctx.fillStyle = '#999';
+    ctx.font = '9px -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(url, W/2, H - 6);
+  }
+  
+  document.getElementById('btnSave').classList.add('show');
+}
+
+function saveCard(){
+  var cv = document.getElementById('cv');
+  cv.toBlob(function(blob){
+    // 方法1：用分享API（手机端优先）
+    if(navigator.share && navigator.canShare){
+      var file = new File([blob], '小卡片.png', {type:'image/png'});
+      if(navigator.canShare({files:[file]})){
+        navigator.share({files:[file], title:'小卡片'}).catch(function(){
+          fallback(blob);
+        });
+        return;
+      }
+    }
+    fallback(blob);
+  }, 'image/png');
+}
+
+function fallback(blob){
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = '小卡片.png';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url)}, 5000);
+}
+
+// 初始
+draw();
+</script>
+</body>
+</html>

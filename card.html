@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>领资料入口</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="领资料入口">
+<meta property="og:description" content="点击查看详情">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#f0f0f0;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.flip-card{position:relative;width:220px;height:130px;perspective:800px;cursor:pointer}
+.card-top{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;transition:transform 0.5s ease;box-shadow:0 6px 20px rgba(0,0,0,0.25)}
+.card-top-text{font-size:20px;font-weight:bold;color:#fff;letter-spacing:1px}
+.card-top-hint{font-size:11px;color:rgba(255,255,255,0.6);margin-top:8px}
+.card-bottom{position:absolute;top:0;left:0;width:100%;height:100%;background:#fff;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.card-bottom-url{color:#333;font-size:14px;font-weight:bold;word-break:break-all;padding:0 15px;text-align:center}
+.card-bottom-btn{margin-top:10px;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:bold;color:#fff;text-decoration:none;display:inline-block}
+.flip-card.flipped .card-top{transform:rotateX(-180deg);pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="flip-card" id="card" onclick="flipCard()">
+  <div class="card-top" id="cardTop">
+    <div class="card-top-text" id="cardTopText">领资料入口</div>
+    <div class="card-top-hint">点击揭开</div>
+  </div>
+  <div class="card-bottom">
+    <div class="card-bottom-url" id="cardBottomUrl">guoguo99.xyz</div>
+    <a class="card-bottom-btn" id="cardBottomBtn" href="#" onclick="event.stopPropagation()">访问网站</a>
+  </div>
+</div>
+
+<script>
+function getParam(name){
+  var s = window.location.search;
+  var p = new URLSearchParams(s);
+  return p.get(name) || '';
+}
+
+function flipCard(){
+  document.getElementById('card').classList.toggle('flipped');
+}
+
+// 读取URL参数
+var text = getParam('t') || '领资料入口';
+var url = getParam('u') || 'https://guoguo99.xyz';
+var btn = getParam('b') || '访问网站';
+var cf = getParam('cf') || '#0066ff';
+var ct = getParam('ct') || '#0052cc';
+
+// 显示域名（不带协议）
+var displayUrl = url.replace(/^https?:\/\//, '');
+
+document.getElementById('cardTopText').textContent = text;
+document.getElementById('cardTop').style.background = 'linear-gradient(135deg,'+cf+','+ct+')';
+document.getElementById('cardBottomUrl').textContent = displayUrl;
+document.getElementById('cardBottomBtn').textContent = btn;
+document.getElementById('cardBottomBtn').style.background = cf;
+document.getElementById('cardBottomBtn').href = url;
+</script>
+</body>
+</html>

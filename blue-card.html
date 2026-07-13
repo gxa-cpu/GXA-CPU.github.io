@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>领资料入口</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:#f0f0f0;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+a{text-decoration:none}
+.card{
+  width:220px;height:160px;
+  background:#1a6dff;
+  border-radius:16px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  cursor:pointer;
+  box-shadow:0 4px 16px rgba(26,109,255,0.3);
+  transition:transform 0.2s,box-shadow 0.2s;
+  position:relative;overflow:hidden;
+}
+.card:active{transform:scale(0.97);box-shadow:0 2px 8px rgba(26,109,255,0.4)}
+.card::before{
+  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.15) 0%,transparent 60%);
+}
+.card h2{color:#fff;font-size:22px;font-weight:700;letter-spacing:2px;position:relative;z-index:1}
+.card .url{color:rgba(255,255,255,0.85);font-size:13px;margin-top:10px;letter-spacing:1px;position:relative;z-index:1}
+.card .tap{
+  position:absolute;bottom:12px;
+  color:rgba(255,255,255,0.6);font-size:11px;
+  animation:pulse 2s infinite;
+  z-index:1;
+}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+</style>
+</head>
+<body>
+<a href="https://guoguo99.xyz" target="_blank" rel="noopener">
+  <div class="card">
+    <h2>领资料入口</h2>
+    <span class="url">guoguo99.xyz</span>
+    <span class="tap">👆 点击跳转</span>
+  </div>
+</a>
+</body>
+</html>
