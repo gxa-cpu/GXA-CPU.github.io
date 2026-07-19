@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+# AI Crawlers - 放行所有AI爬虫
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Sogou web spider
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+Sitemap: https://guoguo99.xyz/sitemap.xml

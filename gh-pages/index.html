@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>副业资料库 - 52岁大叔的实战副业经验</title>
+<title>郭郭的搞钱笔记 - 52岁大叔的实战副业经验</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#FFF8E7;color:#333;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:70px}
@@ -105,13 +105,151 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .msg{animation:fadeIn 0.3s ease}
 .product-card{animation:fadeIn 0.4s ease}
+
+/* ====== AI团队展示 ====== */
+.team-section{margin:16px 12px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.team-banner{background:linear-gradient(135deg,#f97316,#fb923c);padding:20px 16px;text-align:center;color:#fff}
+.team-banner h2{font-size:22px;font-weight:bold;margin-bottom:6px}
+.team-banner p{font-size:13px;opacity:0.9}
+.team-banner .team-count{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:20px;font-size:13px;margin-top:8px}
+.team-grid{padding:14px 12px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.team-card{background:linear-gradient(135deg,#fffbeb,#fff);border:1px solid #fde68a;border-radius:12px;padding:14px 12px;position:relative;transition:transform 0.2s}
+.team-card:active{transform:scale(0.97)}
+.team-card-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.team-avatar{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,0.08)}
+.team-avatar.c1{background:linear-gradient(135deg,#fef3c7,#fde68a)}
+.team-avatar.c2{background:linear-gradient(135deg,#fed7aa,#fdba74)}
+.team-avatar.c3{background:linear-gradient(135deg,#d9f99d,#bef264)}
+.team-avatar.c4{background:linear-gradient(135deg,#bfdbfe,#93c5fd)}
+.team-avatar.c5{background:linear-gradient(135deg,#fbcfe8,#f9a8d4)}
+.team-avatar.c6{background:linear-gradient(135deg,#c7d2fe,#a5b4fc)}
+.team-avatar.c7{background:linear-gradient(135deg,#fecaca,#fca5a5)}
+.team-avatar.c8{background:linear-gradient(135deg,#bbf7d0,#86efac)}
+.team-info{flex:1;min-width:0}
+.team-name{font-size:14px;font-weight:bold;color:#333;line-height:1.2}
+.team-role{font-size:11px;color:#f97316;font-weight:600;margin-top:2px}
+.team-desc{font-size:12px;color:#666;line-height:1.4;margin-bottom:6px}
+.team-status{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.team-status.online{background:#dcfce7;color:#16a34a}
+.team-status.standby{background:#fef3c7;color:#d97706}
+.team-status.auto{background:#e0e7ff;color:#4f46e5}
+.team-status.schedule{background:#fce7f3;color:#db2777}
+.team-status-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.team-status.online .team-status-dot{background:#16a34a;animation:blink 2s infinite}
+.team-status.standby .team-status-dot{background:#d97706}
+.team-status.auto .team-status-dot{background:#4f46e5;animation:blink 3s infinite}
+.team-status.schedule .team-status-dot{background:#db2777}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.team-footer{text-align:center;padding:10px 16px 14px}
+.team-footer-text{font-size:12px;color:#999}
+.team-footer-text strong{color:#f97316}
+
 </style>
+
+<!-- GEO: Schema结构化数据 -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "郭郭的搞钱笔记",
+  "url": "https://guoguo99.xyz",
+  "description": "52岁农村大叔用AI做副业的实战平台，提供8个免费AI工具、副业实操资料包和远程搭建服务",
+  "email": "drama-helper@coze.email",
+  "founder": {
+    "@type": "Person",
+    "name": "郭郭",
+    "description": "52岁农村大叔，负债百万后用AI做副业翻身"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "远程搭建服务",
+  "description": "帮您搭建AI工具和网站，一站式远程服务",
+  "brand": {
+    "@type": "Brand",
+    "name": "郭郭的搞钱笔记"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "299",
+    "priceCurrency": "CNY",
+    "availability": "https://schema.org/InStock",
+    "url": "https://guoguo99.xyz"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "闲鱼经营内参手册",
+  "description": "2.8万字系统教程，从养号到发货全讲透",
+  "brand": {
+    "@type": "Brand",
+    "name": "郭郭的搞钱笔记"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "39.9",
+    "priceCurrency": "CNY",
+    "availability": "https://schema.org/InStock",
+    "url": "https://guoguo99.xyz"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "郭郭的搞钱笔记是什么？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "郭郭的搞钱笔记是一个用AI做副业的实战平台，由52岁农村大叔郭郭创办。提供8个免费AI工具（副业项目评估器、文案生成器、一人公司模拟器等）、副业实操资料包和远程搭建服务。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "普通人怎么用AI赚钱？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以用AI工具做副业：1）用AI生成文案做自媒体（头条、抖音、百家号）；2）用AI搭建工具网站做付费产品；3）用AI当员工运营一人公司。郭郭的搞钱笔记网站提供全套免费工具和教程。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "299元远程搭建服务包含什么？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "299元远程搭建服务帮您一站式搭建AI工具和网站，包括AI工具部署、网站搭建、资料包配置等。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "网站上的AI工具是免费的吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "是的，guoguo99.xyz上的8个AI工具全部免费使用，包括副业项目评估器、多平台文案生成器、一人公司模拟器、违禁词检测器、副业收入计算器、AI副业顾问Pro版、副业知识库搜索引擎和AI员工体验区。"
+      }
+    }
+  ]
+}
+</script>
+
 </head>
 <body>
 
 <!-- ====== 顶部导航 ====== -->
 <div class="header">
-  <div class="logo">📦 副业资料库</div>
+  <div class="logo">📦 郭郭的搞钱笔记</div>
   <button class="wx-btn" onclick="showWxModal()">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.045c.134 0 .24-.11.24-.245 0-.06-.024-.12-.04-.178l-.325-1.233a.492.492 0 0 1 .177-.554C23.028 18.485 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zM14.53 13.39c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982z"/></svg>
     加微信
@@ -120,7 +258,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
 
 <!-- ====== 欢迎横幅 ====== -->
 <div class="banner">
-  <h1>🎯 副业资料库</h1>
+  <h1>🎯 郭郭的搞钱笔记</h1>
   <p>52岁大叔的实战经验 · 不画饼只说真话</p>
   <div class="stats-row">
     <div class="stat-item">
@@ -152,6 +290,121 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
     <div class="quick-icon free">🎁</div>
     <span class="quick-label">免费专区</span>
   </a>
+  <a class="quick-item" href="#team-section">
+    <div class="quick-icon" style="background:linear-gradient(135deg,#e0e7ff,#c7d2fe)">🤖</div>
+    <span class="quick-label">AI团队</span>
+  </a>
+</div>
+
+
+<!-- ====== AI团队展示 ====== -->
+<div class="team-section" id="team-section">
+  <div class="team-banner">
+    <h2>🤖 我的AI员工团队</h2>
+    <p>1个人开公司，8个AI员工7×24小时不间断</p>
+    <div class="team-count">👥 全员在岗 · 随时待命</div>
+  </div>
+  <div class="team-grid">
+    <!-- 员工1: 总指挥 -->
+    <div class="team-card">
+      <div class="team-card-head">
+        <div class="team-avatar c1">🤖</div>
+        <div class="team-info">
+          <div class="team-name">直播切片助手</div>
+          <div class="team-role">总指挥 · CEO</div>
+        </div>
+      </div>
+      <div class="team-desc">统筹全局，接收老板指令后调度所有AI员工协同作战</div>
+      <div class="team-status online"><span class="team-status-dot"></span>在线指挥中</div>
+    </div>
+    <!-- 员工2: 客服 -->
+    <div class="team-card">
+      <div class="team-card-head">
+        <div class="team-avatar c2">💬</div>
+        <div class="team-info">
+          <div class="team-name">副业顾问·郭郭</div>
+          <div class="team-role">客服主管</div>
+        </div>
+      </div>
+      <div class="team-desc">网站24小时在线问答，访客来了秒回，不懂的自动转交</div>
+      <div class="team-status online"><span class="team-status-dot"></span>在线服务中</div>
+    </div>
+    <!-- 员工3: 内容 -->
+    <div class="team-card">
+      <div class="team-card-head">
+        <div class="team-avatar c3">✍️</div>
+        <div class="team-info">
+          <div class="team-name">爆文操盘手</div>
+          <div class="team-role">内容总监</div>
+        </div>
+      </div>
+      <div class="team-desc">头条/百家号爆款文章创作，DAIG模型选题+钩子标题+情绪结构</div>
+      <div class="team-status standby"><span class="team-status-dot"></span>待命中</div>
+    </div>
+    <!-- 员工4: 运营 -->
+    <div class="team-card">
+      <div class="team-card-head">
+        <div class="team-avatar c4">📊</div>
+        <div class="team-info">
+          <div class="team-name">运营简报员</div>
+          <div class="team-role">运营助理</div>
+        </div>
+      </div>
+      <div class="team-desc">每日自动推送运营任务清单，提醒今天该干什么</div>
+      <div class="team-status schedule"><span class="team-status-dot"></span>每日7:00推送</div>
+    </div>
+    <!-- 员工5: 邮件 -->
+    <div class="team-card">
+      <div class="team-card-head">
+        <div class="team-avatar c5">📧</div>
+        <div class="team-info">
+          <div class="team-name">邮件管家</div>
+          <div class="team-role">行政后勤</div>
+        </div>
+      </div>
+      <div class="team-desc">自动收发邮件，客户反馈第一时间处理上报</div>
+      <div class="team-status online"><span class="team-status-dot"></span>在线值守</div>
+    </div>
+    <!-- 员工6: SEO -->
+    <div class="team-card">
+      <div class="team-card-head">
+        <div class="team-avatar c6">🔍</div>
+        <div class="team-info">
+          <div class="team-name">收录专员</div>
+          <div class="team-role">SEO技术员</div>
+        </div>
+      </div>
+      <div class="team-desc">自动向百度提交新页面，确保网站内容被搜索引擎收录</div>
+      <div class="team-status auto"><span class="team-status-dot"></span>自动运行中</div>
+    </div>
+    <!-- 员工7: 运维 -->
+    <div class="team-card">
+      <div class="team-card-head">
+        <div class="team-avatar c7">💓</div>
+        <div class="team-info">
+          <div class="team-name">心跳巡检员</div>
+          <div class="team-role">运维工程师</div>
+        </div>
+      </div>
+      <div class="team-desc">每30分钟巡检一次系统状态，发现异常自动告警</div>
+      <div class="team-status schedule"><span class="team-status-dot"></span>每30分钟巡检</div>
+    </div>
+    <!-- 员工8: 设计 -->
+    <div class="team-card">
+      <div class="team-card-head">
+        <div class="team-avatar c8">🎨</div>
+        <div class="team-info">
+          <div class="team-name">封面设计师</div>
+          <div class="team-role">视觉设计</div>
+        </div>
+      </div>
+      <div class="team-desc">为每篇内容自动生成封面图，适配各平台尺寸要求</div>
+      <div class="team-status standby"><span class="team-status-dot"></span>待命中</div>
+    </div>
+  </div>
+  <div class="team-footer">
+    <div class="team-footer-text">老板只管<strong>做决策</strong>，执行全交AI员工 💪</div>
+  </div>
 </div>
 
 <!-- ====== 对话框区域 ====== -->
@@ -356,6 +609,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hira
   <a class="nav-item highlight" href="#chat-section">
     <span class="nav-icon">💬</span>
     问一问
+  </a>
+  <a class="nav-item" href="#team-section">
+    <span class="nav-icon">🤖</span>
+    团队
   </a>
   <a class="nav-item" href="#free-section">
     <span class="nav-icon">🎁</span>
@@ -670,7 +927,7 @@ function getReply(msg){
     return '我写了一本《闲鱼经营内参手册》2.8万字，八大章节，从养号到发货全讲透。<br><br>✅ 40个知识点<br>✅ 全是实操踩坑积累<br>✅ 不是拼凑网上的内容<br><br>39.9元一份早餐钱换一个系统打法。<br>加我微信扫码付款，资料自动发你：<strong>18537180097</strong>';
   
   if(m.includes('你好')||m.includes('hi')||m.includes('hello'))
-    return '你好！欢迎来到副业资料库 🎯<br><br>我52岁零经验起步做闲鱼，现在把实操经验整理出来了。<br><br>你想了解哪方面？选品？定价？引流？还是直接看我的手册？';
+    return '你好！欢迎来到郭郭的搞钱笔记 🎯<br><br>我52岁零经验起步做闲鱼，现在把实操经验整理出来了。<br><br>你想了解哪方面？选品？定价？引流？还是直接看我的手册？';
   
   // 默认回复
   const defaults=[
